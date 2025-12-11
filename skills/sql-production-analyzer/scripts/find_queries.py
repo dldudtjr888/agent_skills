@@ -18,7 +18,7 @@ SQL_KEYWORDS = [
 
 # ORM patterns for different frameworks
 ORM_PATTERNS = {
-    # JavaScript/TypeScript - SQL
+    # JavaScript/TypeScript - SQL ORMs
     'prisma': [
         r'prisma\.\w+\.(?:findMany|findUnique|findFirst|create|update|delete|upsert|count|aggregate)',
         r'prisma\.\$(?:queryRaw|executeRaw)',
@@ -31,48 +31,16 @@ ORM_PATTERNS = {
         r'\.(?:findAll|findOne|findByPk|create|update|destroy|count|bulkCreate)',
         r'sequelize\.query\(',
     ],
-    
-    # JavaScript/TypeScript - NoSQL
-    'mongoose': [
-        r'\.(?:find|findOne|findById|create|updateOne|deleteOne|aggregate)',
-    ],
-    'mongodb': [
-        r'\.(?:find|findOne|insertOne|updateOne|deleteOne|aggregate)',
-    ],
-    'redis': [
-        r'redis\.(?:get|set|setex|del|hget|hset|lpush|rpush|zadd)',
-    ],
-    
-    # JavaScript/TypeScript - VectorDB
-    'pinecone': [
-        r'index\.(?:query|upsert|delete|fetch|update)',
-        r'pinecone\.(?:createIndex|describeIndex)',
-    ],
-    'chromadb': [
-        r'collection\.(?:query|add|update|delete|get)',
-    ],
-    'weaviate': [
-        r'client\.(?:query|data)\.(?:get|create|update|delete)',
-    ],
-    
-    # JavaScript/TypeScript - GraphDB
-    'neo4j': [
-        r'session\.(?:run|readTransaction|writeTransaction)',
-        r'MATCH\s+\(',
-        r'CREATE\s+\(',
-    ],
-    'arangodb': [
-        r'db\._query\(',
-        r'FOR\s+\w+\s+IN\s+',
-    ],
-    
-    # Knex (SQL Query Builder)
     'knex': [
         r'knex\([\'"`]\w+[\'"`]\)',
         r'\.(?:select|insert|update|delete|where|join)',
     ],
-    
-    # Python - SQL
+    'drizzle': [
+        r'db\.(?:select|insert|update|delete)',
+        r'\.from\(',
+    ],
+
+    # Python - SQL ORMs
     'sqlalchemy': [
         r'session\.(?:query|add|commit|delete|execute)',
         r'\.(?:filter|filter_by|all|first|one|join|group_by|order_by)',
@@ -85,51 +53,45 @@ ORM_PATTERNS = {
     'peewee': [
         r'\.(?:select|insert|update|delete|where|join|get|create)',
     ],
-    
-    # Python - NoSQL
-    'pymongo': [
-        r'collection\.(?:find|find_one|insert_one|update_one|delete_one|aggregate)',
+    'tortoise': [
+        r'\.(?:filter|all|get|create|update|delete|first)',
+        r'await\s+\w+\.save\(',
     ],
-    'redis-py': [
-        r'redis\.(?:get|set|setex|delete|hget|hset)',
+
+    # Python - Async Raw SQL Drivers
+    'aiomysql': [
+        r'await\s+\w+\.execute\(',
+        r'await\s+\w+\.executemany\(',
+        r'pool\.acquire\(',
+        r'aiomysql\.create_pool\(',
+        r'cursor\.fetchone\(',
+        r'cursor\.fetchall\(',
     ],
-    
-    # Python - VectorDB
-    'pinecone-python': [
-        r'index\.(?:query|upsert|delete|fetch|update)',
+    'asyncpg': [
+        r'await\s+\w+\.fetch\(',
+        r'await\s+\w+\.fetchrow\(',
+        r'await\s+\w+\.execute\(',
+        r'asyncpg\.create_pool\(',
+        r'pool\.acquire\(',
     ],
-    'chromadb-python': [
-        r'collection\.(?:query|add|update|delete|get)',
+    'pymysql': [
+        r'cursor\.execute\(',
+        r'cursor\.executemany\(',
+        r'pymysql\.connect\(',
+        r'connection\.cursor\(',
     ],
-    'weaviate-python': [
-        r'client\.(?:query|data_object)\.(?:get|create)',
-    ],
-    'milvus': [
-        r'collection\.(?:query|search|insert|delete)',
-    ],
-    'qdrant': [
-        r'client\.(?:search|upsert|delete|retrieve)',
-    ],
-    
-    # Python - GraphDB
-    'neo4j-python': [
-        r'session\.(?:run|read_transaction|write_transaction)',
-    ],
-    'pyarango': [
-        r'db\.AQLQuery\(',
-    ],
-    
-    # Ruby
+
+    # Ruby - SQL
     'activerecord': [
         r'\.(?:find|find_by|where|create|update|destroy|all|first|last)',
     ],
-    
-    # Go
+
+    # Go - SQL
     'gorm': [
         r'\.(?:Find|First|Last|Create|Update|Delete|Where|Joins)',
     ],
-    
-    # Java
+
+    # Java - SQL
     'jpa': [
         r'entityManager\.(?:find|persist|merge|remove|createQuery)',
         r'@Query',
@@ -235,30 +197,27 @@ class QueryFinder:
         raw_sql = len([q for q in self.queries if q['type'] == 'raw_sql'])
         injection_risks = len([q for q in self.queries if q.get('sql_injection_risk')])
         
-        # Categorize by DB type
-        sql_dbs = ['prisma', 'typeorm', 'sequelize', 'sqlalchemy', 'django', 'peewee', 'activerecord', 'gorm', 'jpa', 'knex']
-        nosql_dbs = ['mongoose', 'mongodb', 'pymongo', 'redis', 'redis-py']
-        vector_dbs = ['pinecone', 'chromadb', 'weaviate', 'milvus', 'qdrant', 'pinecone-python', 'chromadb-python', 'weaviate-python']
-        graph_dbs = ['neo4j', 'arangodb', 'neo4j-python', 'pyarango']
-        
-        sql_queries = len([q for q in self.queries if any(db in q['type'] for db in sql_dbs)])
-        nosql_queries = len([q for q in self.queries if any(db in q['type'] for db in nosql_dbs)])
-        vector_queries = len([q for q in self.queries if any(db in q['type'] for db in vector_dbs)])
-        graph_queries = len([q for q in self.queries if any(db in q['type'] for db in graph_dbs)])
-        
+        # Categorize by ORM framework
+        js_orms = ['prisma', 'typeorm', 'sequelize', 'knex', 'drizzle']
+        py_orms = ['sqlalchemy', 'django', 'peewee', 'tortoise', 'aiomysql', 'asyncpg', 'pymysql']
+        other_orms = ['activerecord', 'gorm', 'jpa']
+
+        js_queries = len([q for q in self.queries if any(orm in q['type'] for orm in js_orms)])
+        py_queries = len([q for q in self.queries if any(orm in q['type'] for orm in py_orms)])
+        other_queries = len([q for q in self.queries if any(orm in q['type'] for orm in other_orms)])
+
         report = f"""
-Query Analysis Report
-=====================
+SQL Query Analysis Report
+=========================
 Total queries found: {total}
 Raw SQL queries: {raw_sql}
 ORM queries: {total - raw_sql}
 SQL injection risks: {injection_risks}
 
-By Database Type:
-  SQL databases: {sql_queries}
-  NoSQL databases: {nosql_queries}
-  VectorDB: {vector_queries}
-  GraphDB: {graph_queries}
+By ORM Framework:
+  JavaScript/TypeScript (Prisma, TypeORM, Sequelize, Knex, Drizzle): {js_queries}
+  Python (SQLAlchemy, Django, Peewee, Tortoise, aiomysql, asyncpg, pymysql): {py_queries}
+  Other (ActiveRecord, GORM, JPA): {other_queries}
 
 Files with most queries:
 """

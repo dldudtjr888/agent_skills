@@ -314,7 +314,7 @@ class JavaScriptAnalyzer {
     
     // Check for Next.js specific patterns
     const appDirExists = fs.existsSync(path.join(this.projectPath, 'app'));
-    const pagesDir Exists = fs.existsSync(path.join(this.projectPath, 'pages'));
+    const pagesDirExists = fs.existsSync(path.join(this.projectPath, 'pages'));
     
     for (const file of files) {
       try {
@@ -382,7 +382,25 @@ class JavaScriptAnalyzer {
             metrics: {}
           }));
         }
-        
+
+        // Check for Pages Router migration opportunity
+        if (pagesDirExists && !appDirExists && relativePath.startsWith('pages/')) {
+          issues.push(new AnalysisIssue({
+            severity: 'low',
+            category: 'architecture',
+            title: 'Consider App Router migration',
+            description: 'Project uses Pages Router. Consider migrating to App Router for improved performance and features.',
+            file: relativePath,
+            line: 1,
+            endLine: 1,
+            suggestedRefactoring: 'migrate_to_app_router',
+            automated: false,
+            risk: 'high',
+            impact: 'high',
+            metrics: { routerType: 'pages' }
+          }));
+        }
+
       } catch (error) {
         console.warn(`⚠️  Error analyzing Next.js patterns in ${file}: ${error.message}`);
       }
@@ -513,14 +531,14 @@ async function main() {
   if (args.length === 0) {
     console.error('Usage: node analyze_js.js <project-path> [options]');
     console.error('Options:');
-    console.error('  --output, -o <path>        Output file for analysis report (default: /mnt/user-data/outputs/refactoring-analysis.json)');
+    console.error('  --output, -o <path>        Output file for analysis report (default: ./refactoring-analysis.json)');
     console.error('  --max-complexity <n>       Maximum allowed complexity (default: 10)');
     console.error('  --max-component-length <n> Maximum component length (default: 200)');
     process.exit(1);
   }
   
   const projectPath = args[0];
-  let outputPath = '/mnt/user-data/outputs/refactoring-analysis.json';
+  let outputPath = './refactoring-analysis.json';
   let maxComplexity = 10;
   let maxComponentLength = 200;
   

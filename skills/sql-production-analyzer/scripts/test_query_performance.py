@@ -23,13 +23,13 @@ class QueryPerformanceTester:
         """Detect database type from connection string"""
         parsed = urlparse(conn_str)
         scheme = parsed.scheme.lower()
-        
+
         if 'postgres' in scheme:
             return 'postgresql'
         elif 'mysql' in scheme:
             return 'mysql'
-        elif 'mongodb' in scheme or 'mongo' in scheme:
-            return 'mongodb'
+        elif 'sqlite' in scheme or conn_str.endswith('.db') or conn_str.endswith('.sqlite'):
+            return 'sqlite'
         else:
             return 'unknown'
     
@@ -49,6 +49,7 @@ class PostgreSQLTester(QueryPerformanceTester):
         
         try:
             conn = psycopg2.connect(self.connection_string)
+            conn.set_session(readonly=True)  # 🔒 Read-only mode
             cur = conn.cursor()
             
             results = []
@@ -172,6 +173,7 @@ class MySQLTester(QueryPerformanceTester):
             
             conn = mysql.connector.connect(**config)
             cursor = conn.cursor(dictionary=True)
+            cursor.execute("SET SESSION TRANSACTION READ ONLY")  # 🔒 Read-only mode
             
             results = []
             
@@ -241,53 +243,84 @@ class MySQLTester(QueryPerformanceTester):
             return [{'error': f'Connection failed: {str(e)}'}]
 
 
-class MongoDBTester(QueryPerformanceTester):
-    """MongoDB performance tester"""
-    
+class SQLiteTester(QueryPerformanceTester):
+    """SQLite performance tester"""
+
     def test_queries(self, queries: List[Dict]) -> List[Dict]:
         try:
-            from pymongo import MongoClient
+            import sqlite3
         except ImportError:
-            return [{'error': 'pymongo not installed'}]
-        
+            return [{'error': 'sqlite3 not available'}]
+
         try:
-            client = MongoClient(self.connection_string)
-            parsed = urlparse(self.connection_string)
-            db_name = parsed.path.lstrip('/')
-            
-            if not db_name:
-                return [{'error': 'No database specified in connection string'}]
-            
-            db = client[db_name]
-            
+            # 🔒 Read-only mode: use URI with mode=ro
+            if self.connection_string.startswith('file:'):
+                uri = self.connection_string
+            else:
+                uri = f"file:{self.connection_string}?mode=ro"
+            conn = sqlite3.connect(uri, uri=True)
+            cursor = conn.cursor()
+
             results = []
-            
+
             for query_info in queries:
-                # MongoDB queries are different - they're method calls
-                # This is a simplified version
                 query = query_info.get('query', '')
-                
-                # Skip if not a MongoDB query pattern
-                if 'find' not in query and 'aggregate' not in query:
+
+                # Skip non-SELECT queries
+                if not query.strip().upper().startswith('SELECT'):
                     results.append({
                         'query': query,
                         'file': query_info.get('file'),
                         'line': query_info.get('line'),
-                        'skipped': 'Not a recognized MongoDB query'
+                        'skipped': 'Non-SELECT query'
                     })
                     continue
-                
-                # Note: Full implementation would parse the query and execute with explain()
-                results.append({
-                    'query': query[:200],
-                    'file': query_info.get('file'),
-                    'line': query_info.get('line'),
-                    'note': 'MongoDB query analysis requires manual inspection'
-                })
-            
-            client.close()
+
+                try:
+                    # Run EXPLAIN QUERY PLAN
+                    explain_query = f"EXPLAIN QUERY PLAN {query}"
+                    cursor.execute(explain_query)
+                    explain_result = cursor.fetchall()
+
+                    issues = []
+
+                    for row in explain_result:
+                        detail = row[3] if len(row) > 3 else str(row)
+                        # Check for table scan
+                        if 'SCAN' in detail.upper() and 'INDEX' not in detail.upper():
+                            issues.append('Full table scan detected')
+
+                    # Time the actual query
+                    start = time.time()
+                    cursor.execute(query)
+                    cursor.fetchall()
+                    execution_time = (time.time() - start) * 1000
+
+                    if execution_time > 100:
+                        issues.append(f'Slow query: {execution_time:.2f}ms')
+
+                    results.append({
+                        'query': query[:200],
+                        'file': query_info.get('file'),
+                        'line': query_info.get('line'),
+                        'execution_time_ms': round(execution_time, 2),
+                        'issues': issues,
+                        'explain': [str(r) for r in explain_result]
+                    })
+
+                except Exception as e:
+                    results.append({
+                        'query': query[:200],
+                        'file': query_info.get('file'),
+                        'line': query_info.get('line'),
+                        'error': str(e)
+                    })
+
+            cursor.close()
+            conn.close()
+
             return results
-            
+
         except Exception as e:
             return [{'error': f'Connection failed: {str(e)}'}]
 
@@ -310,15 +343,15 @@ def test_query_performance(connection_string: str, queries_file: str) -> Dict:
     
     # Create tester
     tester = QueryPerformanceTester(connection_string)
-    
+
     if tester.db_type == 'postgresql':
         tester = PostgreSQLTester(connection_string)
     elif tester.db_type == 'mysql':
         tester = MySQLTester(connection_string)
-    elif tester.db_type == 'mongodb':
-        tester = MongoDBTester(connection_string)
+    elif tester.db_type == 'sqlite':
+        tester = SQLiteTester(connection_string)
     else:
-        return {'error': f'Unsupported database type: {tester.db_type}'}
+        return {'error': f'Unsupported database type: {tester.db_type}. Supported: postgresql, mysql, sqlite'}
     
     # Test queries
     results = tester.test_queries(sql_queries[:20])  # Limit to first 20 for safety
@@ -353,8 +386,10 @@ def test_query_performance(connection_string: str, queries_file: str) -> Dict:
 def main():
     if len(sys.argv) < 3:
         print("Usage: python test_query_performance.py <connection_string> <queries_file>")
-        print("\nExample:")
-        print("  python test_query_performance.py postgresql://user:pass@localhost/db queries_found.json")
+        print("\nSupported SQL Databases:")
+        print("  PostgreSQL: postgresql://user:pass@localhost/db queries_found.json")
+        print("  MySQL: mysql://user:pass@localhost/db queries_found.json")
+        print("  SQLite: /path/to/database.db queries_found.json")
         sys.exit(1)
     
     connection_string = sys.argv[1]

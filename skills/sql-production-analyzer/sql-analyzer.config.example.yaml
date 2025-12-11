@@ -1,0 +1,19 @@
+# SQL Production Analyzer Configuration
+# Copy to project root as: sql-analyzer.config.yaml
+
+scan_paths:
+  - src/
+  - app/
+
+exclude_paths:
+  - node_modules/
+  - __pycache__/
+  - "**/test/**"
+
+database:
+  type: postgresql  # postgresql | mysql | sqlite
+  connection_env: DATABASE_URL
+
+orm:
+  type: prisma  # prisma | typeorm | sqlalchemy | django | raw_sql
+  schema_path: prisma/schema.prisma  # ORM schema file path

@@ -364,7 +364,7 @@ class PythonAnalyzer:
 def main():
     parser = argparse.ArgumentParser(description='Analyze Python project for refactoring opportunities')
     parser.add_argument('project_path', help='Path to the Python project')
-    parser.add_argument('--output', '-o', default='/mnt/user-data/outputs/refactoring-analysis.json',
+    parser.add_argument('--output', '-o', default='./refactoring-analysis.json',
                        help='Output file for analysis report')
     parser.add_argument('--max-complexity', type=int, default=10,
                        help='Maximum allowed cyclomatic complexity')
