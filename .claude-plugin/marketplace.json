@@ -1,0 +1,36 @@
+{
+  "name": "claude-dev-skills",
+  "owner": {
+    "name": "Claude Dev Skills",
+    "email": "contact@example.com"
+  },
+  "metadata": {
+    "description": "Production-ready Claude Code skills for development workflows",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "dev-skills",
+      "description": "Development workflow skills: code refactoring, database analysis, project planning, task decomposition, and documentation management",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/code-refactoring",
+        "./skills/db-production-analyzer",
+        "./skills/project-planner",
+        "./skills/task-decomposer",
+        "./skills/project-docs-manager"
+      ]
+    },
+    {
+      "name": "ai-skills",
+      "description": "AI/LLM development skills: OpenAI Agents SDK guide and Opik monitoring for LLM observability",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/openai-agents-builder",
+        "./skills/opik-monitoring"
+      ]
+    }
+  ]
+}
