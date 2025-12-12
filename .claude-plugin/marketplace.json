@@ -15,8 +15,8 @@
       "source": "./",
       "strict": false,
       "skills": [
-        "./skills/code-refactoring",
-        "./skills/db-production-analyzer",
+        "./skills/code-refactoring-analysis",
+        "./skills/sql-production-analyzer",
         "./skills/project-planner",
         "./skills/task-decomposer",
         "./skills/project-docs-manager"
@@ -24,12 +24,11 @@
     },
     {
       "name": "ai-skills",
-      "description": "AI/LLM development skills: OpenAI Agents SDK guide and Opik monitoring for LLM observability",
+      "description": "AI/LLM development skills: OpenAI Agents SDK builder",
       "source": "./",
       "strict": false,
       "skills": [
-        "./skills/openai-agents-builder",
-        "./skills/opik-monitoring"
+        "./skills/agents-sdk-builder"
       ]
     }
   ]

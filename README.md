@@ -7,7 +7,7 @@ Production-ready skills for Claude Code that enhance your development workflows.
 ### 1. Add Marketplace
 
 ```bash
-/plugin marketplace add github:dldudtjr888/agent_skills
+/plugin marketplace add dldudtjr888/agent_skills
 ```
 
 ### 2. Install Plugins
@@ -28,8 +28,8 @@ Development workflow skills for code quality and project management.
 
 | Skill | Description |
 |-------|-------------|
-| **code-refactoring** | Production-ready multi-dimensional code refactoring for Python and Next.js (React/JavaScript/TypeScript) projects |
-| **db-production-analyzer** | Deep analysis of database implementation in production environments (SQL, NoSQL, VectorDB, GraphDB) |
+| **code-refactoring-analysis** | Production-ready multi-dimensional code refactoring for Python and Next.js (React/JavaScript/TypeScript) projects |
+| **sql-production-analyzer** | Deep analysis of database implementation in production environments (SQL, NoSQL, VectorDB, GraphDB) |
 | **project-planner** | Deep project analysis and implementation planning for feature additions, refactoring, bug fixes |
 | **task-decomposer** | Transform natural language plans into executable concrete tasks with dependency mapping |
 | **project-docs-manager** | Comprehensive project documentation management |
@@ -40,8 +40,7 @@ AI and LLM development skills.
 
 | Skill | Description |
 |-------|-------------|
-| **openai-agents-builder** | Guide for building production-ready multi-agent AI applications using OpenAI Agents Python SDK |
-| **opik-monitoring** | LLM observability, agent monitoring, prompt optimization, and evaluation using Opik |
+| **agents-sdk-builder** | Guide for building production-ready multi-agent AI applications using OpenAI Agents Python SDK |
 
 ## Manual Installation
 
