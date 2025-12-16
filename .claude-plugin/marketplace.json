@@ -24,11 +24,13 @@
     },
     {
       "name": "ai-skills",
-      "description": "AI/LLM development skills: OpenAI Agents SDK builder",
+      "description": "AI/LLM development skills: OpenAI Agents SDK builder, Opik monitoring, LangGraph builder",
       "source": "./",
       "strict": false,
       "skills": [
-        "./skills/agents-sdk-builder"
+        "./skills/openai-agents-builder",
+        "./skills/opik-monitoring",
+        "./skills/langgraph-builder"
       ]
     }
   ]
