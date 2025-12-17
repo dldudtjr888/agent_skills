@@ -30,7 +30,8 @@
       "skills": [
         "./skills/openai-agents-builder",
         "./skills/opik-monitoring",
-        "./skills/langgraph-builder"
+        "./skills/langgraph-builder",
+        "./skills/openrouter-langgraph-builder"
       ]
     }
   ]
