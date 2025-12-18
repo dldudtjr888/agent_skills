@@ -31,7 +31,8 @@
         "./skills/openai-agents-builder",
         "./skills/opik-monitoring",
         "./skills/langgraph-builder",
-        "./skills/openrouter-langgraph-builder"
+        "./skills/openrouter-langgraph-builder",
+        "./skills/deep-agents-builder"
       ]
     }
   ]
