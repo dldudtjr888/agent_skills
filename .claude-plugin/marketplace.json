@@ -28,8 +28,7 @@
       "source": "./",
       "strict": false,
       "skills": [
-        "./skills/openai-agents-builder",
-        "./skills/opik-monitoring",
+        "./skills/agents-sdk-builder",
         "./skills/langgraph-builder",
         "./skills/openrouter-langgraph-builder",
         "./skills/deep-agents-builder"
