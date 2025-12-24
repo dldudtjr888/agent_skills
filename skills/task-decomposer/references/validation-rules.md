@@ -183,20 +183,104 @@
 
 ### CI/CD 연동 체크
 ```markdown
-완료 조건: GitHub Actions 워크플로우 통과
-완료 조건: PR 체크 모두 녹색
+- 검증:
+  - [ ] GitHub Actions 워크플로우 통과
+  - [ ] PR 체크 모두 녹색
 ```
 
 ### 스크립트 기반 검증
 ```markdown
-완료 조건: `./scripts/verify.sh` 성공
-완료 조건: `make test && make lint` 통과
+- 검증:
+  - [ ] `./scripts/verify.sh`
+  - [ ] `make test && make lint`
 ```
 
 ### 수동 검증 최소화
 - 가능한 자동화된 검증 조건 사용
 - 수동 검증 필요 시 구체적 단계 명시
 - 스크린샷/로그 증거 요청 (필요시)
+
+---
+
+## 언어/프레임워크별 검증 명령어
+
+### Python (uv 기반)
+```markdown
+- 검증:
+  - [ ] `uv run python -m py_compile path/to/file.py`  # 문법 검사
+  - [ ] `uv run ruff check path/to/file.py`  # 린트
+  - [ ] `uv run ruff format --check path/to/file.py`  # 포맷
+  - [ ] `uv run mypy path/to/file.py`  # 타입 체크
+  - [ ] `uv run pytest tests/unit/test_xxx.py -v`  # 단위 테스트
+  - [ ] `uv run pytest tests/integration/ -v`  # 통합 테스트
+```
+
+### Python (YAML 검증)
+```markdown
+- 검증:
+  - [ ] `python -c "import yaml; yaml.safe_load(open('config/xxx.yaml'))"`
+```
+
+### TypeScript/JavaScript
+```markdown
+- 검증:
+  - [ ] `tsc --noEmit`  # 타입 체크
+  - [ ] `npm run lint` 또는 `eslint path/to/file.ts`
+  - [ ] `npm test -- file.spec.ts`  # 단위 테스트
+  - [ ] `npm run build`  # 빌드
+```
+
+### API 검증
+```markdown
+- 검증:
+  - [ ] `curl -s http://localhost:8000/health | jq .`  # 헬스체크
+  - [ ] `curl -X POST http://localhost:8000/api/xxx -d '{}' -H 'Content-Type: application/json'`
+  - [ ] 응답 코드 확인: 200/201/4xx/5xx
+```
+
+### 데이터베이스 검증
+```markdown
+- 검증:
+  - [ ] `mysql -e "DESCRIBE table_name;"`  # 스키마 확인
+  - [ ] `mysql -e "SELECT COUNT(*) FROM table_name;"`  # 데이터 확인
+```
+
+### Git/파일 검증
+```markdown
+- 검증:
+  - [ ] `test -f path/to/file.py`  # 파일 존재
+  - [ ] `git diff --name-only`  # 변경 파일 확인
+  - [ ] `wc -l path/to/file.py`  # 라인 수 확인
+```
+
+### 복합 검증 (체이닝)
+```markdown
+- 검증:
+  - [ ] `uv run ruff check . && uv run pytest tests/unit/ -v`  # 린트 + 테스트
+  - [ ] `npm run lint && npm test && npm run build`  # 전체 검증
+```
+
+---
+
+## 검증 섹션 작성 가이드
+
+### 필수 규칙
+1. **실행 가능한 명령어 우선** - 복사-붙여넣기로 바로 실행 가능
+2. **체크박스 형식** - 진행률 추적 가능
+3. **수동 검증 최소화** - 불가피한 경우만 "수동:" 접두사 사용
+
+### 좋은 예시
+```markdown
+- 검증:
+  - [ ] `uv run pytest tests/unit/test_param_policy.py -v`
+  - [ ] `uv run ruff check core/ai/providers/langchain/param_policy.py`
+```
+
+### 나쁜 예시
+```markdown
+- 완료 조건: 테스트 통과, 린트 성공  ← 명령어 없음
+- 완료 조건: 정상 동작 확인  ← 모호함
+```
 
 ## 검증 실패 시 대응
 

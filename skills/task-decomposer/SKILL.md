@@ -89,13 +89,51 @@ Wave N: 이전 웨이브 의존 태스크
 3. **Tasks by Wave**: 웨이브별 체크박스 목록
 4. **Verification**: 최종 검증 체크리스트
 
-### 태스크 항목 형식
+### 태스크 항목 형식 (세분화된 체크박스)
 ```markdown
-- [ ] **T-001**: [태스크 제목]
-  - 파일: `path/to/file.ts`
-  - 작업: 구체적 작업 내용
-  - 완료 조건: 검증 가능한 조건
+- [ ] **T-001**: [태스크 제목] ⏱️ 10분
+  - 파일: `path/to/file.ts` (신규|수정)
+  - 참조: `similar/file.ts`, `docs/plan/xxx.md#section`
+  - 스킬: `code-refactoring` (선택, task-executor가 활용)
+  - 작업:
+    - [ ] 첫 번째 atomic 작업 (5분 이내)
+    - [ ] 두 번째 atomic 작업
+    - [ ] 세 번째 atomic 작업
+  - 검증:
+    - [ ] `실행 가능한 검증 명령어`
+    - [ ] 수동 확인 항목 (필요시)
+  - 롤백: `git checkout -- path/to/file.ts` (선택)
   - blocked by: T-000 (있는 경우)
+```
+
+### 태스크 형식 필드 설명
+
+| 필드 | 필수 | 설명 |
+|------|------|------|
+| 파일 | ✅ | 대상 파일 경로 + (신규\|수정) 표시 |
+| 참조 | ⭕ | 기존 코드 패턴, 계획서 링크 (패턴 따르기 원칙) |
+| 스킬 | ⭕ | task-executor가 활용할 스킬 (available_skills에서 탐색) |
+| 작업 | ✅ | **체크박스로 세분화된 atomic 단위** (5분 이내) |
+| 검증 | ✅ | **실행 가능한 명령어** 우선, 수동 확인 최소화 |
+| 롤백 | ⭕ | 실패 시 복구 명령 (DB 변경 등 위험 작업에 필수) |
+| blocked by | ⭕ | 선행 의존성 |
+
+### 작업 세분화 원칙
+
+**각 서브스텝은 다음을 만족해야 함:**
+- ✅ 5분 이내 완료 가능
+- ✅ 단일 동작 (하나의 동사)
+- ✅ 독립적으로 검증 가능
+- ✅ 체크박스로 진행률 추적
+
+**분해 예시:**
+```
+❌ 나쁨: "API 섹션 작성 (base_url, timeout, headers, retry 등)"
+✅ 좋음:
+  - [ ] base_url 설정 ("https://api.example.com")
+  - [ ] timeout 설정 (30초)
+  - [ ] headers 섹션 추가
+  - [ ] retry 정책 설정
 ```
 
 출력 템플릿: [assets/task-template.md](assets/task-template.md)
@@ -110,6 +148,50 @@ Wave N: 이전 웨이브 의존 태스크
 최종 검증 섹션에 통합 테스트 항목 추가.
 
 상세 규칙: [references/validation-rules.md](references/validation-rules.md)
+
+## 스킬 자동 제안 (task-executor 연동)
+
+태스크 유형에 맞는 스킬을 자동으로 제안한다. task-executor가 이 스킬을 활용하여 전문 지식을 주입받고 작업을 수행한다.
+
+### 스킬 제안 로직
+
+```
+태스크 제목/작업 내용 분석
+    ↓
+available_skills 스캔 (실행 시점)
+    ↓
+description 키워드 매칭
+    ↓
+관련 스킬 발견? → 스킬: `스킬명` 추가
+    ↓
+발견 안됨? → 스킬 필드 생략 (executor가 동적 탐색)
+```
+
+### 스킬 제안 예시
+
+| 태스크 키워드 | 제안 스킬 (예시) |
+|--------------|-----------------|
+| 리팩토링, 코드 품질 | `code-refactoring` |
+| API 설계, 엔드포인트 | `backend-development:api-design-principles` |
+| 테스트, TDD | `backend-development:tdd-orchestrator` |
+| 성능 최적화 | `application-performance:performance-engineer` |
+| 보안 검토 | `comprehensive-review:security-auditor` |
+
+**주의**: 스킬 목록은 동적으로 변경될 수 있으므로 하드코딩하지 않고 available_skills를 참조한다.
+
+### 사용자 수정
+
+제안된 스킬은 수정 가능:
+```markdown
+# 자동 제안
+- 스킬: `code-refactoring`
+
+# 사용자가 다른 스킬로 변경 가능
+- 스킬: `python-development:python-pro`
+
+# 또는 스킬 제거 (executor가 동적 탐색)
+- (스킬 필드 삭제)
+```
 
 ## 컨텍스트 활용
 

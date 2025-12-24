@@ -5,9 +5,10 @@
 | 항목 | 값 |
 |------|-----|
 | 생성일 | YYYY-MM-DD |
+| 작성자 | Claude (모델명) |
+| 계획 문서 | [링크](../plan/xxx.md) |
 | 총 태스크 | N개 |
 | 총 웨이브 | M개 |
-| 예상 소요 | X시간 |
 
 ## Progress
 
@@ -30,15 +31,24 @@ Wave 4: ░░░░░░░░░░░░░░░░ 0/4 ⏳
 
 의존성 없는 태스크 (병렬 실행 가능)
 
-- [x] **T-001**: [태스크 제목]
-  - 파일: `path/to/file.ts`
-  - 작업: 구체적인 작업 내용 설명
-  - 완료 조건: 검증 가능한 조건
+- [x] **T-001**: [태스크 제목] ⏱️ 10분
+  - 파일: `path/to/file.ts` (신규)
+  - 참조: `similar/existing/file.ts` (패턴 참고)
+  - 스킬: `code-refactoring` (선택, task-executor가 활용)
+  - 작업:
+    - [x] 첫 번째 atomic 작업
+    - [x] 두 번째 atomic 작업
+    - [x] 세 번째 atomic 작업
+  - 검증:
+    - [x] `npm test -- file.spec.ts`
 
-- [x] **T-002**: [태스크 제목]
-  - 파일: `path/to/another.ts`
-  - 작업: 구체적인 작업 내용 설명
-  - 완료 조건: 검증 가능한 조건
+- [x] **T-002**: [태스크 제목] ⏱️ 5분
+  - 파일: `path/to/another.ts` (수정)
+  - 참조: `docs/plan/xxx.md#section`
+  - 작업:
+    - [x] 단일 작업 내용
+  - 검증:
+    - [x] `tsc --noEmit`
 
 ---
 
@@ -46,16 +56,27 @@ Wave 4: ░░░░░░░░░░░░░░░░ 0/4 ⏳
 
 Wave 1 완료 후 실행 가능
 
-- [x] **T-003**: [태스크 제목] 🔴
-  - 파일: `path/to/file.ts`
-  - 작업: 구체적인 작업 내용 설명
-  - 완료 조건: 검증 가능한 조건
+- [x] **T-003**: [태스크 제목] 🔴 ⏱️ 15분
+  - 파일: `path/to/file.ts` (수정)
+  - 참조: `T-001에서 생성한 파일`
+  - 작업:
+    - [x] 첫 번째 작업
+    - [x] 두 번째 작업
+    - [ ] 세 번째 작업 (진행 중)
+  - 검증:
+    - [ ] `pytest tests/test_xxx.py -v`
+    - [ ] API 응답 확인: `curl localhost:8000/api/xxx`
+  - 롤백: `git checkout -- path/to/file.ts`
   - blocked by: T-001
 
-- [ ] **T-004**: [태스크 제목]
-  - 파일: `path/to/file.ts`
-  - 작업: 구체적인 작업 내용 설명
-  - 완료 조건: 검증 가능한 조건
+- [ ] **T-004**: [태스크 제목] ⏱️ 10분
+  - 파일: `path/to/file.ts` (수정)
+  - 참조: `config/existing.yaml` (구조 참고)
+  - 작업:
+    - [ ] 첫 번째 작업
+    - [ ] 두 번째 작업
+  - 검증:
+    - [ ] `python -c "import yaml; yaml.safe_load(open('config/xxx.yaml'))"`
   - blocked by: T-002
 
 ---
@@ -64,16 +85,29 @@ Wave 1 완료 후 실행 가능
 
 Wave 2 완료 후 실행 가능
 
-- [ ] **T-005**: [태스크 제목]
-  - 파일: `path/to/file.ts`
-  - 작업: 구체적인 작업 내용 설명
-  - 완료 조건: 검증 가능한 조건
+- [ ] **T-005**: [태스크 제목] ⏱️ 20분
+  - 파일: `path/to/file.ts` (신규)
+  - 참조: `similar/pattern.ts`, `docs/api.md`
+  - 스킬: `backend-development:api-design-principles` (선택)
+  - 작업:
+    - [ ] 클래스/함수 시그니처 정의
+    - [ ] 핵심 로직 구현
+    - [ ] 에러 핸들링 추가
+    - [ ] 타입 정의 추가
+  - 검증:
+    - [ ] `npm run build`
+    - [ ] `npm test -- integration`
+  - 롤백: `rm path/to/file.ts`
   - blocked by: T-003, T-004
 
-- [ ] **T-006**: [태스크 제목] 🔴
-  - 파일: `path/to/file.ts`
-  - 작업: 구체적인 작업 내용 설명
-  - 완료 조건: 검증 가능한 조건
+- [ ] **T-006**: [태스크 제목] 🔴 ⏱️ 10분
+  - 파일: `path/to/file.ts` (수정)
+  - 작업:
+    - [ ] 기존 코드에 import 추가
+    - [ ] 함수 호출 연결
+  - 검증:
+    - [ ] `npm run lint`
+    - [ ] 수동: 기능 동작 확인
   - blocked by: T-003
 
 ---
@@ -82,9 +116,13 @@ Wave 2 완료 후 실행 가능
 
 최종 통합 및 검증
 
-- [ ] **T-007**: 통합 테스트 실행
-  - 작업: 전체 기능 통합 테스트 실행
-  - 완료 조건: `npm run test:integration` 통과
+- [ ] **T-007**: 통합 테스트 실행 ⏱️ 15분
+  - 파일: `tests/integration/` (신규/수정)
+  - 작업:
+    - [ ] 테스트 케이스 작성
+    - [ ] E2E 시나리오 검증
+  - 검증:
+    - [ ] `npm run test:integration`
   - blocked by: T-005, T-006
 
 ---
@@ -93,6 +131,7 @@ Wave 2 완료 후 실행 가능
 
 ### Unit Tests
 - [ ] 모든 새 함수에 단위 테스트 존재
+- [ ] `npm test` 또는 `pytest` 전체 통과
 - [ ] 테스트 커버리지 감소 없음
 
 ### Integration Tests
@@ -100,13 +139,13 @@ Wave 2 완료 후 실행 가능
 - [ ] 데이터 흐름 검증 완료
 
 ### System Tests
-- [ ] 전체 빌드 성공: `npm run build`
-- [ ] 린트 통과: `npm run lint`
-- [ ] 기존 테스트 회귀 없음: `npm test`
+- [ ] 전체 빌드 성공: `npm run build` 또는 `uv run python -m py_compile`
+- [ ] 린트 통과: `npm run lint` 또는 `uv run ruff check`
+- [ ] 기존 테스트 회귀 없음
 
 ### Acceptance
 - [ ] 원래 요구사항 충족
-- [ ] 코드 리뷰 승인
+- [ ] 코드 리뷰 승인 (해당 시)
 
 ---
 
@@ -126,4 +165,8 @@ Wave 2 완료 후 실행 가능
 | 🔄 | 진행 중 |
 | ⏳ | 대기 중 |
 | 🔴 | 크리티컬 패스 |
+| ⏱️ | 예상 소요 시간 |
+| `스킬:` | task-executor가 활용할 스킬 (선택) |
 | `blocked by` | 선행 태스크 의존성 |
+| (신규) | 새 파일 생성 |
+| (수정) | 기존 파일 수정 |

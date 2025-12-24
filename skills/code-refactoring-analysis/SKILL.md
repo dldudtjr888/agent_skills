@@ -9,8 +9,6 @@ triggers:
 
 not_for:
   - "Runtime/dynamic analysis (static only)"
-  - "Planning refactoring work (use project-planner)"
-  - "Breaking down tasks (use task-decomposer)"
   - "Executing refactoring (use code-refactoring skill)"
 
 dependencies:
@@ -20,10 +18,6 @@ dependencies:
   javascript:
     required: []
     recommended: ["eslint", "madge", "jscpd"]
-
-outputs_to:
-  - skill: "project-planner"
-    file: "multidim-analysis.json"
 
 references:
   always_load: []
@@ -97,15 +91,6 @@ node scripts/analyze_multidim.js /path/to/project --all
 | `--dimensions <list>` | Specific dimensions (comma-separated) | all |
 | `--output <path>` | Output file path | ./multidim-analysis.json |
 | `--max-complexity <n>` | Complexity threshold | 10 |
-
-## Skill Workflow
-
-```
-code-refactoring-analysis  →  project-planner  →  task-decomposer
-(What needs fixing?)          (How to fix?)        (Task sequence)
-         ↓
-  multidim-analysis.json
-```
 
 ## Fallback Strategies
 

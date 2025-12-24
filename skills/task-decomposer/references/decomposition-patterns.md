@@ -211,4 +211,147 @@ Wave 5:
 □ 완료 여부를 어떻게 확인하는가?
 □ 다른 태스크와 의존성이 명시되어 있는가?
 □ 혼자서 30분 내에 완료 가능한가?
+□ 작업이 체크박스로 세분화되어 있는가? (5분 단위)
+□ 검증 명령어가 실행 가능한가?
+□ 참조할 기존 코드/문서가 명시되어 있는가?
+```
+
+---
+
+## 작업(작업) 세분화 패턴
+
+### 원칙: 5분 룰
+각 서브스텝은 **5분 이내**에 완료 가능해야 함.
+
+### 세분화 신호
+
+| 신호 | 분해 방법 |
+|------|----------|
+| "등" 또는 괄호 안에 여러 항목 | 각 항목을 별도 체크박스로 |
+| 복합 동사 (생성하고, 추가하고) | 동사별로 분리 |
+| "전체", "모든" | 구체적 대상 나열 |
+| 시간 추정 10분 초과 | 단계별로 쪼개기 |
+
+### 세분화 예시
+
+#### YAML/Config 파일 작성
+
+**Before (나쁨):**
+```markdown
+- 작업: OpenRouter Provider 기본값 설정 파일 생성 (api, defaults, provider, routing, model_types, tiers, fallback, reasoning, advanced 섹션)
+```
+
+**After (좋음):**
+```markdown
+- 작업:
+  - [ ] 빈 YAML 파일 생성
+  - [ ] api 섹션 (base_url, timeout)
+  - [ ] defaults 섹션 (temperature, max_tokens)
+  - [ ] provider 섹션 (order, sort)
+  - [ ] routing 섹션 (route, suffix)
+  - [ ] model_types 섹션 (reasoning_models 목록)
+  - [ ] tiers 섹션 (FAST/BALANCED/POWERFUL/CODING)
+  - [ ] fallback 섹션 (models 배열)
+  - [ ] reasoning 섹션 (effort levels)
+  - [ ] advanced 섹션 (transforms, debug)
+```
+
+#### 클래스/함수 구현
+
+**Before (나쁨):**
+```markdown
+- 작업: UserService 클래스 구현 (CRUD 메서드 포함)
+```
+
+**After (좋음):**
+```markdown
+- 작업:
+  - [ ] 클래스 정의 및 생성자
+  - [ ] create() 메서드 시그니처
+  - [ ] create() 로직 구현
+  - [ ] read() 메서드 시그니처
+  - [ ] read() 로직 구현
+  - [ ] update() 메서드
+  - [ ] delete() 메서드
+  - [ ] 에러 핸들링 추가
+```
+
+#### 데이터클래스/타입 정의
+
+**Before (나쁨):**
+```markdown
+- 작업: OpenRouterConfig 데이터클래스 정의 (Routing, Provider Control, Reasoning, Headers, Advanced 필드)
+```
+
+**After (좋음):**
+```markdown
+- 작업:
+  - [ ] @dataclass 데코레이터 추가
+  - [ ] Routing 관련 필드 (route, suffix, models)
+  - [ ] Provider Control 필드 (order, sort, require_parameters)
+  - [ ] Reasoning 필드 (effort, max_tokens)
+  - [ ] Headers 필드 (app_name, site_url)
+  - [ ] Advanced 필드 (transforms, user, debug)
+  - [ ] Optional 필드에 기본값 설정
+```
+
+#### 테스트 작성
+
+**Before (나쁨):**
+```markdown
+- 작업: param_policy.py 단위 테스트 작성
+```
+
+**After (좋음):**
+```markdown
+- 작업:
+  - [ ] 테스트 파일 생성 및 import
+  - [ ] 픽스처 정의 (mock config, mock request)
+  - [ ] test_reasoning_model_temperature_excluded()
+  - [ ] test_fallback_models_applied()
+  - [ ] test_normal_model_all_params_passed()
+  - [ ] 엣지 케이스: 빈 config
+  - [ ] 엣지 케이스: None 값 처리
+```
+
+#### 마이그레이션/리팩토링
+
+**Before (나쁨):**
+```markdown
+- 작업: OpenRouterProvider 사용처를 LangChainProvider로 마이그레이션
+```
+
+**After (좋음):**
+```markdown
+- 작업:
+  - [ ] grep으로 사용처 검색
+  - [ ] 파일 1: xxx.py import 변경
+  - [ ] 파일 1: 클래스명 변경
+  - [ ] 파일 2: yyy.py import 변경
+  - [ ] 파일 2: 클래스명 변경
+  - [ ] 각 파일 린트 통과 확인
+```
+
+### 참조(참조) 섹션 패턴
+
+참조 섹션은 **기존 패턴 따르기** 원칙을 위해 필수:
+
+```markdown
+- 참조:
+  - 유사 파일: `existing/similar.py` (구조 참고)
+  - 계획서: `docs/plan/xxx.md#section-name`
+  - 기존 구현: `class ExistingClass` in `path/to/file.py`
+```
+
+### 검증(검증) 섹션 패턴
+
+실행 가능한 명령어 우선:
+
+```markdown
+- 검증:
+  - [ ] `python -c "import yaml; yaml.safe_load(open('config/xxx.yaml'))"`  # YAML 문법
+  - [ ] `uv run pytest tests/unit/xxx.py -v`  # 테스트
+  - [ ] `uv run ruff check path/to/file.py`  # 린트
+  - [ ] `uv run python -m py_compile path/to/file.py`  # 문법
+  - [ ] 수동: curl로 API 응답 확인 (자동화 불가 시)
 ```
