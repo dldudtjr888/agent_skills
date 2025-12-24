@@ -8,26 +8,38 @@ description: |
   - "langchain agent builder"
   - "서브에이전트 설계"
   - "에이전트 미들웨어 구성"
-version: 1.0.0
+  - "deepagents CLI 사용법"
+  - "에이전트 영속 메모리 설정"
+version: 2.0.0
 ---
 
 # Deep Agents 에이전트 빌더 가이드
 
 LangChain **Deep Agents**로 복잡한 멀티스텝 작업을 수행하는 에이전트를 구축하는 종합 가이드입니다.
 
+> **최종 업데이트**: 2025-12-24 (deepagents 0.2+ 기준)
+
 ---
 
 ## 빠른 시작
 
+### 설치
+
 ```bash
+# SDK 설치
 pip install deepagents tavily-python
+
+# CLI 설치 (선택)
+pip install deepagents-cli
 ```
+
+### 기본 에이전트
 
 ```python
 from deepagents import create_deep_agent
 
+# 기본 모델: claude-sonnet-4-5-20250929
 agent = create_deep_agent(
-    model="anthropic:claude-sonnet-4-20250514",
     tools=[my_tool],
     system_prompt="Your domain-specific instructions"
 )
@@ -37,16 +49,32 @@ result = agent.invoke({
 })
 ```
 
+### CLI 사용
+
+```bash
+# 기본 에이전트 실행
+deepagents
+
+# 이름 지정 에이전트
+deepagents agent my-researcher
+
+# 에이전트 목록
+deepagents list
+```
+
 ---
 
-## 핵심 4요소
+## 핵심 구성요소 (7개 미들웨어)
 
-| 구성요소 | 도구 | 역할 |
+| 미들웨어 | 도구 | 역할 |
 |---------|------|------|
-| **Planning** | `write_todos`, `read_todos` | 작업 분해 및 추적 |
-| **Filesystem** | `read_file`, `write_file`, `edit_file` | 컨텍스트 관리 |
-| **Subagents** | `task` | 전문화된 하위 에이전트 위임 |
-| **Shell** | `execute` | 셸 명령어 실행 |
+| **TodoListMiddleware** | `write_todos`, `read_todos` | 작업 분해 및 추적 |
+| **FilesystemMiddleware** | `ls`, `read_file`, `write_file`, `edit_file`, `glob`, `grep`, `execute` | 컨텍스트 관리 |
+| **SubAgentMiddleware** | `task` | 전문화된 하위 에이전트 위임 |
+| **SummarizationMiddleware** | - | 170k 토큰 초과 시 자동 압축 |
+| **AnthropicPromptCachingMiddleware** | - | Anthropic 모델 프롬프트 캐싱 |
+| **PatchToolCallsMiddleware** | - | 체크포인트 중단된 도구 호출 복구 |
+| **HumanInTheLoopMiddleware** | - | 도구 실행 전 승인 요청 (interrupt_on 설정 시) |
 
 ---
 
@@ -55,13 +83,22 @@ result = agent.invoke({
 ### create_deep_agent()
 
 ```python
+from deepagents import create_deep_agent
+from langgraph.checkpoint.memory import MemorySaver
+
 agent = create_deep_agent(
-    model="anthropic:claude-sonnet-4-20250514",  # 기본 모델
-    tools=[],                                      # 커스텀 도구
-    system_prompt="",                              # 도메인별 지침
-    middleware=[],                                 # 미들웨어
-    subagents=[],                                  # 서브에이전트
-    backend=None                                   # 파일시스템 백엔드
+    model="anthropic:claude-sonnet-4-5-20250929",  # 기본 모델
+    tools=[],                                       # 커스텀 도구
+    system_prompt="",                               # 도메인별 지침 (기본 프롬프트에 추가)
+    middleware=[],                                  # 추가 미들웨어
+    subagents=[],                                   # 서브에이전트
+    backend=None,                                   # 파일시스템 백엔드
+    checkpointer=MemorySaver(),                     # 상태 영속화 (HITL 필수)
+    store=None,                                     # LangGraph Store (장기 메모리)
+    interrupt_on={"execute": True},                 # Human-in-the-loop 설정
+    response_format=None,                           # 구조화된 출력 포맷
+    debug=False,                                    # 디버그 모드
+    name="my-agent",                                # 에이전트 이름
 )
 ```
 
@@ -77,32 +114,51 @@ subagent = {
 }
 ```
 
-### 커스텀 미들웨어
+### Human-in-the-Loop
 
 ```python
-from langchain.agents.middleware import AgentMiddleware
+from langgraph.checkpoint.memory import MemorySaver
 
-class MyMiddleware(AgentMiddleware):
-    tools = [my_tool]
-    system_prompt = "Custom instructions"
+agent = create_deep_agent(
+    checkpointer=MemorySaver(),  # 필수!
+    interrupt_on={
+        "execute": True,  # 모든 실행 승인 필요
+        "write_file": {
+            "allowed_decisions": ["approve", "edit", "reject"]
+        }
+    }
+)
 ```
 
 ---
 
-## 내장 도구
+## 백엔드 옵션
 
-| 도구 | 용도 |
-|-----|------|
-| `write_todos` | 작업 목록 생성 |
-| `read_todos` | 현재 TODO 확인 |
-| `ls` | 디렉토리 목록 |
-| `read_file` | 파일 읽기 (페이지네이션) |
-| `write_file` | 파일 생성/덮어쓰기 |
-| `edit_file` | 정확한 문자열 교체 |
-| `glob` | 패턴 매칭 파일 검색 |
-| `grep` | 텍스트 패턴 검색 |
-| `execute` | 셸 명령어 실행 |
-| `task` | 서브에이전트 위임 |
+| 백엔드 | 영속성 | 샌드박스 | 용도 |
+|--------|--------|----------|------|
+| **StateBackend** | X | X | 개발/테스트 (기본) |
+| **FilesystemBackend** | O | X | 로컬 디스크 |
+| **StoreBackend** | O | X | LangGraph Store (장기 메모리) |
+| **CompositeBackend** | 하이브리드 | - | 경로별 라우팅 |
+| **Runloop/Daytona/Modal** | O | O | 프로덕션 샌드박스 |
+
+### 장기 메모리 설정
+
+```python
+from deepagents.backends import CompositeBackend, StateBackend, StoreBackend
+from langgraph.store.memory import InMemoryStore
+
+store = InMemoryStore()
+
+agent = create_deep_agent(
+    store=store,
+    backend=lambda rt: CompositeBackend(
+        default=StateBackend(rt),
+        routes={"/memories/": StoreBackend(rt)}
+    )
+)
+# /memories/ 경로는 영속, 나머지는 임시
+```
 
 ---
 
@@ -112,13 +168,17 @@ class MyMiddleware(AgentMiddleware):
 
 | 주제 | 문서 |
 |-----|------|
-| 설치 및 첫 에이전트 | [01-quickstart.md](references/01-quickstart.md) |
+| 설치, CLI, 첫 에이전트 | [01-quickstart.md](references/01-quickstart.md) |
 | Planning, Filesystem, Subagents, Shell | [02-core-concepts.md](references/02-core-concepts.md) |
 | `create_deep_agent()` 파라미터 상세 | [03-api-reference.md](references/03-api-reference.md) |
-| AgentMiddleware, FilesystemMiddleware | [04-middleware.md](references/04-middleware.md) |
+| 7개 미들웨어 스택 상세 | [04-middleware.md](references/04-middleware.md) |
 | SubAgent, CompiledSubAgent, 태스크 위임 | [05-subagents.md](references/05-subagents.md) |
-| Virtual, Runloop, Daytona, Modal 백엔드 | [06-backends.md](references/06-backends.md) |
+| StateBackend, StoreBackend, 샌드박스 | [06-backends.md](references/06-backends.md) |
 | **naviseoAI 프로젝트 통합** | [07-naviseoai-integration.md](references/07-naviseoai-integration.md) |
+| **Human-in-the-Loop, 장기 메모리** | [08-hitl-memory.md](references/08-hitl-memory.md) |
+| **MCP 도구 통합** | [09-mcp-integration.md](references/09-mcp-integration.md) |
+| **LangSmith 배포/모니터링** | [10-langsmith-production.md](references/10-langsmith-production.md) |
+| **디버깅 및 테스트** | [11-debugging-testing.md](references/11-debugging-testing.md) |
 
 ---
 
@@ -126,4 +186,14 @@ class MyMiddleware(AgentMiddleware):
 
 - [Deep Agents GitHub](https://github.com/langchain-ai/deepagents)
 - [Deep Agents Docs](https://docs.langchain.com/oss/python/deepagents/overview)
-- [Deep Agents Blog](https://blog.langchain.com/deep-agents/)
+- [API Reference](https://reference.langchain.com/python/deepagents/)
+- [DeepAgents CLI Blog](https://blog.langchain.com/introducing-deepagents-cli/)
+- [LangChain Changelog](https://changelog.langchain.com/)
+
+---
+
+**Sources:**
+- [Deep Agents Overview](https://docs.langchain.com/oss/python/deepagents/overview)
+- [GitHub Repository](https://github.com/langchain-ai/deepagents)
+- [API Reference](https://reference.langchain.com/python/deepagents/)
+- [DeepAgents CLI](https://blog.langchain.com/introducing-deepagents-cli/)

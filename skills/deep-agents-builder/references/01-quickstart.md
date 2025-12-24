@@ -1,9 +1,21 @@
 # Deep Agents 빠른 시작 가이드
 
+> **최종 업데이트**: 2025-12-24 (deepagents 0.2+)
+
 ## 설치
+
+### SDK 설치
 
 ```bash
 pip install deepagents tavily-python
+```
+
+### CLI 설치 (선택)
+
+```bash
+pip install deepagents-cli
+# 또는
+uv pip install deepagents-cli
 ```
 
 ## 환경변수
@@ -18,6 +30,8 @@ export OPENAI_API_KEY="your-key"
 export TAVILY_API_KEY="your-key"
 ```
 
+---
+
 ## 첫 에이전트 생성
 
 ### 기본 에이전트
@@ -25,9 +39,8 @@ export TAVILY_API_KEY="your-key"
 ```python
 from deepagents import create_deep_agent
 
-agent = create_deep_agent(
-    model="anthropic:claude-sonnet-4-20250514"
-)
+# 기본 모델: claude-sonnet-4-5-20250929
+agent = create_deep_agent()
 
 result = agent.invoke({
     "messages": [{"role": "user", "content": "What is LangGraph?"}]
@@ -48,7 +61,6 @@ def get_weather(city: str) -> str:
     return f"The weather in {city} is sunny."
 
 agent = create_deep_agent(
-    model="anthropic:claude-sonnet-4-20250514",
     tools=[get_weather],
     system_prompt="You are a helpful assistant with weather information."
 )
@@ -83,40 +95,119 @@ def internet_search(
     )
 
 agent = create_deep_agent(
-    model="anthropic:claude-sonnet-4-20250514",
     tools=[internet_search],
     system_prompt="Conduct research and write a polished report."
 )
 ```
 
+---
+
+## DeepAgents CLI
+
+### 기본 사용
+
+```bash
+# 기본 에이전트 실행 (대화형)
+deepagents
+
+# 특정 이름의 에이전트 실행
+deepagents agent my-researcher
+
+# 에이전트 목록 확인
+deepagents list
+
+# 에이전트 메모리 초기화
+deepagents reset my-researcher
+```
+
+### CLI 주요 기능
+
+| 기능 | 설명 |
+|-----|------|
+| **파일 작업** | 프로젝트 파일 읽기, 쓰기, 편집 |
+| **셸 명령** | 승인 후 셸 명령 실행 |
+| **웹 검색** | Tavily로 웹 검색 |
+| **HTTP 요청** | API 호출 |
+| **영속 메모리** | `~/.deepagents/AGENT_NAME/memories/`에 지식 저장 |
+| **Human-in-the-Loop** | 파일 쓰기 전 diff 표시 및 승인 요청 |
+
+### Memory-First Protocol
+
+CLI는 자동으로 이전 대화의 지식을 활용합니다:
+
+```
+~/.deepagents/
+└── my-researcher/
+    └── memories/
+        ├── project-overview.md
+        ├── api-patterns.md
+        └── user-preferences.md
+```
+
+---
+
 ## 다양한 모델 사용
+
+### 문자열 형식 (권장)
+
+```python
+from deepagents import create_deep_agent
+
+# Claude Sonnet 4.5 (기본값)
+agent = create_deep_agent(model="anthropic:claude-sonnet-4-5-20250929")
+
+# OpenAI GPT-4o
+agent = create_deep_agent(model="openai:gpt-4o")
+
+# Google Gemini
+agent = create_deep_agent(model="google:gemini-2.0-flash")
+```
+
+### LangChain 모델 객체
 
 ```python
 from langchain.chat_models import init_chat_model
 from langchain_google_genai import ChatGoogleGenerativeAI
 from deepagents import create_deep_agent
 
-# Claude Sonnet 4.5 (기본값)
-claude_model = init_chat_model(
-    model="anthropic:claude-sonnet-4-5-20250929",
+# init_chat_model 사용
+model = init_chat_model(
+    "anthropic:claude-sonnet-4-5-20250929",
     temperature=0.0
 )
+agent = create_deep_agent(model=model)
 
-# Google Gemini 3 Pro
+# 직접 클래스 사용
 gemini_model = ChatGoogleGenerativeAI(
-    model="gemini-3-pro-preview",
+    model="gemini-2.0-flash",
     temperature=0.0
 )
-
-# OpenAI GPT-4
-openai_model = init_chat_model(
-    model="openai:gpt-4-turbo-preview",
-    temperature=0.0
-)
-
-# 모델 선택하여 에이전트 생성
 agent = create_deep_agent(model=gemini_model)
 ```
+
+---
+
+## 스트리밍
+
+### 기본 스트리밍
+
+```python
+for event in agent.stream({
+    "messages": [{"role": "user", "content": "Research AI agents"}]
+}):
+    print(event)
+```
+
+### 비동기 스트리밍
+
+```python
+async for event in agent.astream({
+    "messages": [{"role": "user", "content": "Research AI agents"}]
+}):
+    print(event)
+```
+
+---
 
 ## LangGraph 개발 서버
 
@@ -140,7 +231,10 @@ yarn install
 yarn dev
 ```
 
+---
+
 ## 다음 단계
 
 - [02-core-concepts.md](02-core-concepts.md): 핵심 4요소 이해
 - [03-api-reference.md](03-api-reference.md): API 파라미터 상세
+- [08-hitl-memory.md](08-hitl-memory.md): Human-in-the-Loop 및 장기 메모리

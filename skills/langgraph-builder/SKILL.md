@@ -1,50 +1,86 @@
 ---
 name: langgraph-builder
 description: >
-  Build production-grade LLM agents and workflows using LangGraph SDK.
-  Use for: (1) Creating ReAct agents with tools, (2) Multi-agent supervisor/swarm systems,
-  (3) Stateful workflows with memory and persistence, (4) Human-in-the-loop patterns,
-  (5) Streaming and deployment to LangGraph Platform.
-  Triggers: "langgraph", "agent workflow", "multi-agent", "react agent", "stateful agent",
-  "tool calling agent", "agent supervisor", "langgraph platform"
+  Build LLM agents with LangGraph. Use for: ReAct agents, multi-agent (supervisor/swarm),
+  stateful workflows, human-in-the-loop. Always fetch latest docs via URLs provided.
 ---
 
 # LangGraph Builder
 
-## Core Principles (Stable)
+## Official Documentation (Always Fetch Latest)
 
-1. **State**: Define with `TypedDict` or Pydantic. Use `Annotated` with reducers for list merging.
-2. **Node**: Pure functions `(state) -> partial_state`. Never mutate state directly.
-3. **Edge**: Normal (fixed) or Conditional (dynamic routing). Keep routing functions deterministic.
-4. **Compile**: Always call `.compile()` before `invoke()`/`stream()`. Add checkpointer here.
+- **Docs**: https://langchain-ai.github.io/langgraph/
+- **API Reference**: https://reference.langchain.com/python/langgraph/agents/
+- **PyPI**: https://pypi.org/project/langgraph/ (v1.0.5)
 
-## Workflow
-
-1. **Before coding**: `web_fetch` the relevant official docs from `references/url-index.md`
-2. **Pattern selection**: Follow decision tree in `references/decision-tree.md`
-3. **Implementation**: Reference anti-patterns in `references/anti-patterns.md`
-4. **Testing**: Use patterns from `references/testing.md`
-5. **Deployment**: Follow `references/production-checklist.md`
-
-## Quick Reference
+## Quick Start
 
 ```python
-from langgraph.graph import StateGraph, START, END
-from typing import TypedDict, Annotated
-from langgraph.graph.message import add_messages
+from langchain.agents import create_agent
 
-class State(TypedDict):
-    messages: Annotated[list, add_messages]
+def search(query: str) -> str:
+    """Search the web for information."""
+    return f"Results for: {query}"
 
-graph = StateGraph(State)
-graph.add_node("agent", agent_fn)
-graph.add_edge(START, "agent")
-graph.add_edge("agent", END)
-app = graph.compile(checkpointer=checkpointer)  # optional
+agent = create_agent(
+    model="gpt-4o",
+    tools=[search],
+    system_prompt="You are a helpful assistant.",
+)
+
+result = agent.invoke({"messages": [{"role": "user", "content": "Search for Python tutorials"}]})
 ```
 
-## Important
+## Common Mistakes (DO NOT)
 
-**LangGraph 1.0 (Oct 2025)**: `langgraph.prebuilt` deprecated → use `langchain.agents` instead.
-New docs at `docs.langchain.com`. Always `web_fetch` official documentation before implementing.
-Check `references/url-index.md` for categorized documentation links.
+```python
+# ❌ WRONG: invoke() without compile()
+graph = StateGraph(State)
+graph.invoke(input)  # Error!
+
+# ❌ WRONG: Mutating state directly
+def node(state):
+    state["items"].append(item)  # Never mutate!
+    return state
+
+# ❌ WRONG: interrupt without checkpointer
+app = graph.compile(interrupt_before=["review"])  # Needs checkpointer!
+
+# ❌ WRONG: List without reducer
+class State(TypedDict):
+    messages: list  # Will overwrite, not append!
+
+# ❌ WRONG: Tool without docstring
+def bad_tool(x): return x  # LLM can't understand!
+
+# ✅ CORRECT patterns
+app = graph.compile()
+result = app.invoke(input)
+
+def node(state):
+    return {"items": [*state["items"], item]}  # Return new state
+
+app = graph.compile(checkpointer=InMemorySaver(), interrupt_before=["review"])
+
+class State(TypedDict):
+    messages: Annotated[list, add_messages]  # Use reducer
+
+def good_tool(x: str) -> str:
+    """Process the input string."""
+    return x
+```
+
+## Reference Guides
+
+- [Create Agent](references/create-agent.md) - prebuilt agent, model shorthand
+- [Middleware](references/middleware.md) - PII, summarization, guardrails
+- [Multi-Agent](references/multi-agent.md) - supervisor, swarm patterns
+- [Persistence](references/persistence.md) - checkpointer, memory
+- [Decision Tree](references/decision-tree.md) - pattern selection
+
+## Version Info
+
+- **langgraph**: 1.0.5 (Dec 2025)
+- **langgraph-supervisor**: 0.0.31
+- **langgraph-swarm**: 0.1.0
+- **Python**: >=3.10

@@ -1,97 +1,76 @@
-# Pattern Selection Decision Tree
+# Pattern Selection
 
-## Q1: How many agents?
+## Quick Decision
 
-**Single agent** → Go to Q2  
-**Multiple agents** → Go to Q4
-
----
-
-## Q2: Does the agent need tools?
-
-**No** → Simple chain (single-node StateGraph)  
-**Yes** → Go to Q3
-
----
-
-## Q3: Is basic ReAct sufficient?
-
-**Yes** → Use `create_agent()` (langchain v1.0+)
-```python
-# NEW (v1.0+)
-from langchain.agents import create_agent
-agent = create_agent(model, tools, prompt="...")
-
-# OLD (deprecated, still works)
-from langgraph.prebuilt import create_react_agent
-agent = create_react_agent(model, tools, prompt="...")
+```
+Single agent + tools? → create_agent
+Multiple agents + central control? → Supervisor (tools-based)
+Multiple agents + peer handoffs? → Swarm
+Need conversation memory? → Add checkpointer
+Need human approval? → Add interrupt_before
 ```
 
-**No** (need custom logic, state, routing) → Build ReAct from scratch
-- Fetch: `react-agent-from-scratch` how-to guide
-- Use: Custom StateGraph with agent + tools nodes
+## Pattern Summary
 
----
+| Scenario | Pattern | Install |
+|----------|---------|---------|
+| Simple tool-calling | `create_agent` | `langchain` |
+| Team with coordinator | Supervisor (tools-based) | `langchain` |
+| Peer-to-peer agents | Swarm | `langgraph-swarm` |
+| Conversation memory | Checkpointer | `langgraph` |
+| Human approval | interrupt_before | `langgraph` |
 
-## Q4: What's the agent relationship?
+## Code Snippets
 
-**Central coordination needed** → Supervisor pattern
-- One supervisor routes to specialized agents
-- Fetch: `langgraph-supervisor` docs
+### Single Agent
+```python
+from langchain.agents import create_agent
 
-**Peer-to-peer collaboration** → Swarm pattern  
-- Agents hand off to each other directly
-- Fetch: `langgraph-swarm` docs
+agent = create_agent("gpt-4o", tools, system_prompt="...")
+```
 
-**Fixed sequential pipeline** → Sequential graph
-- Explicit edges between agent nodes
+### Supervisor (Tools-based)
+```python
+from langchain.tools import tool
+from langchain.agents import create_agent
 
-**Dynamic branching** → Conditional edges + subgraphs
-- Use `add_conditional_edges()` for routing
+# Wrap sub-agents as tools
+@tool
+def research(request: str) -> str:
+    """Research using natural language."""
+    return research_agent.invoke({"messages": [{"role": "user", "content": request}]})
 
----
+supervisor = create_agent("gpt-4o", tools=[research, code], system_prompt="...")
+```
 
-## Q5: Human intervention needed?
+### Swarm
+```python
+from langgraph_swarm import create_swarm, create_handoff_tool
 
-**Yes** → Add `interrupt_before` or `interrupt_after`
+workflow = create_swarm([agent1, agent2], default_active_agent="agent1")
+app = workflow.compile()
+```
+
+### With Memory
+```python
+from langgraph.checkpoint.memory import InMemorySaver
+
+app = graph.compile(checkpointer=InMemorySaver())
+app.invoke(input, {"configurable": {"thread_id": "user-123"}})
+```
+
+### With Human Approval
 ```python
 app = graph.compile(
-    checkpointer=checkpointer,  # Required!
-    interrupt_before=["sensitive_node"]
+    checkpointer=InMemorySaver(),
+    interrupt_before=["review_node"]
 )
 ```
 
-**No** → Standard execution
+## Installation
 
----
-
-## Q6: Conversation persistence needed?
-
-**Within session only** → Checkpointer with `thread_id`
-```python
-from langgraph.checkpoint.memory import InMemorySaver
-app = graph.compile(checkpointer=InMemorySaver())
-app.invoke(input, config={"configurable": {"thread_id": "user-123"}})
+```bash
+pip install langchain              # Core (includes create_agent)
+pip install langgraph              # State graphs, checkpointing
+pip install langgraph-swarm        # Peer-to-peer multi-agent
 ```
-
-**Across sessions (long-term memory)** → Store
-```python
-from langgraph.store.memory import InMemoryStore
-app = graph.compile(store=InMemoryStore())
-```
-
-**Both** → Use both checkpointer and store
-
----
-
-## Quick Pattern Summary
-
-| Scenario | Pattern | Key Components |
-|----------|---------|----------------|
-| Simple tool-calling bot | Prebuilt Agent | `create_agent` (langchain) |
-| Custom agent logic | Custom ReAct | StateGraph + ToolNode + tools_condition |
-| Team of specialists | Supervisor | `create_supervisor` or custom |
-| Collaborative agents | Swarm | Handoff tools |
-| Approval workflows | HITL | interrupt_before + checkpointer |
-| Chatbot with memory | Persistence | Checkpointer + thread_id |
-| Parallel processing | Map-Reduce | Send API |

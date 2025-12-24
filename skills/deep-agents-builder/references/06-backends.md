@@ -1,5 +1,7 @@
 # Deep Agents 백엔드 옵션
 
+> **최종 업데이트**: 2025-12-24 (deepagents 0.2+)
+
 백엔드는 에이전트의 **파일시스템 저장소**를 제공합니다.
 프로덕션 환경에서는 **샌드박스 백엔드**를 사용하여 코드 실행을 안전하게 격리합니다.
 
@@ -29,29 +31,140 @@ Deep Agents 0.2부터 **플러그인 백엔드**를 지원합니다.
 
 | 백엔드 | 유형 | 영속성 | 샌드박스 | 용도 |
 |--------|------|--------|----------|------|
-| **Virtual** | 로컬 | X | X | 개발/테스트 |
-| **Runloop** | 원격 | O | O | 프로덕션 |
-| **Daytona** | 원격 | O | O | 프로덕션 |
-| **Modal** | 원격 | O | O | 프로덕션 |
+| **StateBackend** | 로컬 | X | X | 개발/테스트 (기본) |
+| **FilesystemBackend** | 로컬 | O | X | 로컬 디스크 |
+| **StoreBackend** | 원격 | O | X | LangGraph Store (장기 메모리) |
+| **CompositeBackend** | 하이브리드 | - | - | 경로별 라우팅 |
+| **Runloop** | 원격 | O | O | 프로덕션 샌드박스 |
+| **Daytona** | 원격 | O | O | 프로덕션 개발 환경 |
+| **Modal** | 원격 | O | O | 서버리스 GPU |
 
 ---
 
-## Virtual Backend (기본)
+## StateBackend (기본)
 
-개발 및 테스트용 가상 파일시스템입니다.
+개발 및 테스트용 임시 파일시스템입니다.
 
 ```python
 from deepagents import create_deep_agent
 
-# 기본적으로 Virtual 백엔드 사용
-agent = create_deep_agent(
-    model="anthropic:claude-sonnet-4-20250514"
-)
+# 기본적으로 StateBackend 사용
+agent = create_deep_agent()
 
 # 특징:
 # - LangGraph 상태에 파일 저장
 # - 세션 종료 시 데이터 손실
 # - 샌드박스 없음 (execute 도구 주의)
+```
+
+---
+
+## FilesystemBackend
+
+로컬 디스크에 파일을 저장합니다.
+
+```python
+from deepagents import create_deep_agent
+from deepagents.backends import FilesystemBackend
+
+backend = FilesystemBackend(root_dir="/path/to/project")
+
+agent = create_deep_agent(backend=backend)
+
+# 특징:
+# - 실제 디스크 파일 작업
+# - 프로젝트 디렉토리 제한
+# - 세션 간 영속성
+```
+
+---
+
+## StoreBackend
+
+LangGraph Store를 사용하여 영속 저장소를 제공합니다.
+
+```python
+from deepagents import create_deep_agent
+from deepagents.backends import StoreBackend
+from langgraph.store.memory import InMemoryStore
+# 프로덕션: from langgraph.store.postgres import PostgresStore
+
+store = InMemoryStore()
+
+agent = create_deep_agent(
+    store=store,
+    backend=lambda rt: StoreBackend(rt)
+)
+
+# 특징:
+# - 대화 간 영속성
+# - InMemoryStore, PostgresStore 등 지원
+# - 장기 메모리에 적합
+```
+
+### PostgresStore 사용 (프로덕션)
+
+```python
+from langgraph.store.postgres import PostgresStore
+from deepagents import create_deep_agent
+from deepagents.backends import StoreBackend
+
+store = PostgresStore(
+    connection_string="postgresql://user:pass@host:5432/db"
+)
+
+agent = create_deep_agent(
+    store=store,
+    backend=lambda rt: StoreBackend(rt)
+)
+```
+
+---
+
+## CompositeBackend
+
+경로별로 다른 백엔드를 라우팅합니다.
+
+```python
+from deepagents import create_deep_agent
+from deepagents.backends import CompositeBackend, StateBackend, StoreBackend
+from langgraph.store.memory import InMemoryStore
+
+store = InMemoryStore()
+
+agent = create_deep_agent(
+    store=store,
+    backend=lambda rt: CompositeBackend(
+        default=StateBackend(rt),         # 기본: 임시 저장
+        routes={
+            "/memories/": StoreBackend(rt)  # /memories/: 영속 저장
+        }
+    )
+)
+
+# 사용 예:
+# write_file("/notes.md", ...)         → StateBackend (임시)
+# write_file("/memories/prefs.md", ...)  → StoreBackend (영속)
+```
+
+### 장기 메모리 패턴
+
+```python
+# 에이전트가 자동으로:
+# 1. /memories/ 에 중요 정보 저장 → 영속
+# 2. 작업 파일은 / 에 저장 → 임시
+
+# 시스템 프롬프트:
+system_prompt = """
+Save important information to /memories/:
+- User preferences → /memories/user_prefs.md
+- Project knowledge → /memories/project_context.md
+- API patterns → /memories/api_patterns.md
+
+Working files stay in root:
+- Research results → /research.md
+- Draft reports → /draft.md
+"""
 ```
 
 ---
@@ -75,13 +188,9 @@ from deepagents.backends.runloop import RunloopBackend
 
 backend = RunloopBackend(
     api_key="your-runloop-api-key",
-    # 추가 설정...
 )
 
-agent = create_deep_agent(
-    model="anthropic:claude-sonnet-4-20250514",
-    backend=backend
-)
+agent = create_deep_agent(backend=backend)
 ```
 
 ### 특징
@@ -115,10 +224,7 @@ backend = DaytonaBackend(
     workspace_id="your-workspace-id"
 )
 
-agent = create_deep_agent(
-    model="anthropic:claude-sonnet-4-20250514",
-    backend=backend
-)
+agent = create_deep_agent(backend=backend)
 ```
 
 ### 특징
@@ -147,14 +253,9 @@ modal token new
 from deepagents import create_deep_agent
 from deepagents.backends.modal import ModalBackend
 
-backend = ModalBackend(
-    # Modal 설정...
-)
+backend = ModalBackend()
 
-agent = create_deep_agent(
-    model="anthropic:claude-sonnet-4-20250514",
-    backend=backend
-)
+agent = create_deep_agent(backend=backend)
 ```
 
 ### 특징
@@ -170,10 +271,12 @@ agent = create_deep_agent(
 
 Backend 추상화를 확장하여 커스텀 백엔드를 만들 수 있습니다.
 
-```python
-from deepagents.backends.base import Backend
+### BackendProtocol
 
-class MyCustomBackend(Backend):
+```python
+from deepagents.backends.base import BackendProtocol
+
+class MyCustomBackend(BackendProtocol):
     def read_file(self, path: str) -> str:
         """파일 읽기 구현"""
         pass
@@ -186,16 +289,37 @@ class MyCustomBackend(Backend):
         """디렉토리 목록 구현"""
         pass
 
+    def edit_file(self, path: str, old: str, new: str) -> None:
+        """파일 편집 구현"""
+        pass
+
+    def glob(self, pattern: str) -> list[str]:
+        """glob 패턴 매칭"""
+        pass
+
+    def grep(self, pattern: str, path: str) -> list[str]:
+        """텍스트 검색"""
+        pass
+```
+
+### SandboxBackendProtocol
+
+`execute` 도구를 활성화하려면 이 프로토콜도 구현합니다:
+
+```python
+from deepagents.backends.base import SandboxBackendProtocol
+
+class MySandboxBackend(SandboxBackendProtocol):
+    # BackendProtocol 메서드 +
     def execute(self, command: str) -> str:
         """셸 명령 실행 구현"""
         pass
+```
 
-    # 기타 메서드...
+### 사용
 
-agent = create_deep_agent(
-    model="anthropic:claude-sonnet-4-20250514",
-    backend=MyCustomBackend()
-)
+```python
+agent = create_deep_agent(backend=MyCustomBackend())
 ```
 
 ---
@@ -205,28 +329,47 @@ agent = create_deep_agent(
 ### 개발/테스트
 
 ```python
-# Virtual 백엔드 (기본)
-agent = create_deep_agent(model="...")
+# StateBackend (기본)
+agent = create_deep_agent()
 ```
 
-### 프로덕션
+### 로컬 프로젝트 작업
 
 ```python
-# 샌드박스 백엔드 사용 권장
-# execute 도구로 임의 코드 실행 가능하므로 격리 필수
+from deepagents.backends import FilesystemBackend
+agent = create_deep_agent(backend=FilesystemBackend(root_dir="./project"))
+```
 
-from deepagents.backends.runloop import RunloopBackend
+### 장기 메모리 필요
+
+```python
+from deepagents.backends import CompositeBackend, StateBackend, StoreBackend
+from langgraph.store.memory import InMemoryStore
+
+store = InMemoryStore()
 agent = create_deep_agent(
-    model="...",
-    backend=RunloopBackend(api_key="...")
+    store=store,
+    backend=lambda rt: CompositeBackend(
+        default=StateBackend(rt),
+        routes={"/memories/": StoreBackend(rt)}
+    )
 )
+```
+
+### 프로덕션 (안전한 코드 실행)
+
+```python
+from deepagents.backends.runloop import RunloopBackend
+agent = create_deep_agent(backend=RunloopBackend(api_key="..."))
 ```
 
 ### 선택 기준
 
 | 요구사항 | 권장 백엔드 |
 |---------|------------|
-| 빠른 프로토타이핑 | Virtual |
+| 빠른 프로토타이핑 | StateBackend (기본) |
+| 로컬 파일 작업 | FilesystemBackend |
+| 대화 간 메모리 | StoreBackend + CompositeBackend |
 | 안전한 코드 실행 | Runloop, Daytona, Modal |
 | GPU 필요 | Modal |
 | 개발 환경 통합 | Daytona |
@@ -240,3 +383,9 @@ agent = create_deep_agent(
 - [Runloop](https://runloop.ai/)
 - [Daytona](https://daytona.io/)
 - [Modal](https://modal.com/)
+
+---
+
+## 다음 단계
+
+- [08-hitl-memory.md](08-hitl-memory.md): Human-in-the-Loop 및 장기 메모리 상세
