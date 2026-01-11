@@ -17,8 +17,9 @@
       "skills": [
         "./skills/code-refactoring-analysis",
         "./skills/sql-production-analyzer",
-        "./skills/project-planner",
+        "./skills/task-planner",
         "./skills/task-decomposer",
+        "./skills/task-executor",
         "./skills/project-docs-manager"
       ]
     },
@@ -30,8 +31,20 @@
       "skills": [
         "./skills/agents-sdk-builder",
         "./skills/langgraph-builder",
-        "./skills/openrouter-langgraph-builder",
+        "./skills/langchain-openrouter",
         "./skills/deep-agents-builder"
+      ]
+    },
+    {
+      "name": "unity-skills",
+      "description": "Unity game development skills: map builder, planning, prototyping, task decomposition",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/unity-map-builder",
+        "./skills/unity-planning",
+        "./skills/unity-prototype",
+        "./skills/unity-task-decomposer"
       ]
     }
   ]
