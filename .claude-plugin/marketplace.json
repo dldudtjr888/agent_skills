@@ -21,7 +21,8 @@
         "./skills/task-decomposer",
         "./skills/task-executor",
         "./skills/project-docs-manager"
-      ]
+      ],
+      "hooks": "./hooks/hooks.json"
     },
     {
       "name": "ai-skills",
@@ -33,7 +34,8 @@
         "./skills/langgraph-builder",
         "./skills/langchain-openrouter",
         "./skills/deep-agents-builder"
-      ]
+      ],
+      "hooks": "./hooks/hooks.json"
     },
     {
       "name": "unity-skills",
@@ -45,7 +47,8 @@
         "./skills/unity-planning",
         "./skills/unity-prototype",
         "./skills/unity-task-decomposer"
-      ]
+      ],
+      "hooks": "./hooks/hooks.json"
     }
   ]
 }
