@@ -50,7 +50,7 @@
     {
       "name": "dev-hooks",
       "description": "Development workflow hooks: PreToolUse (context gathering before code changes) and Stop (test/lint/docs verification)",
-      "source": "./",
+      "source": "./plugins/dev-hooks",
       "strict": false,
       "hooks": "./hooks/hooks.json"
     }
