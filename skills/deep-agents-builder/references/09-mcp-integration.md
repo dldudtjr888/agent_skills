@@ -1,6 +1,6 @@
 # MCP 도구 통합
 
-> **최종 업데이트**: 2025-12-24 (deepagents 0.2+)
+> **최종 업데이트**: 2026-01-23 (deepagents 0.3.8)
 
 Deep Agents에서 **Model Context Protocol (MCP)** 도구를 사용하는 방법입니다.
 

@@ -2,8 +2,8 @@
 
 LangChain **Deep Agents**로 복잡한 멀티스텝 에이전트를 구축하는 종합 가이드 스킬입니다.
 
-> **버전**: 2.0.0 (deepagents 0.2+ 기준)
-> **최종 업데이트**: 2025-12-24
+> **버전**: 3.0.0 (deepagents 0.3.8 기준)
+> **최종 업데이트**: 2026-01-23
 
 ## 개요
 
@@ -47,7 +47,29 @@ deep-agents-builder/
     └── 11-debugging-testing.md   # 디버깅 및 테스트
 ```
 
-## 주요 업데이트 (v2.0.0)
+## 주요 업데이트 (v3.0.0)
+
+### deepagents 0.3.x 새 기능
+
+| 버전 | 기능 |
+|------|------|
+| **0.3.8** | Tool truncation for execute, unique thread IDs for summarization |
+| **0.3.7** | **Summarization offloading**, SystemMessage support, file truncation in history |
+| **0.3.6** | Agent naming improvements, **subagent output validation** |
+| **0.3.5** | Memory functionality ported to CLI |
+| **0.3.4** | Memory prompt streamlined, **permissive AGENTS.md handling** |
+
+### 주요 변경사항
+
+- **Summarization Offloading** (0.3.7): 대용량 컨텍스트 요약을 비동기 처리하여 성능 향상
+- **SystemMessage Support** (0.3.7): LangChain SystemMessage 직접 지원
+- **Tool Output Truncation** (0.3.8): execute 도구 출력 자동 잘라내기
+- **Subagent Validation** (0.3.6): 서브에이전트 출력 유효성 자동 검증
+- **Permissive AGENTS.md** (0.3.4): AGENTS.md 파일 없어도 에러 없이 진행
+
+---
+
+## 이전 업데이트 (v2.0.0)
 
 ### 새로운 API 파라미터
 - `checkpointer`: 상태 영속화 (HITL 필수)
@@ -106,5 +128,5 @@ deep-agents-builder/
 
 - **작성자**: Claude
 - **최초 작성일**: 2025-12-18
-- **마지막 업데이트**: 2025-12-24
-- **버전**: 2.0.0
+- **마지막 업데이트**: 2026-01-23
+- **버전**: 3.0.0

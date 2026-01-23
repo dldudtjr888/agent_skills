@@ -1,6 +1,6 @@
 # Human-in-the-Loop 및 장기 메모리
 
-> **최종 업데이트**: 2025-12-24 (deepagents 0.2+)
+> **최종 업데이트**: 2026-01-23 (deepagents 0.3.8)
 
 Deep Agents의 **Human-in-the-Loop (HITL)** 워크플로우와 **장기 메모리** 설정 가이드입니다.
 
@@ -375,6 +375,38 @@ checkpointer = PostgresSaver.from_conn_string(
 - [ ] PostgresStore로 영속 메모리
 - [ ] PostgresSaver로 체크포인트 영속화
 - [ ] API 키 환경변수로 관리
+
+---
+
+## AGENTS.md Permissive Handling (0.3.4+)
+
+### 개요
+
+0.3.4부터 AGENTS.md 파일 처리가 더 유연해졌습니다.
+
+### 동작
+
+| 상황 | 이전 동작 | 0.3.4+ 동작 |
+|-----|---------|------------|
+| 파일 없음 | 에러 발생 | 에러 없이 진행 |
+| 형식 오류 | 파싱 실패 | 가능한 부분만 파싱 |
+| 부분 유효 | 전체 거부 | 유효한 부분만 사용 |
+
+### Graceful Degradation
+
+```python
+# CLI가 AGENTS.md 파일 처리 시 자동으로 graceful degradation 수행
+# 파일이 없거나 일부 오류가 있어도 계속 작동
+```
+
+---
+
+## 간소화된 메모리 프롬프트 (0.3.4+)
+
+메모리 관련 시스템 프롬프트가 더 간결해졌습니다:
+- 불필요한 지침 제거
+- 핵심 행동만 유지
+- 토큰 사용 최적화
 
 ---
 

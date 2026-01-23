@@ -1,6 +1,6 @@
 # Deep Agents 미들웨어 패턴
 
-> **최종 업데이트**: 2025-12-24 (deepagents 0.2+)
+> **최종 업데이트**: 2026-01-23 (deepagents 0.3.8)
 
 미들웨어는 에이전트에 **도구, 시스템 프롬프트, 생명주기 훅**을 주입하는 방법입니다.
 
@@ -102,6 +102,13 @@ FilesystemMiddleware(
 
 서브에이전트 위임을 위한 `task` 도구를 제공합니다.
 
+### 출력 검증 (0.3.6+)
+
+서브에이전트 출력이 자동으로 검증됩니다:
+- `messages` 키 필수 확인
+- 형식 오류 시 명확한 예외 메시지
+- 메인 에이전트는 유효한 출력만 수신
+
 ### 파라미터
 
 | 파라미터 | 타입 | 설명 |
@@ -150,6 +157,15 @@ SubAgentMiddleware(
 
 - **임계값**: 170k 토큰 또는 모델 최대 컨텍스트의 85%
 - **동작**: 오래된 메시지를 요약하여 컨텍스트 압축
+- **Offloading (0.3.7+)**: 대용량 요약을 비동기 프로세스로 오프로드하여 성능 향상
+- **고유 Thread ID (0.3.8+)**: 요약 시 고유 스레드 ID 사용으로 충돌 방지
+
+### File Truncation (0.3.7+)
+
+파일 write/edit 결과가 메시지 히스토리에서 자동으로 잘라내기됩니다:
+- 컨텍스트 윈도우 절약
+- 원본은 파일시스템에 보존
+- execute 도구 출력도 자동 truncation (0.3.8+)
 
 ### 사용
 
@@ -157,7 +173,7 @@ SubAgentMiddleware(
 from deepagents.middleware.summarization import SummarizationMiddleware
 
 # create_deep_agent()에 기본 포함
-# 커스텀 설정이 필요하면 직접 사용
+# Offloading은 자동 활성화 - 별도 설정 불필요
 ```
 
 ---

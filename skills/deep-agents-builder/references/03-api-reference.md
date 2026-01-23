@@ -1,6 +1,6 @@
 # Deep Agents API 레퍼런스
 
-> **최종 업데이트**: 2025-12-24 (deepagents 0.2+)
+> **최종 업데이트**: 2026-01-23 (deepagents 0.3.8)
 
 ## create_deep_agent()
 
@@ -46,6 +46,28 @@ def create_deep_agent(
 | `debug` | `bool` | `False` | 디버그 모드 |
 | `name` | `str \| None` | `None` | 에이전트 이름 (트레이스용) |
 | `cache` | `BaseCache \| None` | `None` | 응답 캐시 |
+
+### SystemMessage 지원 (0.3.7+)
+
+LangChain `SystemMessage`를 직접 사용할 수 있습니다:
+
+```python
+from langchain_core.messages import SystemMessage
+
+# 기존 방식 (system_prompt 파라미터)
+agent = create_deep_agent(system_prompt="You are a helpful assistant.")
+
+# 새로운 방식 (SystemMessage 직접 사용)
+from deepagents import create_deep_agent
+
+agent = create_deep_agent()
+result = agent.invoke({
+    "messages": [
+        SystemMessage(content="You are a helpful assistant."),
+        {"role": "user", "content": "Hello!"}
+    ]
+})
+```
 
 ### 모델 지정 방식
 

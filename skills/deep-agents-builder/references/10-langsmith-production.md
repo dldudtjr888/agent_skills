@@ -1,6 +1,6 @@
 # LangSmith 배포 및 관측성
 
-> **최종 업데이트**: 2025-12-24 (deepagents 0.2+)
+> **최종 업데이트**: 2026-01-23 (deepagents 0.3.8)
 
 Deep Agents를 **프로덕션에 배포**하고 **LangSmith로 모니터링**하는 방법입니다.
 

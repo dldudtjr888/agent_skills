@@ -10,14 +10,14 @@ description: |
   - "에이전트 미들웨어 구성"
   - "deepagents CLI 사용법"
   - "에이전트 영속 메모리 설정"
-version: 2.0.0
+version: 3.0.0
 ---
 
 # Deep Agents 에이전트 빌더 가이드
 
 LangChain **Deep Agents**로 복잡한 멀티스텝 작업을 수행하는 에이전트를 구축하는 종합 가이드입니다.
 
-> **최종 업데이트**: 2025-12-24 (deepagents 0.2+ 기준)
+> **최종 업데이트**: 2026-01-23 (deepagents 0.3.8 기준)
 
 ---
 
@@ -69,9 +69,9 @@ deepagents list
 | 미들웨어 | 도구 | 역할 |
 |---------|------|------|
 | **TodoListMiddleware** | `write_todos`, `read_todos` | 작업 분해 및 추적 |
-| **FilesystemMiddleware** | `ls`, `read_file`, `write_file`, `edit_file`, `glob`, `grep`, `execute` | 컨텍스트 관리 |
-| **SubAgentMiddleware** | `task` | 전문화된 하위 에이전트 위임 |
-| **SummarizationMiddleware** | - | 170k 토큰 초과 시 자동 압축 |
+| **FilesystemMiddleware** | `ls`, `read_file`, `write_file`, `edit_file`, `glob`, `grep`, `execute` | 컨텍스트 관리, 히스토리 자동 truncation (0.3.7+) |
+| **SubAgentMiddleware** | `task` | 전문화된 하위 에이전트 위임, 출력 검증 (0.3.6+) |
+| **SummarizationMiddleware** | - | 170k 토큰 초과 시 자동 압축, offloading 지원 (0.3.7+) |
 | **AnthropicPromptCachingMiddleware** | - | Anthropic 모델 프롬프트 캐싱 |
 | **PatchToolCallsMiddleware** | - | 체크포인트 중단된 도구 호출 복구 |
 | **HumanInTheLoopMiddleware** | - | 도구 실행 전 승인 요청 (interrupt_on 설정 시) |
