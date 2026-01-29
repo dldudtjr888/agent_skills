@@ -1,77 +1,151 @@
-# Claude Code Skills Marketplace
+# hibye-plugins
 
-Production-ready skills for Claude Code that enhance your development workflows.
+Production-ready plugins for Claude Code - skills, agents, and hooks for development workflows.
+
+**Version**: 2.0.0
 
 ## Quick Start
 
 ### 1. Add Marketplace
 
 ```bash
-/plugin marketplace add dldudtjr888/agent_skills
+/plugin marketplace add hibye-ys/hibye-plugins
 ```
 
 ### 2. Install Plugins
 
 ```bash
-# Install development workflow skills
-/plugin install dev-skills@claude-dev-skills
+# 공통 워크플로우 (태스크 계획/분해/실행, 문서 관리)
+/plugin install common-dev-workflow@hibye-plugins
 
-# Install AI/LLM development skills
-/plugin install ai-skills@claude-dev-skills
+# 웹 프론트엔드 (React, TypeScript, Next.js)
+/plugin install web-frontend@hibye-plugins
+
+# 파이썬 에이전트 백엔드 (FastAPI, LangGraph, Pydantic AI)
+/plugin install python-agent-backend@hibye-plugins
+
+# 러스트 백엔드 (Rust 패턴)
+/plugin install rust-backend@hibye-plugins
+
+# 유니티 게임 개발 (맵 빌더, 기획)
+/plugin install unity-gamedev@hibye-plugins
+
+# 개발 훅 (PreToolUse, Stop)
+/plugin install dev-hooks@hibye-plugins
 ```
 
 ## Available Plugins
 
-### dev-skills
+### common-dev-workflow
 
-Development workflow skills for code quality and project management.
+공통 개발 워크플로우: 태스크 계획/분해/실행, 문서 관리, 코드 분석
 
-| Skill | Description |
-|-------|-------------|
-| **code-refactoring-analysis** | Production-ready multi-dimensional code refactoring for Python and Next.js (React/JavaScript/TypeScript) projects |
-| **sql-production-analyzer** | Deep analysis of database implementation in production environments (SQL, NoSQL, VectorDB, GraphDB) |
-| **project-planner** | Deep project analysis and implementation planning for feature additions, refactoring, bug fixes |
-| **task-decomposer** | Transform natural language plans into executable concrete tasks with dependency mapping |
-| **project-docs-manager** | Comprehensive project documentation management |
+| Type | Name | Description |
+|------|------|-------------|
+| Skill | task-planner | 요구사항 구체화 및 계획 문서 작성 |
+| Skill | task-decomposer | 계획을 실행 가능한 태스크로 분해 |
+| Skill | task-executor | 태스크 순차 실행, 에이전트 위임 |
+| Skill | project-docs-manager | 프로젝트 문서 관리 |
+| Skill | code-refactoring-analysis | 5차원 코드 리팩토링 분석 |
+| Skill | sql-production-analyzer | SQL 쿼리 및 프로덕션 분석 |
+| Skill | claude-code-pattern-catalog | Claude Code 패턴 카탈로그 |
+| Agent | architect, analyst, explore... | 10개 공통 에이전트 |
 
-### ai-skills
+### web-frontend
 
-AI and LLM development skills.
+웹 프론트엔드 개발: React, TypeScript, Next.js
 
-| Skill | Description |
-|-------|-------------|
-| **agents-sdk-builder** | Guide for building production-ready multi-agent AI applications using OpenAI Agents Python SDK |
+| Type | Name | Description |
+|------|------|-------------|
+| Skill | frontend-coding-standards | TypeScript/React 코딩 표준 |
+| Agent | code-reviewer | 코드 리뷰 |
+| Agent | build-error-resolver | 빌드 에러 해결 |
+| Agent | e2e-runner | E2E 테스트 실행 |
+| Agent | ... | 총 13개 에이전트 |
 
-## Manual Installation
+### python-agent-backend
 
-If you prefer to install skills manually without the marketplace:
+파이썬 에이전트 백엔드: FastAPI, LangGraph, Pydantic AI, OpenAI Agents SDK
+
+| Type | Name | Description |
+|------|------|-------------|
+| Skill | pydantic-ai-builder | Pydantic AI 에이전트 빌더 |
+| Skill | langgraph-builder | LangGraph 워크플로우 빌더 |
+| Skill | agents-sdk-builder | OpenAI Agents SDK 빌더 |
+| Skill | deep-agents-builder | LangChain Deep Agents 빌더 |
+| Skill | langchain-openrouter | LangChain + OpenRouter |
+| Skill | python-agent-backend-patterns | FastAPI 백엔드 패턴 |
+| Skill | google-adk-builder | Google ADK 에이전트 빌더 |
+| Agent | py-error-resolver, py-langgraph-builder... | 총 15개 에이전트 |
+
+### rust-backend
+
+러스트 백엔드: Rust 패턴, 시스템 프로그래밍
+
+| Type | Name | Description |
+|------|------|-------------|
+| Skill | rust-patterns | Rust 개발 패턴 및 베스트 프랙티스 |
+
+### unity-gamedev
+
+유니티 게임 개발: 맵 빌더, 게임 기획, 프로토타입
+
+| Type | Name | Description |
+|------|------|-------------|
+| Skill | unity-map-builder | ProBuilder 기반 맵 자동 생성 |
+| Skill | unity-planning | 게임 기획 문서 작성 |
+| Skill | unity-prototype | 프로토타입 구현 |
+| Skill | unity-task-decomposer | 기획 → 태스크 분해 |
+
+### dev-hooks
+
+개발 훅: 코드 수정 전 컨텍스트 수집, 작업 완료 전 검증
+
+| Hook | Event | Description |
+|------|-------|-------------|
+| PreToolUse | Write/Edit 전 | 파일 읽기 확인, 유사 구현 검색 |
+| Stop | 작업 완료 전 | 테스트 실행, 타입 검사 |
+
+## Rules (수동 복사)
+
+플러그인과 별도로, 프로젝트별 규칙 파일을 제공합니다.
 
 ```bash
-# Clone the repository
-git clone https://github.com/dldudtjr888/agent_skills.git
+# 파이썬 에이전트 프로젝트
+cp -r rules/python_agent_rules/ your-project/.claude/rules/
 
-# Copy skills to your Claude Code skills directory
-cp -r agent_skills/skills/* ~/.claude/skills/
+# 웹 프론트엔드 프로젝트
+cp -r rules/web_frontend_rules/ your-project/.claude/rules/
+
+# 러스트 프로젝트
+cp -r rules/rust_backend_rules/ your-project/.claude/rules/
+
+# 유니티 프로젝트
+cp -r rules/unity_rules/ your-project/.claude/rules/
 ```
 
-## Skill Structure
-
-Each skill follows the Claude Code Agent Skills specification:
+## Project Structure
 
 ```
-skill-name/
-├── SKILL.md          # Main skill definition with YAML frontmatter
-├── references/       # Optional: Reference documentation
-├── scripts/          # Optional: Helper scripts
-└── assets/           # Optional: Assets and resources
+hibye-plugins/
+├── plugins/
+│   ├── common-dev-workflow/    # 7 skills, 10 agents
+│   ├── web-frontend/           # 1 skill, 13 agents
+│   ├── python-agent-backend/   # 7 skills, 15 agents
+│   ├── rust-backend/           # 1 skill
+│   ├── unity-gamedev/          # 4 skills
+│   └── dev-hooks/              # hooks
+├── rules/                      # 프로젝트별 규칙 (수동 복사)
+├── docs/                       # 문서
+└── ref_datas/                  # 참조 데이터
 ```
 
 ## Contributing
 
 1. Fork this repository
-2. Create your skill in `skills/your-skill-name/`
-3. Add a `SKILL.md` with proper frontmatter
-4. Update `marketplace.json` to include your skill
+2. Create your plugin in `plugins/your-plugin-name/`
+3. Add `.claude-plugin/plugin.json` with proper configuration
+4. Update `.claude-plugin/marketplace.json`
 5. Submit a Pull Request
 
 ## License
@@ -80,6 +154,5 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 ## Resources
 
-- [Claude Code Skills Documentation](https://docs.claude.com/en/docs/claude-code/skills)
-- [Anthropic Official Skills Repository](https://github.com/anthropics/skills)
-- [Agent Skills Announcement](https://www.anthropic.com/news/skills)
+- [Claude Code Plugin Documentation](https://code.claude.com/docs/en/plugins.md)
+- [Plugin Marketplaces](https://code.claude.com/docs/en/plugin-marketplaces.md)

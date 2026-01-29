@@ -1,0 +1,7 @@
+{
+  "name": "unity-gamedev",
+  "version": "1.0.0",
+  "description": "유니티 게임 개발: 맵 빌더, 게임 기획, 프로토타입",
+  "skills": "./skills/",
+  "agents": "./agents/"
+}

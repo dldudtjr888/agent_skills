@@ -1,0 +1,7 @@
+{
+  "name": "web-frontend",
+  "version": "1.0.0",
+  "description": "웹 프론트엔드 개발: React, TypeScript, Next.js 코딩 표준, 코드 리뷰, 에러 해결",
+  "skills": "./skills/",
+  "agents": "./agents/"
+}

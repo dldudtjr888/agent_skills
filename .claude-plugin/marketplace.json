@@ -1,58 +1,62 @@
 {
-  "name": "claude-dev-skills",
+  "name": "hibye-plugins",
   "owner": {
-    "name": "Claude Dev Skills",
+    "name": "hibye-ys",
     "email": "contact@example.com"
   },
   "metadata": {
-    "description": "Production-ready Claude Code skills for development workflows",
-    "version": "1.1.0"
+    "description": "Production-ready Claude Code plugins for development workflows",
+    "version": "2.0.0",
+    "pluginRoot": "./plugins"
   },
   "plugins": [
     {
-      "name": "dev-skills",
-      "description": "Development workflow skills: code refactoring, database analysis, project planning, task decomposition, and documentation management",
-      "source": "./",
-      "strict": false,
-      "skills": [
-        "./skills/code-refactoring-analysis",
-        "./skills/sql-production-analyzer",
-        "./skills/task-planner",
-        "./skills/task-decomposer",
-        "./skills/task-executor",
-        "./skills/project-docs-manager"
-      ]
+      "name": "common-dev-workflow",
+      "description": "공통 개발 워크플로우: 태스크 계획/분해/실행, 문서 관리, 코드 리팩토링 분석",
+      "source": "./plugins/common-dev-workflow",
+      "category": "workflow",
+      "tags": ["planning", "task", "refactoring", "documentation"],
+      "strict": false
     },
     {
-      "name": "ai-skills",
-      "description": "AI/LLM development skills: OpenAI Agents SDK builder, Opik monitoring, LangGraph builder",
-      "source": "./",
-      "strict": false,
-      "skills": [
-        "./skills/agents-sdk-builder",
-        "./skills/langgraph-builder",
-        "./skills/langchain-openrouter",
-        "./skills/deep-agents-builder"
-      ]
+      "name": "web-frontend",
+      "description": "웹 프론트엔드 개발: React, TypeScript, Next.js 코딩 표준, 코드 리뷰, 에러 해결",
+      "source": "./plugins/web-frontend",
+      "category": "frontend",
+      "tags": ["react", "typescript", "nextjs", "frontend"],
+      "strict": false
     },
     {
-      "name": "unity-skills",
-      "description": "Unity game development skills: map builder, planning, prototyping, task decomposition",
-      "source": "./",
-      "strict": false,
-      "skills": [
-        "./skills/unity-map-builder",
-        "./skills/unity-planning",
-        "./skills/unity-prototype",
-        "./skills/unity-task-decomposer"
-      ]
+      "name": "python-agent-backend",
+      "description": "파이썬 에이전트 백엔드: FastAPI, LangGraph, Pydantic AI, OpenAI Agents SDK",
+      "source": "./plugins/python-agent-backend",
+      "category": "backend",
+      "tags": ["python", "fastapi", "langgraph", "pydantic-ai", "agents-sdk"],
+      "strict": false
+    },
+    {
+      "name": "rust-backend",
+      "description": "러스트 백엔드: Rust 패턴, 시스템 프로그래밍, Tokio, Axum",
+      "source": "./plugins/rust-backend",
+      "category": "backend",
+      "tags": ["rust", "tokio", "axum", "system"],
+      "strict": false
+    },
+    {
+      "name": "unity-gamedev",
+      "description": "유니티 게임 개발: 맵 빌더, 게임 기획, 프로토타입",
+      "source": "./plugins/unity-gamedev",
+      "category": "gamedev",
+      "tags": ["unity", "game", "gamedev"],
+      "strict": false
     },
     {
       "name": "dev-hooks",
-      "description": "Development workflow hooks: PreToolUse (context gathering before code changes) and Stop (test/lint/docs verification)",
+      "description": "개발 훅: 코드 수정 전 컨텍스트 수집, 작업 완료 전 검증",
       "source": "./plugins/dev-hooks",
-      "strict": false,
-      "hooks": "./hooks/hooks.json"
+      "category": "hooks",
+      "tags": ["hooks", "validation", "workflow"],
+      "strict": false
     }
   ]
 }

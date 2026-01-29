@@ -25,3 +25,5 @@ venv/
 # Logs
 *.log
 .serena
+processing_claude
+ref_datas

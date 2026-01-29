@@ -1,0 +1,7 @@
+{
+  "name": "python-agent-backend",
+  "version": "1.0.0",
+  "description": "파이썬 에이전트 백엔드: FastAPI, LangGraph, Pydantic AI, OpenAI Agents SDK",
+  "skills": "./skills/",
+  "agents": "./agents/"
+}
