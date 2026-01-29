@@ -36,7 +36,7 @@ Production-ready plugins for Claude Code - skills, agents, and hooks for develop
 # 유니티 게임 개발 (맵 빌더, 기획)
 /plugin install unity-gamedev@hibye-plugins
 
-# 디자인 시스템 생성기 (컬러 팔레트, 타이포그래피, Tailwind 토큰)
+# 디자인 시스템 생성기 (Tailwind CSS 토큰)
 /plugin install design-system-generator@hibye-plugins
 ```
 
@@ -55,7 +55,13 @@ Production-ready plugins for Claude Code - skills, agents, and hooks for develop
 | Skill | code-refactoring-analysis | 5차원 코드 리팩토링 분석 |
 | Skill | sql-production-analyzer | SQL 쿼리 및 프로덕션 분석 |
 | Skill | claude-code-pattern-catalog | Claude Code 패턴 카탈로그 |
-| Agent | code-reviewer, critic, docs-researcher... | 6개 공통 에이전트 |
+| Agent | code-reviewer | 코드 리뷰, 품질 검토 |
+| Agent | critic | 비판적 리뷰, 개선점 도출 |
+| Agent | docs-researcher | 문서/자료 조사 |
+| Agent | rule-validator | 규칙/컨벤션 검증 |
+| Agent | scientist | 실험 설계, 가설 검증 |
+| Agent | tradeoff-analyzer | 기술적 트레이드오프 분석 |
+| Agent | doc-sync | 문서와 코드 불일치 감지 및 동기화 |
 
 ### common-backend
 
@@ -116,13 +122,32 @@ Vector/RAG 백엔드: Qdrant, FalkorDB, RAG 패턴
 
 ### rust-backend
 
-러스트 백엔드: Rust 패턴, 시스템 프로그래밍
+러스트 백엔드: Rust 패턴, Axum, 비동기, 에이전트 프레임워크
 
 | Type | Name | Description |
 |------|------|-------------|
 | Skill | rust-patterns | Rust 개발 패턴 및 베스트 프랙티스 |
-
-*에이전트 추후 확장 예정*
+| Skill | axum-backend-pattern | Axum 웹 프레임워크 패턴 |
+| Skill | tokio-async-patterns | Tokio 비동기 프로그래밍 패턴 |
+| Skill | rust-db-patterns | 데이터베이스 연동 패턴 (SQLx, SeaORM) |
+| Skill | rust-testing-guide | Rust 테스트 가이드 |
+| Skill | rust-error-handling | 에러 처리 패턴 |
+| Skill | rust-crate-ecosystem | 크레이트 생태계 가이드 |
+| Skill | rust-workspace-patterns | 워크스페이스 구성 패턴 |
+| Skill | rig-builder | Rig 에이전트 프레임워크 빌더 |
+| Skill | langchain-rust-builder | LangChain Rust 빌더 |
+| Skill | rs-graph-llm-builder | RS Graph LLM 빌더 |
+| Skill | rust-agent-infra-builder | Rust 에이전트 인프라 빌더 |
+| Agent | rust-axum-architect | Axum 아키텍처 설계 |
+| Agent | rust-diff-reviewer | 코드 리뷰어 |
+| Agent | rust-refactor-master | 리팩토링 마스터 |
+| Agent | rust-refactor-cleaner | 코드 정리 전문가 |
+| Agent | rust-route-tester | 라우트 테스터 |
+| Agent | rust-route-debugger | 라우트 디버거 |
+| Agent | rust-crate-builder | 크레이트 빌더 |
+| Agent | rust-perf-analyzer | 성능 분석가 |
+| Agent | rust-agent-builder | 에이전트 빌더 |
+| Agent | rust-agent-infra-builder | 에이전트 인프라 빌더 |
 
 ### unity-gamedev
 
@@ -139,13 +164,10 @@ Vector/RAG 백엔드: Qdrant, FalkorDB, RAG 패턴
 
 ### design-system-generator
 
-디자인 시스템 자동 생성: 컬러 팔레트, 타이포그래피, Tailwind CSS 토큰
+디자인 시스템 자동 생성: Tailwind CSS 토큰
 
 | Type | Name | Description |
 |------|------|-------------|
-| Skill | design-system-builder | 브랜드 기반 디자인 시스템 구축 |
-| Skill | color-palette | 컬러 팔레트 생성 (50-950 스케일, 다크모드, WCAG) |
-| Skill | typography-system | 타입 스케일, 폰트 페어링, 반응형 |
 | Skill | tailwind-tokens | Tailwind CSS v4 @theme 토큰 변환 |
 | Agent | design-system-reviewer | 일관성/접근성 리뷰어 |
 
@@ -156,15 +178,6 @@ Vector/RAG 백엔드: Qdrant, FalkorDB, RAG 패턴
 ```bash
 # 파이썬 에이전트 프로젝트
 cp -r rules/python_agent_rules/ your-project/.claude/rules/
-
-# 웹 프론트엔드 프로젝트
-cp -r rules/web_frontend_rules/ your-project/.claude/rules/
-
-# 러스트 프로젝트
-cp -r rules/rust_backend_rules/ your-project/.claude/rules/
-
-# 유니티 프로젝트
-cp -r rules/unity_rules/ your-project/.claude/rules/
 ```
 
 ## Project Structure
@@ -172,14 +185,14 @@ cp -r rules/unity_rules/ your-project/.claude/rules/
 ```
 hibye-plugins/
 ├── plugins/
-│   ├── common-dev-workflow/    # 7 skills, 6 agents
+│   ├── common-dev-workflow/    # 7 skills, 7 agents
 │   ├── common-backend/         # 8 skills, 5 agents
 │   ├── web-frontend/           # 5 skills, 9 agents
 │   ├── python-agent-backend/   # 8 skills, 8 agents
 │   ├── vector-rag-backend/     # 4 skills, 4 agents
-│   ├── rust-backend/           # 1 skill
+│   ├── rust-backend/           # 12 skills, 10 agents
 │   ├── unity-gamedev/          # 4 skills
-│   └── design-system-generator/ # 4 skills, 1 agent
+│   └── design-system-generator/ # 1 skill, 1 agent
 ├── rules/                      # 프로젝트별 규칙 (수동 복사)
 ├── docs/                       # 문서
 └── ref_datas/                  # 참조 데이터
