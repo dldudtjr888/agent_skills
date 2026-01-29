@@ -11,28 +11,30 @@
 | agents-sdk-builder | OpenAI Agents SDK 빌더 |
 | deep-agents-builder | LangChain Deep Agents 빌더 |
 | langchain-openrouter | LangChain + OpenRouter |
-| python-agent-backend-patterns | FastAPI 백엔드 패턴 |
 | google-adk-builder | Google ADK 에이전트 빌더 |
+| agent-infra-builder | 에이전트 인프라 (Guardrails, MCP, Memory, Prompts) |
+| python-agent-backend-pattern | FastAPI 백엔드 패턴 |
 
 ## Agents
 
 | Agent | Description |
 |-------|-------------|
-| code-reviewer | 파이썬 코드 리뷰 |
-| py-architecture-reviewer | 아키텍처 리뷰 |
-| py-security-reviewer | 보안 리뷰 |
-| py-error-resolver | 에러 해결 |
-| py-refactor-cleaner | 코드 정리 |
-| py-refactor-master | 고급 리팩토링 |
-| py-langgraph-builder | LangGraph 빌더 |
-| py-guardrail-builder | Guardrail 빌더 |
-| py-handler-pattern | 핸들러 패턴 |
-| py-mcp-integrator | MCP 통합 |
-| py-memory-store | 메모리/저장소 |
-| py-prompt-manager | 프롬프트 관리 |
-| py-route-tester | 라우팅 테스트 |
-| py-route-debugger | 라우팅 디버깅 |
-| py-tdd-guide | TDD 가이드 |
+| python-diff-reviewer | 파이썬 Diff 코드 리뷰 |
+| python-fastapi-architect | FastAPI 아키텍처 설계 |
+| python-agent-builder | 에이전트 빌더 |
+| python-agent-infra-builder | 에이전트 인프라 빌더 |
+| python-refactor-cleaner | 코드 정리/클린업 |
+| python-refactor-master | 고급 리팩토링 |
+| python-route-tester | 라우팅 테스트 |
+| python-route-debugger | 라우팅 디버깅 |
+
+## Hooks
+
+| Hook | Trigger | Description |
+|------|---------|-------------|
+| protect-sensitive | PreToolUse | 민감 파일 보호 |
+| python-lint | PostToolUse | Python 린팅 |
+| suggest-agent | PostToolUse | 에이전트 제안 |
 
 ## Usage
 

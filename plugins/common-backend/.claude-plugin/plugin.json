@@ -1,0 +1,22 @@
+{
+  "name": "common-backend",
+  "version": "1.0.0",
+  "description": "공통 백엔드 패턴: DB 설계, 인증/인가, API 설계, 캐싱, 메시지 큐, 배포, CI/CD, 관측성 (언어 무관)",
+  "author": "hibye-plugins",
+  "license": "MIT",
+  "keywords": [
+    "backend",
+    "database",
+    "authentication",
+    "api-design",
+    "caching",
+    "message-queue",
+    "deployment",
+    "cicd",
+    "observability",
+    "python",
+    "rust"
+  ],
+  "skills": "./skills/",
+  "agents": "./agents/"
+}

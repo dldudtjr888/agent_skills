@@ -15,8 +15,11 @@ Production-ready plugins for Claude Code - skills, agents, and hooks for develop
 ### 2. Install Plugins
 
 ```bash
-# 공통 워크플로우 (태스크 계획/분해/실행, 문서 관리)
+# 공통 워크플로우 (태스크 계획/분해/실행, TDD, 코드 분석)
 /plugin install common-dev-workflow@hibye-plugins
+
+# 공통 백엔드 패턴 (API 설계, 인증, DB, 캐싱, 배포)
+/plugin install common-backend@hibye-plugins
 
 # 웹 프론트엔드 (React, TypeScript, Next.js)
 /plugin install web-frontend@hibye-plugins
@@ -24,32 +27,48 @@ Production-ready plugins for Claude Code - skills, agents, and hooks for develop
 # 파이썬 에이전트 백엔드 (FastAPI, LangGraph, Pydantic AI)
 /plugin install python-agent-backend@hibye-plugins
 
+# Vector/RAG 백엔드 (Qdrant, FalkorDB, RAG 패턴)
+/plugin install vector-rag-backend@hibye-plugins
+
 # 러스트 백엔드 (Rust 패턴)
 /plugin install rust-backend@hibye-plugins
 
 # 유니티 게임 개발 (맵 빌더, 기획)
 /plugin install unity-gamedev@hibye-plugins
-
-# 개발 훅 (PreToolUse, Stop)
-/plugin install dev-hooks@hibye-plugins
 ```
 
 ## Available Plugins
 
 ### common-dev-workflow
 
-공통 개발 워크플로우: 태스크 계획/분해/실행, 문서 관리, 코드 분석
+공통 개발 워크플로우: 태스크 계획/분해/실행, TDD, 코드 분석
 
 | Type | Name | Description |
 |------|------|-------------|
 | Skill | task-planner | 요구사항 구체화 및 계획 문서 작성 |
 | Skill | task-decomposer | 계획을 실행 가능한 태스크로 분해 |
 | Skill | task-executor | 태스크 순차 실행, 에이전트 위임 |
-| Skill | project-docs-manager | 프로젝트 문서 관리 |
+| Skill | tdd-fundamentals | TDD 핵심 원칙 + 언어별 테스트 가이드 (Python/TypeScript/Rust) |
 | Skill | code-refactoring-analysis | 5차원 코드 리팩토링 분석 |
 | Skill | sql-production-analyzer | SQL 쿼리 및 프로덕션 분석 |
 | Skill | claude-code-pattern-catalog | Claude Code 패턴 카탈로그 |
-| Agent | architect, analyst, explore... | 10개 공통 에이전트 |
+| Agent | code-reviewer, critic, docs-researcher... | 6개 공통 에이전트 |
+
+### common-backend
+
+공통 백엔드 패턴: API 설계, 인증/인가, DB, 캐싱, 메시지큐, 배포, CI/CD, 관측성
+
+| Type | Name | Description |
+|------|------|-------------|
+| Skill | api-design | REST/GraphQL API 설계 패턴 |
+| Skill | auth-patterns | OAuth2, JWT, RBAC/ABAC 패턴 |
+| Skill | database-design | 스키마 설계, 정규화, 인덱싱 |
+| Skill | caching-strategies | 캐시 패턴, 무효화, TTL |
+| Skill | message-queue-patterns | Pub/Sub, 이벤트 드리븐, Saga |
+| Skill | deployment-patterns | Docker, K8s, 12-Factor |
+| Skill | cicd-patterns | 파이프라인, 테스트/배포 전략 |
+| Skill | observability | 로깅, 메트릭, 트레이싱 |
+| Agent | api-design-reviewer, database-reviewer... | 5개 에이전트 |
 
 ### web-frontend
 
@@ -57,11 +76,12 @@ Production-ready plugins for Claude Code - skills, agents, and hooks for develop
 
 | Type | Name | Description |
 |------|------|-------------|
-| Skill | frontend-coding-standards | TypeScript/React 코딩 표준 |
-| Agent | code-reviewer | 코드 리뷰 |
-| Agent | build-error-resolver | 빌드 에러 해결 |
-| Agent | e2e-runner | E2E 테스트 실행 |
-| Agent | ... | 총 13개 에이전트 |
+| Skill | state-management | Zustand, Jotai, TanStack Query 패턴 |
+| Skill | tailwind-styling | Tailwind CSS, CVA, cn() 가이드 |
+| Skill | typescript-advanced | 고급 TypeScript 패턴 |
+| Skill | testing-guide | React/Next.js 테스트 패턴 |
+| Skill | frontend-security | XSS, CSRF, CSP 보안 |
+| Agent | code-reviewer, designer, e2e-runner... | 9개 에이전트 |
 
 ### python-agent-backend
 
@@ -74,9 +94,22 @@ Production-ready plugins for Claude Code - skills, agents, and hooks for develop
 | Skill | agents-sdk-builder | OpenAI Agents SDK 빌더 |
 | Skill | deep-agents-builder | LangChain Deep Agents 빌더 |
 | Skill | langchain-openrouter | LangChain + OpenRouter |
-| Skill | python-agent-backend-patterns | FastAPI 백엔드 패턴 |
 | Skill | google-adk-builder | Google ADK 에이전트 빌더 |
-| Agent | py-error-resolver, py-langgraph-builder... | 총 15개 에이전트 |
+| Skill | agent-infra-builder | 에이전트 인프라 (Guardrails, MCP, Memory) |
+| Skill | python-agent-backend-pattern | FastAPI 백엔드 패턴 |
+| Agent | python-diff-reviewer, python-fastapi-architect... | 8개 에이전트 |
+
+### vector-rag-backend
+
+Vector/RAG 백엔드: Qdrant, FalkorDB, RAG 패턴
+
+| Type | Name | Description |
+|------|------|-------------|
+| Skill | qdrant-mastery | Qdrant 벡터 DB 마스터리 |
+| Skill | falkordb-graphrag | FalkorDB GraphRAG |
+| Skill | rag-patterns | RAG 아키텍처 패턴 |
+| Skill | semantic-search | 시맨틱 검색 구현 |
+| Agent | rag-system-builder, vector-db-architect... | 4개 에이전트 |
 
 ### rust-backend
 
@@ -85,6 +118,8 @@ Production-ready plugins for Claude Code - skills, agents, and hooks for develop
 | Type | Name | Description |
 |------|------|-------------|
 | Skill | rust-patterns | Rust 개발 패턴 및 베스트 프랙티스 |
+
+*에이전트 추후 확장 예정*
 
 ### unity-gamedev
 
@@ -97,14 +132,7 @@ Production-ready plugins for Claude Code - skills, agents, and hooks for develop
 | Skill | unity-prototype | 프로토타입 구현 |
 | Skill | unity-task-decomposer | 기획 → 태스크 분해 |
 
-### dev-hooks
-
-개발 훅: 코드 수정 전 컨텍스트 수집, 작업 완료 전 검증
-
-| Hook | Event | Description |
-|------|-------|-------------|
-| PreToolUse | Write/Edit 전 | 파일 읽기 확인, 유사 구현 검색 |
-| Stop | 작업 완료 전 | 테스트 실행, 타입 검사 |
+*에이전트 추후 확장 예정*
 
 ## Rules (수동 복사)
 
@@ -129,12 +157,13 @@ cp -r rules/unity_rules/ your-project/.claude/rules/
 ```
 hibye-plugins/
 ├── plugins/
-│   ├── common-dev-workflow/    # 7 skills, 10 agents
-│   ├── web-frontend/           # 1 skill, 13 agents
-│   ├── python-agent-backend/   # 7 skills, 15 agents
+│   ├── common-dev-workflow/    # 7 skills, 6 agents
+│   ├── common-backend/         # 8 skills, 5 agents
+│   ├── web-frontend/           # 5 skills, 9 agents
+│   ├── python-agent-backend/   # 8 skills, 8 agents
+│   ├── vector-rag-backend/     # 4 skills, 4 agents
 │   ├── rust-backend/           # 1 skill
-│   ├── unity-gamedev/          # 4 skills
-│   └── dev-hooks/              # hooks
+│   └── unity-gamedev/          # 4 skills
 ├── rules/                      # 프로젝트별 규칙 (수동 복사)
 ├── docs/                       # 문서
 └── ref_datas/                  # 참조 데이터

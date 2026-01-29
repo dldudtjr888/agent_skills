@@ -1,0 +1,25 @@
+{
+  "name": "vector-rag-backend",
+  "version": "1.0.0",
+  "description": "벡터 DB 및 RAG 패턴: Qdrant, FalkorDB, 시맨틱 검색, 청킹, 리랭킹, 하이브리드 검색, GraphRAG",
+  "author": "hibye-plugins",
+  "license": "MIT",
+  "keywords": [
+    "vector-database",
+    "qdrant",
+    "falkordb",
+    "rag",
+    "retrieval-augmented-generation",
+    "semantic-search",
+    "embeddings",
+    "chunking",
+    "reranking",
+    "hybrid-search",
+    "graphrag",
+    "knowledge-graph",
+    "hnsw",
+    "quantization"
+  ],
+  "skills": "./skills/",
+  "agents": "./agents/"
+}
