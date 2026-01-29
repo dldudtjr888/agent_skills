@@ -27,3 +27,4 @@ venv/
 .serena
 processing_claude
 ref_datas
+.obsidian

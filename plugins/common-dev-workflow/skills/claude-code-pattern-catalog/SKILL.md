@@ -1,20 +1,14 @@
 ---
 name: claude-code-pattern-catalog
-description: "9개 레포에서 추출한 Claude Code 스킬/에이전트/커맨드/훅 패턴 카탈로그"
-version: 1.0.0
-category: foundation
-user-invocable: true
-triggers:
-  keywords: [skill, agent, command, hook, 하네스, 스킬, 에이전트, 커맨드, 훅, pattern, 패턴]
-  intentPatterns:
-    - "(만들|생성|작성|구현).*(스킬|에이전트|커맨드|훅|하네스)"
-    - "(create|build|implement).*(skill|agent|command|hook|harness)"
+description: "9개 레포에서 추출한 Claude Code 스킬/에이전트/커맨드/훅 패턴 카탈로그. 스킬/에이전트/커맨드/훅을 만들거나 패턴을 참조할 때 사용. Use when creating skills, agents, commands, hooks, or looking for Claude Code extension patterns."
 ---
 
 # Claude Code Skill/Agent/Command/Hook Pattern Catalog
 
 9개 레포지토리에서 추출한 Claude Code 확장 패턴 카탈로그.
 나만의 Claude Code 스킬, 에이전트, 커맨드, 훅을 만들 때 참조한다.
+
+> ⚠️ **주의**: 이 카탈로그는 커뮤니티 레포들의 패턴을 수집한 것입니다. 일부 패턴은 Claude Code 공식 스펙과 다를 수 있습니다. 공식 스펙은 [code.claude.com/docs/en/skills](https://code.claude.com/docs/en/skills)를 참조하세요.
 
 ---
 
@@ -78,13 +72,12 @@ triggers:
 
 SKILL.md 하나만으로 스킬이 동작한다.
 
-### 4.2 SKILL.md 템플릿
+### 4.2 SKILL.md 템플릿 (공식 스펙)
 
 ```markdown
 ---
 name: my-skill
-description: 스킬이 하는 일 (1-2줄)
-version: 1.0.0
+description: 스킬이 하는 일과 사용 시점. Use when [trigger conditions].
 ---
 
 # My Skill
@@ -165,7 +158,9 @@ Task 도구로 `executor` 에이전트 실행:
 - 목적: 구현 실행
 ```
 
-### 4.5 자동 활성화를 위한 skill-rules.json
+### 4.5 자동 활성화를 위한 skill-rules.json (커뮤니티 확장)
+
+> ⚠️ 이 패턴은 커뮤니티 레포(infrastructure-showcase 등)에서 사용하는 확장 패턴이며, Claude Code 공식 기능이 아닙니다.
 
 ```json
 {
@@ -194,9 +189,9 @@ Task 도구로 `executor` 에이전트 실행:
 ### Do (권장)
 
 1. **SKILL.md 500줄 미만** 유지 -- 대규모는 modules/ 분할
-2. **YAML frontmatter** 필수 (name, description, version)
+2. **YAML frontmatter** 필수 (name, description) - description에 사용 시점 포함
 3. **Verification Before Completion** 패턴 에이전트에 포함
-4. **트리거 조건** 명확하게 정의 (keywords, intent, file patterns)
+4. **description에 트리거 조건** 포함 - Claude가 자동 로드 결정에 사용
 5. **안티패턴** 섹션으로 "하지 말 것" 명시
 6. **예제** 포함하여 Claude가 패턴을 학습하도록
 7. **모듈화** - 큰 스킬은 references/와 modules/ 활용

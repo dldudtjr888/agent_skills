@@ -1,5 +1,7 @@
 # Skill 공통 패턴
 
+> ⚠️ **공식 스펙 vs 커뮤니티 확장**: 이 문서는 Claude Code 공식 스펙과 커뮤니티 레포에서 발견된 확장 패턴을 모두 포함합니다. 공식 스펙은 ✅로, 커뮤니티 확장은 🔧로 표시합니다.
+
 ## 파일 구조
 
 ```
@@ -17,30 +19,51 @@
 
 ## SKILL.md YAML Frontmatter
 
+### ✅ 공식 지원 필드 (Claude Code 공식 스펙)
+
+| 필드 | 필수 | 설명 |
+|------|------|------|
+| `name` | No | 스킬 표시명 (생략시 디렉토리명). 소문자, 숫자, 하이픈만 (최대 64자) |
+| `description` | Recommended | 스킬 기능과 **사용 시점**. Claude가 자동 로드 결정에 사용 |
+| `argument-hint` | No | 자동완성 시 인자 힌트. 예: `[issue-number]` |
+| `disable-model-invocation` | No | `true`면 수동 `/name` 트리거만 허용 |
+| `user-invocable` | No | `false`면 `/` 메뉴에서 숨김 (배경 지식용) |
+| `allowed-tools` | No | 스킬 활성화 시 허용 도구. 예: `Read, Grep, Glob` |
+| `model` | No | 스킬 활성화 시 사용 모델 |
+| `context` | No | `fork`로 설정하면 격리된 서브에이전트에서 실행 |
+| `agent` | No | `context: fork` 시 사용할 서브에이전트 유형 |
+| `hooks` | No | 스킬 생명주기에 범위 지정된 훅 |
+
 ```yaml
 ---
-name: skill-name
-description: 스킬 설명 (1-2줄)
-version: 1.0.0
-category: domain | workflow | foundation | tool | platform | language
-user-invocable: true | false
+name: my-skill
+description: 스킬 기능 설명과 사용 시점. Use when [trigger conditions].
+user-invocable: true
+allowed-tools: Read, Grep, Glob
+---
+```
 
-# 트리거 조건 (선택)
+### 🔧 커뮤니티 확장 필드 (moai-adk, oh-my-claudecode 등)
+
+> ⚠️ 아래 필드들은 커뮤니티 레포에서 사용하는 확장 패턴이며, Claude Code가 직접 해석하지 않습니다. 별도의 훅/스크립트를 통해 처리해야 합니다.
+
+| 필드 | 출처 | 설명 |
+|------|------|------|
+| `version` | moai-adk | 스킬 버전 관리 |
+| `category` | moai-adk | 스킬 분류 (domain, workflow 등) |
+| `triggers` | infrastructure-showcase | 자동 활성화 키워드/패턴 |
+| `references` | 여러 레포 | 참조 파일 목록 |
+
+```yaml
+# 커뮤니티 확장 예시 (별도 훅 필요)
+---
+name: skill-name
+description: 스킬 설명
+version: 1.0.0
+category: domain
 triggers:
   - "키워드1"
   - "키워드2"
-  - "/slash-command"
-
-# 참조 파일 (선택)
-references:
-  - references/overview.md
-  - references/examples.md
-
-# 사용 도구 (선택)
-allowed-tools:
-  - Read
-  - Write
-  - Bash(git *)
 ---
 ```
 
@@ -75,7 +98,7 @@ allowed-tools:
 [코드/사용 예제]
 ```
 
-## 스킬 카테고리 분류 (moai-adk 기반)
+## 🔧 스킬 카테고리 분류 (moai-adk 커뮤니티 패턴)
 
 | 카테고리 | 설명 | 예시 |
 |---------|------|------|
@@ -88,9 +111,9 @@ allowed-tools:
 | **tool** | 외부 도구 통합 | ast-grep, svg |
 | **framework** | 프레임워크별 패턴 | electron |
 
-## Progressive Disclosure (점진적 공개) 패턴
+## ✅ Progressive Disclosure (점진적 공개) 패턴
 
-moai-adk와 infrastructure-showcase에서 발견된 토큰 최적화 패턴:
+공식 스펙에서 권장하는 토큰 최적화 패턴 (moai-adk, infrastructure-showcase에서도 활용):
 
 ```
 Level 1 (메타데이터): ~100 토큰 → 항상 로드
@@ -100,9 +123,9 @@ Level 3 (번들): 가변 → Claude가 필요 시 on-demand 로드
 
 **핵심 규칙**: SKILL.md 본문은 500줄 미만으로 유지. 대규모 스킬은 modules/ 디렉토리로 분할.
 
-## Skill Composition Layer (스킬 합성 계층)
+## 🔧 Skill Composition Layer (oh-my-claudecode 커뮤니티 패턴)
 
-oh-my-claudecode에서 발견된 다중 스킬 합성 패턴:
+> ⚠️ Claude Code 공식 기능이 아닙니다. oh-my-claudecode에서 구현한 다중 스킬 합성 패턴입니다.
 
 ```
 ┌──────────────────────────────────────┐
@@ -121,9 +144,9 @@ oh-my-claudecode에서 발견된 다중 스킬 합성 패턴:
 └──────────────────────────────────────┘
 ```
 
-## skill-rules.json (자동 활성화 시스템)
+## 🔧 skill-rules.json (커뮤니티 자동 활성화 시스템)
 
-infrastructure-showcase와 claude-code-showcase에서 발견된 패턴:
+> ⚠️ Claude Code 공식 기능이 아닙니다. infrastructure-showcase와 claude-code-showcase에서 사용하는 커뮤니티 패턴입니다.
 
 ```json
 {
@@ -155,9 +178,9 @@ infrastructure-showcase와 claude-code-showcase에서 발견된 패턴:
 - `block`: 스킬 사용 전까지 차단 (가드레일)
 - `warn`: 경고 표시, 진행 허용
 
-## Scoring System (claude-code-showcase v2.0)
+## 🔧 Scoring System (claude-code-showcase 커뮤니티 패턴)
 
-skill-eval.js 기반 7가지 트리거 유형과 가중치 점수 시스템:
+> ⚠️ Claude Code 공식 기능이 아닙니다. claude-code-showcase에서 구현한 skill-eval.js 기반 커뮤니티 패턴입니다.
 
 ```json
 {
