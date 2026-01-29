@@ -57,6 +57,14 @@
       "category": "hooks",
       "tags": ["hooks", "validation", "workflow"],
       "strict": false
+    },
+    {
+      "name": "design-system-generator",
+      "description": "디자인 시스템 자동 생성: 컬러 팔레트, 타이포그래피, Tailwind CSS 토큰, 접근성 검증",
+      "source": "./plugins/design-system-generator",
+      "category": "design",
+      "tags": ["design-system", "color", "typography", "tailwind", "accessibility"],
+      "strict": false
     }
   ]
 }

@@ -1,7 +1,8 @@
 {
   "name": "rust-backend",
   "version": "1.0.0",
-  "description": "러스트 백엔드: Rust 패턴, 시스템 프로그래밍, Tokio, Axum",
+  "description": "러스트 백엔드: Rust 패턴, Axum, Tokio, AI 에이전트 (Rig, langchain-rust)",
   "skills": "./skills/",
-  "agents": "./agents/"
+  "agents": "./agents/",
+  "hooks": "./hooks/hooks.json"
 }

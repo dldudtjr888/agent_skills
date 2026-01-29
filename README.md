@@ -35,6 +35,9 @@ Production-ready plugins for Claude Code - skills, agents, and hooks for develop
 
 # 유니티 게임 개발 (맵 빌더, 기획)
 /plugin install unity-gamedev@hibye-plugins
+
+# 디자인 시스템 생성기 (컬러 팔레트, 타이포그래피, Tailwind 토큰)
+/plugin install design-system-generator@hibye-plugins
 ```
 
 ## Available Plugins
@@ -134,6 +137,18 @@ Vector/RAG 백엔드: Qdrant, FalkorDB, RAG 패턴
 
 *에이전트 추후 확장 예정*
 
+### design-system-generator
+
+디자인 시스템 자동 생성: 컬러 팔레트, 타이포그래피, Tailwind CSS 토큰
+
+| Type | Name | Description |
+|------|------|-------------|
+| Skill | design-system-builder | 브랜드 기반 디자인 시스템 구축 |
+| Skill | color-palette | 컬러 팔레트 생성 (50-950 스케일, 다크모드, WCAG) |
+| Skill | typography-system | 타입 스케일, 폰트 페어링, 반응형 |
+| Skill | tailwind-tokens | Tailwind CSS v4 @theme 토큰 변환 |
+| Agent | design-system-reviewer | 일관성/접근성 리뷰어 |
+
 ## Rules (수동 복사)
 
 플러그인과 별도로, 프로젝트별 규칙 파일을 제공합니다.
@@ -163,7 +178,8 @@ hibye-plugins/
 │   ├── python-agent-backend/   # 8 skills, 8 agents
 │   ├── vector-rag-backend/     # 4 skills, 4 agents
 │   ├── rust-backend/           # 1 skill
-│   └── unity-gamedev/          # 4 skills
+│   ├── unity-gamedev/          # 4 skills
+│   └── design-system-generator/ # 4 skills, 1 agent
 ├── rules/                      # 프로젝트별 규칙 (수동 복사)
 ├── docs/                       # 문서
 └── ref_datas/                  # 참조 데이터
