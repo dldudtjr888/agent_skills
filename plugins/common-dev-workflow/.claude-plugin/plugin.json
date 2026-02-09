@@ -2,6 +2,5 @@
   "name": "common-dev-workflow",
   "version": "1.0.0",
   "description": "공통 개발 워크플로우: 태스크 계획/분해/실행, 문서 관리, 코드 리팩토링 분석",
-  "skills": "./skills/",
-  "agents": "./agents/"
+  "skills": "./skills/"
 }

@@ -20,6 +20,5 @@
     "hnsw",
     "quantization"
   ],
-  "skills": "./skills/",
-  "agents": "./agents/"
+  "skills": "./skills/"
 }

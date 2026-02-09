@@ -15,6 +15,5 @@
     "code-review",
     "testing"
   ],
-  "skills": "./skills/",
-  "agents": "./agents/"
+  "skills": "./skills/"
 }

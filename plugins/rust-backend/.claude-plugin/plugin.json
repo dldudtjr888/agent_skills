@@ -3,6 +3,5 @@
   "version": "1.0.0",
   "description": "러스트 백엔드: Rust 패턴, Axum, Tokio, AI 에이전트 (Rig, langchain-rust)",
   "skills": "./skills/",
-  "agents": "./agents/",
   "hooks": "./hooks/hooks.json"
 }
