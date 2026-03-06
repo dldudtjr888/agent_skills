@@ -1,0 +1,6 @@
+{
+  "name": "creative-design",
+  "version": "1.0.0",
+  "description": "크리에이티브 디자인: 게임 기획 워크플로우, 미드저니 프롬프트 생성",
+  "skills": "./skills/"
+}

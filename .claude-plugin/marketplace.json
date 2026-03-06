@@ -65,6 +65,14 @@
       "category": "design",
       "tags": ["design-system", "color", "typography", "tailwind", "accessibility"],
       "strict": false
+    },
+    {
+      "name": "creative-design",
+      "description": "크리에이티브 디자인: 게임 기획 워크플로우, 미드저니 프롬프트 생성",
+      "source": "./plugins/creative-design",
+      "category": "design",
+      "tags": ["game-design", "midjourney", "prompt", "blueprint", "creative"],
+      "strict": false
     }
   ]
 }
