@@ -20,6 +20,8 @@ metadata:
 - "이미지 프롬프트 생성해줘" (미드저니 맥락)
 - "캐릭터 컨셉아트 프롬프트", "환경 디자인 프롬프트"
 - 한국어로 이미지 설명 후 미드저니 프롬프트를 요청할 때
+- "에딧 프롬프트", "에디터 프롬프트", "인페인팅 프롬프트", "리텍스처 프롬프트"
+- "부분 수정 프롬프트", "배경 교체 프롬프트", "이미지 수정 프롬프트"
 
 ---
 
@@ -55,6 +57,8 @@ metadata:
 | 일러스트(Illustration) | 그림, 일러스트, 수채화, 만화 | `references/styles-illustration.md` |
 | 애니메이션(Anime) | 애니, 만화, 일본풍, 동양풍 | `references/styles-illustration.md` + `--niji 7` |
 | 3D 렌더(3D) | 3D, 렌더, 클레이, 로우폴리 | `references/styles-3d-render.md` |
+| Editor(Inpaint) | 에딧, 인페인팅, 부분수정, 배경교체, 오브젝트 추가/제거 | `references/editor-mode-guide.md` |
+| Editor(Retexture) | 리텍스처, 스타일변환, 질감변경, 화풍변환 | `references/editor-mode-guide.md` |
 
 ### Step 3: 프롬프트 조립 (Compose)
 
@@ -398,6 +402,7 @@ metadata:
 3. 변형 제안은 최소 2개 (스타일 변형, 분위기 변형 등)
 4. 사용자가 "간단하게"를 요청하면 해설 생략, 프롬프트만 출력
 5. 레퍼런스 이미지 사용 시: **웹 UI 설정 안내**를 함께 출력 (아래 형식)
+6. Editor 모드(인페인팅/리텍스처) 요청 시: **Editor 전용 출력 형식** 사용 (Editor 모드 프롬프트 가이드 섹션 참조)
 
 ### 이미지 레퍼런스 사용 시 추가 출력
 
@@ -442,6 +447,108 @@ metadata:
 - **Editor(Edit 버튼) 모드에서는 포즈 변경 불가** → 반드시 Create 페이지 사용
 - **Image Prompt에 넣으면 포즈 고정됨** → Character Reference에 넣어야 포즈 변경 가능
 - **--cref만 쓰면 그림체 달라짐** → --sref를 같은 이미지로 함께 사용 (Shift+클릭)
+- **Editor에서 부분 수정(인페인팅/리텍스처)이 필요하면** → 아래 "Editor 모드 프롬프트 가이드" 섹션 참조
+
+---
+
+## Editor 모드 프롬프트 가이드
+
+기존 이미지를 **부분 수정(Inpaint)** 하거나 **스타일 변환(Retexture)** 할 때 사용하는 Editor 전용 프롬프트 생성 가이드.
+Editor는 `--ar`, `--stylize`, `--cref`, `--sref`, `--oref` 등 **파라미터를 사용할 수 없으며**, 텍스트 프롬프트만으로 결과를 제어한다.
+상세 도구 설명과 실전 시나리오는 `references/editor-mode-guide.md`를 참조한다.
+
+### Editor vs Create 판단 기준
+
+| 하고 싶은 것 | 사용할 모드 |
+|------------|-----------|
+| 배경 교체, 소품 추가/제거, 색상 변경 | **Editor** (Erase/Inpaint) |
+| 전체 스타일/질감/분위기 변환 | **Editor** (Retexture) |
+| 여러 이미지 합성 | **Editor** (Layers) |
+| 이미지 확장 (Outpainting) | **Editor** (Move/Resize) |
+| 포즈 변경, 새 구도, 새 캐릭터 생성 | **Create 페이지** |
+| 파라미터(--ar, --stylize 등) 사용 | **Create 페이지** |
+
+### Editor 프롬프트 워크플로우
+
+**Step 1: 작업 유형 분류**
+
+| 사용자 요청 | 작업 유형 | Editor 도구 |
+|------------|----------|------------|
+| "배경을 바다로 바꿔줘" | Erase/Inpaint | Erase 또는 Smart Select |
+| "고양이를 추가해줘" | Erase/Inpaint | Erase (빈 영역) |
+| "무기를 제거해줘" | Erase/Inpaint | Erase (해당 부분) |
+| "전체적으로 수채화 느낌으로" | Retexture | Retexture |
+| "색감을 가을 느낌으로" | Retexture | Retexture |
+
+**Step 2: Editor 전용 프롬프트 조립**
+
+**Erase/Inpaint 공식:**
+```
+[마스킹 영역에 채울 구체적 묘사], [스타일/질감 힌트], [조명 일관성], [분위기]
+```
+
+원칙:
+- **30단어 이내** 권장
+- 마스킹 영역에 나타날 내용**만** 묘사 (전체 이미지 재묘사 불필요)
+- 원본 이미지와의 스타일/조명 일관성 키워드 포함
+- 포즈/구도 변경 시도 금지 (작동하지 않음)
+
+**Retexture 공식:**
+```
+[새 스타일/매체], [색상 팔레트], [질감/텍스처], [분위기/톤]
+```
+
+원칙:
+- **50단어 이내** 권장
+- 구조/구도 묘사 불필요 (자동 유지됨)
+- 스타일, 질감, 색감, 분위기에 집중
+- 구체적인 미술 매체/화풍 명시가 효과적
+
+**Step 3: Editor 전용 출력 형식으로 출력**
+
+### Editor용 출력 형식
+
+```
+## 미드저니 Editor 프롬프트
+
+**작업 유형:** [Erase/Inpaint | Retexture | Layers]
+**Editor 도구:** [사용할 도구]
+
+### 메인 프롬프트
+`[영어 프롬프트 - 파라미터 없음]`
+
+### 프롬프트 해설
+| 요소 | 내용 | 설명 |
+|------|------|------|
+| 대상 | [영어] | [한국어 설명] |
+| 스타일 | [영어] | [한국어 설명] |
+| 분위기 | [영어] | [한국어 설명] |
+
+### Editor 조작 가이드
+1. [도구 선택 안내]
+2. [마스킹/브러시 범위 안내]
+3. 위 프롬프트 입력 후 Submit
+
+### 변형 제안
+**변형 1 - [변형 설명]:**
+`[변형 프롬프트]`
+
+**변형 2 - [변형 설명]:**
+`[변형 프롬프트]`
+```
+
+### Editor 출력 규칙
+1. `/imagine prompt:` 접두사 **생략** (Editor에서는 사용하지 않음)
+2. 파라미터(`--ar`, `--stylize` 등) **포함하지 않음**
+3. **Editor 조작 가이드** 섹션 필수 (어떤 도구를 어떻게 사용할지)
+4. 변형 제안도 파라미터 없이 텍스트만
+5. 포즈 변경이 필요한 요청에는 Create 페이지 + `--cref` 사용을 안내
+
+### Editor 제한사항
+- 포즈 변경 **불가** (마스킹 영역만 재생성)
+- `--ar`, `--stylize`, `--cref`, `--sref`, `--oref` 등 파라미터 **미지원**
+- 텍스트 프롬프트**만** 사용 가능
+- 편집 결과는 **Upscale하지 않으면** 갤러리에 저장되지 않음
 
 ---
 
@@ -496,3 +603,4 @@ metadata:
 | `references/korean-english-mapping.md` | 한국어 변환 어려울 때 |
 | `references/templates-gallery.md` | 참고 예시 필요 시 |
 | `references/image-reference-guide.md` | 기존 이미지 참조/변형 요청 시 |
+| `references/editor-mode-guide.md` | Editor 모드(인페인팅/리텍스처) 상세 가이드 |

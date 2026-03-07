@@ -161,3 +161,59 @@ a traditional Korean hanok village at sunset, tiled giwa roofs with dancheong pa
 ```
 a stylish young Korean woman in trendy streetwear, neon-lit Hongdae alley at night, Hangul neon signs in background, confident pose, fashion photography style, cinematic color grading, vibrant urban atmosphere --ar 3:4 --style raw --stylize 120
 ```
+
+## Editor 모드 프롬프트 예시
+
+> Editor 모드에서는 파라미터(`--ar`, `--stylize` 등)를 사용할 수 없다. 텍스트 프롬프트만 입력.
+
+### Erase/Inpaint - 배경 교체
+
+(원본: 실내 배경의 캐릭터 -> 숲 배경으로 교체)
+```
+lush enchanted forest with soft dappled sunlight filtering through leaves, mystical atmosphere, matching warm lighting from the left
+```
+
+### Erase/Inpaint - 오브젝트 추가
+
+(원본: 캐릭터 -> 어깨 위에 고양이 추가)
+```
+a small fluffy black cat sitting calmly on the shoulder, matching the existing warm lighting and watercolor art style
+```
+
+### Erase/Inpaint - 의상 색상 변경
+
+(원본: 빨간 드레스 -> 파란 드레스)
+```
+deep royal blue silk fabric with subtle sheen, elegant draping, same fabric texture and folds
+```
+
+### Erase/Inpaint - 오브젝트 제거
+
+(원본: 캐릭터 뒤 불필요한 소품 제거)
+```
+clean stone wall with natural texture, continuous brick pattern, matching ambient lighting
+```
+
+### Retexture - 수채화 변환
+
+```
+delicate watercolor painting, soft wet-on-wet technique, muted pastel palette, visible paper texture, gentle color bleeding at edges
+```
+
+### Retexture - 사이버펑크 변환
+
+```
+cyberpunk neon aesthetic, holographic textures, dark atmosphere with vibrant neon pink and cyan accents, chrome and glass materials, rain-slicked surfaces
+```
+
+### Retexture - 계절 변환 (여름 -> 겨울)
+
+```
+deep winter scene, heavy snow covering everything, frost and ice crystals, cold blue and white palette, bare frozen branches, misty cold breath
+```
+
+### Retexture - 유화 변환
+
+```
+oil painting in the style of Dutch Golden Age, rich warm tones, dramatic chiaroscuro, visible brushstrokes, varnished finish
+```
