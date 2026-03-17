@@ -1,7 +1,8 @@
 ---
 title: 이미지 레퍼런스 가이드
 category: reference
-tags: cref, sref, oref, image prompt, character consistency, pose, web UI
+tags: oref, sref, image prompt, start frame, omni reference, character consistency, pose, web UI
+updated: 2026-03
 ---
 
 # 이미지 레퍼런스 가이드
@@ -10,19 +11,66 @@ tags: cref, sref, oref, image prompt, character consistency, pose, web UI
 
 ---
 
+## 웹 UI 이미지 업로드 섹션 (4가지)
+
+미드저니 웹 UI(midjourney.com)에서 Create 페이지의 Imagine 바 이미지 아이콘을 클릭하면 **4개 섹션**이 표시된다:
+
+| 섹션 | 용도 | 파라미터 | 다중 이미지 | GPU 비용 |
+|------|------|---------|-----------|---------|
+| **Start Frame** | 비디오 생성의 첫 프레임 지정 | `--motion low/high` | 1장 (+End Frame) | 8x |
+| **Image Prompts** | 구도/색감/분위기의 느슨한 영감 | `--iw` (0-3, 기본 1) | 여러 장 | 1x |
+| **Style References** | 화풍/스타일만 전이 (주제 무시) | `--sw` (0-1000, 기본 100), `--sv` (1-6) | 여러 장 | 1x |
+| **Omni Reference** | 특정 캐릭터/오브젝트를 정확히 삽입 | `--ow` (1-1000, 기본 100) | **1장만** | 2x |
+
+### 각 섹션 상세
+
+#### Start Frame
+- **비디오 전용** — 이미지 생성에는 사용하지 않음
+- 업로드한 이미지가 영상의 첫 프레임이 됨
+- End Frame을 추가하면 시작→끝 사이를 AI가 보간
+- `--loop` 파라미터로 루핑 영상 생성 가능
+- 이미지의 종횡비가 영상 해상도를 결정
+
+#### Image Prompts
+- 구도, 색감, 전체적인 느낌을 **느슨하게** 참조
+- 주제를 정확히 복사하지 않음 — 재해석하여 영감으로 활용
+- 여러 이미지를 동시에 넣으면 블렌딩됨
+- `--iw` 값을 높이면 참조 이미지에 더 가까워짐
+- **포즈를 고정하고 싶을 때** 적합 (포즈 레퍼런스 사진 등)
+
+#### Style References
+- 화풍, 색상 팔레트, 질감, 분위기**만** 전이
+- 참조 이미지의 **주제(피사체)는 무시**됨
+- 여러 이미지를 넣어 스타일 블렌딩 가능
+- 숫자 코드(`--sref 12345`)로도 사용 가능
+- `--sv` 값으로 스타일 해석 방식 조절 (1=추상적, 6=충실)
+- Niji 7에서도 지원됨
+
+#### Omni Reference
+- V7 전용 — **`--cref`(Character Reference)의 후속/상위 기능**
+- 캐릭터, 오브젝트, 동물, 제품 등 **특정 피사체의 정체성을 정확히 보존**
+- 얼굴, 의상, 체형 등 시각적 디테일을 높은 충실도로 유지
+- **1장만 사용 가능** (다중 레퍼런스 불가)
+- Draft Mode, Fast Mode, Conversational Mode와 **비호환**
+- 인페인팅/아웃페인팅과 **비호환**
+- 높은 `--stylize`나 `--exp` 값은 `--ow`와 경쟁함 → `--ow`를 높여서 보상
+
+> **참고**: `--cref`(Character Reference)는 V6 시대의 기능으로, V7에서는 `--oref`(Omni Reference)로 대체되었다. 웹 UI에서도 Character Reference 섹션은 Omni Reference로 교체됨.
+
+---
+
 ## 이미지 참조 방식 비교
 
 | 방식 | 참조 대상 | 포즈 자유도 | 그림체 유지 | 캐릭터 유지 | 모델 |
 |------|-----------|-----------|-----------|-----------|------|
-| **Image Prompt** | 구도, 포즈, 색감, 스타일 **전부** | **매우 낮음** | 높음 | 높음 (포즈 포함) | V5+ |
-| **--cref** (Character Reference) | 얼굴, 체형, 헤어, 의상 | **높음** | 낮음 | 높음 | V6+ |
-| **--sref** (Style Reference) | 색감, 화풍, 질감, 분위기 | 영향 없음 | **높음** | 낮음 | V6+ |
-| **--oref** (Omni Reference) | 피사체 외형 통합 (사람/물체/동물) | **높음** | 중간 | **매우 높음** | **V7 전용** |
+| **Image Prompts** | 구도, 포즈, 색감, 스타일 **전부** | **매우 낮음** | 높음 | 높음 (포즈 포함) | V5+ |
+| **Style References** (`--sref`) | 색감, 화풍, 질감, 분위기 | 영향 없음 | **높음** | 낮음 | V6+ |
+| **Omni Reference** (`--oref`) | 피사체 외형 통합 (사람/물체/동물) | **높음** | 중간 | **매우 높음** | **V7 전용** |
 
 ### 핵심 요약
-- **포즈를 바꾸고 싶으면**: Image Prompt가 아닌 `--cref` 또는 `--oref` 사용
-- **그림체도 유지하고 싶으면**: `--cref` + `--sref` 동시 사용
-- **V7이면**: `--oref` + `--sref` 조합이 가장 효과적
+- **포즈를 바꾸고 싶으면**: Image Prompts가 아닌 `--oref` 사용
+- **그림체도 유지하고 싶으면**: `--oref` + `--sref` 동시 사용
+- **포즈를 고정하고 싶으면**: 포즈 사진을 Image Prompts에, 캐릭터를 Omni Reference에
 
 ---
 
@@ -35,7 +83,7 @@ tags: cref, sref, oref, image prompt, character consistency, pose, web UI
 | 용도 | 기존 이미지 **부분 수정** (인페인팅) | **새 이미지 생성** |
 | 포즈 변경 | **불가** (마스킹 영역만 재생성) | **가능** |
 | --ar, --stylize 등 | **미지원** | 지원 |
-| --cref, --sref, --oref | **미지원** | 지원 |
+| --oref, --sref | **미지원** | 지원 |
 | 적합한 작업 | 배경 수정, 소품 추가, 색상 변경 | 포즈 변경, 장면 변경, 새 구도 |
 
 > **주의**: Editor에서 프롬프트로 포즈를 바꾸려 하면, 포즈는 그대로이고 배경/이펙트만 화려해지는 현상이 발생한다. 포즈 변경은 반드시 **Create 페이지**에서 해야 한다.
@@ -43,19 +91,18 @@ tags: cref, sref, oref, image prompt, character consistency, pose, web UI
 ### 웹에서 이미지 참조 설정하기
 
 1. **Create 페이지** → Imagine 바 왼쪽의 **이미지 아이콘** 클릭
-2. 로컬 이미지 업로드 (URL 불필요, 드래그앤드롭 가능)
-3. 업로드된 이미지에 마우스 오버 → **아이콘 3~4개** 표시:
-   - Image Prompt
-   - Style Reference
-   - Character Reference
-   - Omni Reference (V7)
-4. 원하는 섹션의 아이콘 클릭
+2. 로컬 이미지 업로드 (드래그앤드롭 가능)
+3. 업로드된 이미지를 원하는 **섹션에 드롭**:
+   - **Start Frame** — 비디오 첫 프레임용
+   - **Image Prompts** — 구도/색감/분위기 영감용
+   - **Style References** — 화풍/스타일 전이용
+   - **Omni Reference** — 캐릭터/오브젝트 정체성 유지용
 
 ### 같은 이미지를 여러 섹션에 동시 등록
 
 **Shift + 클릭**으로 하나의 이미지에 여러 역할을 부여할 수 있다.
 
-예: Character Reference 클릭 후, 같은 이미지에서 Shift+클릭으로 Style Reference 추가
+예: Omni Reference에 드롭 후, 같은 이미지를 Shift+클릭으로 Style References에도 추가
 → 캐릭터 외모 + 그림체 **동시 유지**
 
 ### 잠금(Lock) 기능
@@ -66,39 +113,9 @@ tags: cref, sref, oref, image prompt, character consistency, pose, web UI
 
 ## 캐릭터 일관성 + 포즈 변경 워크플로우
 
-### 방법 1: --cref + --sref 동시 사용 (V6, 가장 범용적)
+### 방법 1: --oref + --sref (V7, 추천)
 
-**캐릭터 외모 + 그림체 모두 유지하면서 포즈 변경.**
-
-```
-[원하는 포즈/장면 텍스트] --cref [캐릭터 이미지] --cw 100 --sref [같은 이미지] --sw 100
-```
-
-웹 UI:
-1. 이미지 업로드
-2. Character Reference 클릭 → Shift+클릭으로 Style Reference 추가
-3. 프롬프트에 포즈를 상세히 기술
-
-**팁**: 프롬프트에 캐릭터의 핵심 외모 특징(머리색, 눈색, 의상)을 텍스트로도 명시하면 이중 보험이 된다.
-
-### 방법 2: --cref + 포즈 레퍼런스 이미지 (V6, 정확한 포즈)
-
-**별도의 포즈 사진을 Image Prompt로, 캐릭터를 --cref로 분리.**
-
-```
-[포즈 레퍼런스 이미지 URL] [텍스트 설명] --cref [캐릭터 이미지] --cw 80
-```
-
-웹 UI:
-1. 포즈 참고 사진 → **Image Prompt** 섹션에 드롭 (구도/동작 가이드용)
-2. 캐릭터 이미지 → **Character Reference** 섹션에 드롭 (외모 유지용)
-3. 필요 시 같은 캐릭터 이미지를 **Style Reference**에도 Shift+클릭 추가
-
-**적합한 포즈 레퍼런스**: 격투 사진, 스톡 이미지, 실루엣, 다른 캐릭터의 포즈
-
-### 방법 3: V7 --oref + --sref (V7 전용, 최고 일관성)
-
-**V7의 Omni Reference는 --cref보다 캐릭터 인식 정확도가 높다.**
+**캐릭터 외모 + 그림체 모두 유지하면서 포즈 변경. V7 최고 품질.**
 
 ```
 [원하는 포즈/장면 텍스트] --oref [캐릭터 이미지] --ow 200 --sref [같은 이미지]
@@ -106,25 +123,54 @@ tags: cref, sref, oref, image prompt, character consistency, pose, web UI
 
 웹 UI:
 1. 이미지를 **Omni Reference** 섹션에 드롭
-2. Shift+클릭으로 **Style Reference** 추가
-3. --ow 슬라이더 200~300 설정
+2. Shift+클릭으로 **Style References** 섹션에도 추가
+3. 프롬프트에 포즈를 상세히 기술
 
-**주의**: Omni Reference는 GPU 비용 2배.
+**팁**:
+- 프롬프트에 캐릭터의 핵심 외모 특징(머리색, 눈색, 의상)을 텍스트로도 명시하면 이중 보험
+- `--ow 200~300`이 포즈 변경에 최적 (400 이상은 예측 불가 위험)
+
+### 방법 2: Image Prompts + --oref (정확한 포즈)
+
+**별도의 포즈 사진을 Image Prompts로, 캐릭터를 --oref로 분리.**
+
+```
+[포즈 레퍼런스 이미지] [텍스트 설명] --oref [캐릭터 이미지] --ow 200
+```
+
+웹 UI:
+1. 포즈 참고 사진 → **Image Prompts** 섹션에 드롭 (구도/동작 가이드용)
+2. 캐릭터 이미지 → **Omni Reference** 섹션에 드롭 (외모 유지용)
+3. 필요 시 캐릭터 이미지를 **Style References**에도 Shift+클릭 추가
+
+**적합한 포즈 레퍼런스**: 격투 사진, 스톡 이미지, 실루엣, 다른 캐릭터의 포즈
+
+### 방법 3: --sref만 사용 (Niji 7 또는 스타일만 유지)
+
+**Niji 7에서는 --oref가 미지원이므로, --sref + 텍스트로 캐릭터 묘사.**
+
+```
+[캐릭터 외모 + 포즈/장면 텍스트] --sref [캐릭터 이미지] --sw 200 --niji 7
+```
+
+웹 UI:
+1. 이미지를 **Style References** 섹션에 드롭
+2. 프롬프트에 캐릭터 외모를 **매우 상세히** 기술 (머리색, 눈색, 체형, 의상 전부)
 
 ---
 
 ## 파라미터 가이드
 
-### --cw (Character Weight) - V6
+### --iw (Image Weight) - Image Prompts용
 
 | 값 | 효과 | 사용 시점 |
 |----|------|----------|
-| 0 | **얼굴만** 유지, 의상/헤어 자유 | 의상 변경이 필요할 때 |
-| 50 | 얼굴 + 약간의 외형 유지 | 부분적 변형 허용 |
-| 80 | 대부분의 외형 유지, 약간의 여유 | **포즈 변경 시 추천** |
-| 100 (기본) | 얼굴+헤어+의상 **최대** 유지 | 동일 캐릭터 유지 최우선 |
+| 0 | 이미지 영향 최소, 텍스트 우선 | 느슨한 영감만 필요할 때 |
+| 1 (기본) | 균형 | 범용 |
+| 2 | 이미지에 더 가까운 결과 | 구도/색감을 강하게 참조할 때 |
+| 3 (최대) | 이미지에 최대한 충실 | 포즈 레퍼런스를 정확히 따를 때 |
 
-### --sw (Style Weight) - V6/V7
+### --sw (Style Weight) - Style References용
 
 | 값 | 효과 |
 |----|------|
@@ -133,9 +179,15 @@ tags: cref, sref, oref, image prompt, character consistency, pose, web UI
 | 500 | 강한 스타일 유지 |
 | 1000 (최대) | 화풍/색감 **최대** 유지 |
 
-> **참고**: V7에서 --sw 범위가 0-100에서 **0-1000**으로 확대되었다. 더 세밀한 스타일 강도 조절이 가능하다.
+### --sv (Style Version) - Style References용
 
-### --ow (Omni Weight) - V7
+| 값 | 효과 |
+|----|------|
+| 1~3 | 추상적 해석 |
+| 4 | V7 구버전 (2025.06 이전) 호환 — 레거시 sref 코드용 |
+| 6 (기본) | 최신 V7 기본값, 충실한 스타일 재현 |
+
+### --ow (Omni Weight) - Omni Reference용
 
 | 값 | 효과 | 사용 시점 |
 |----|------|----------|
@@ -143,6 +195,8 @@ tags: cref, sref, oref, image prompt, character consistency, pose, web UI
 | 100 (기본) | 균형 잡힌 참조 | 범용 |
 | 200~300 | 강한 디테일 보존 | **캐릭터 일관성 + 포즈 변경 시 추천** |
 | 400+ | 극도로 강한 참조 | 세밀한 디테일까지 복제 (예측 불가 위험) |
+
+> **주의**: `--ow` 400 이상은 높은 `--stylize`나 `--exp`와 경쟁하여 예측 불가한 결과가 나올 수 있다. 특별한 이유가 없으면 300 이하를 권장.
 
 ---
 
@@ -154,43 +208,47 @@ tags: cref, sref, oref, image prompt, character consistency, pose, web UI
 - **깨끗한 배경** (흰색/투명 배경 최적, remove.bg 등으로 배경 제거 권장)
 - **좋은 조명**, 그림자가 얼굴을 가리지 않는
 - **세로 비율** (2:3 또는 4:5)이 얼굴 캡처에 유리
-- **미드저니로 생성한 이미지**가 외부 이미지보다 호환성이 좋음 (V6 기준)
+- **미드저니로 생성한 이미지**가 외부 이미지보다 호환성이 좋음
 
 ---
 
 ## 흔한 실수와 해결법
 
-### 실수 1: Image Prompt에 넣고 텍스트로 포즈 변경 시도
+### 실수 1: Image Prompts에 넣고 텍스트로 포즈 변경 시도
 - **증상**: 포즈 안 바뀌고 배경/이펙트만 화려해짐
-- **원인**: Image Prompt는 구도+포즈+색감 전부를 참조
-- **해결**: Image Prompt 대신 **Character Reference** (또는 Omni Reference)에 넣기
+- **원인**: Image Prompts는 구도+포즈+색감 전부를 참조
+- **해결**: Image Prompts 대신 **Omni Reference**에 넣기
 
 ### 실수 2: Editor 모드에서 전체 포즈 변경 시도
 - **증상**: 마스킹 영역만 재생성, 전체 포즈는 그대로
 - **원인**: Editor는 인페인팅 도구, 전체 재생성 불가
-- **해결**: **Create 페이지의 Imagine 바**에서 --cref로 생성
+- **해결**: **Create 페이지의 Imagine 바**에서 --oref로 생성
 
-### 실수 3: --cref만 사용 (--sref 없이)
+### 실수 3: --oref만 사용 (--sref 없이)
 - **증상**: 캐릭터는 비슷한데 그림체/화풍이 달라짐
-- **원인**: --cref는 외모만 참조, 스타일은 미드저니 기본값으로 생성
+- **원인**: --oref는 피사체 외형만 참조, 스타일은 미드저니 기본값으로 생성
 - **해결**: **--sref를 같은 이미지로 함께 사용** (웹에서 Shift+클릭)
 
 ### 실수 4: --iw를 낮춰서 포즈 변경 시도
 - **증상**: 포즈는 약간 바뀌지만 캐릭터 외모도 함께 달라짐
-- **원인**: --iw는 Image Prompt 전체 영향도를 조절, 선택적 제어 불가
-- **해결**: Image Prompt + --iw 대신 **--cref 사용**
+- **원인**: --iw는 Image Prompts 전체 영향도를 조절, 선택적 제어 불가
+- **해결**: Image Prompts + --iw 대신 **--oref 사용**
 
 ### 실수 5: --stylize 값을 높게 설정
-- **증상**: --cref/--sref의 효과가 약해져서 캐릭터/스타일이 변형
+- **증상**: --oref/--sref의 효과가 약해져서 캐릭터/스타일이 변형
 - **원인**: 높은 stylize는 미드저니 자체 미화를 강하게 적용
 - **해결**: 캐릭터 일관성이 중요할 때는 **--stylize 50~150** 사용
+
+### 실수 6: Omni Reference를 Draft/Fast 모드에서 사용
+- **증상**: 오류 발생 또는 --oref 무시됨
+- **원인**: Omni Reference는 Draft Mode, Fast Mode와 비호환
+- **해결**: **Standard 또는 Turbo 모드**에서 사용
 
 ---
 
 ## Niji 7 제한사항
 
 > **중요**: Niji 7 (`--niji 7`)에서는 다음 이미지 참조 기능이 **미지원**된다:
-> - `--cref` (Character Reference) — 미지원
 > - `--oref` (Omni Reference) — 미지원
 > - `--sref` (Style Reference) — **지원**
 >
@@ -200,11 +258,14 @@ tags: cref, sref, oref, image prompt, character consistency, pose, web UI
 
 ## 용도별 추천 설정
 
-| 용도 | 추천 방식 | 파라미터 |
-|------|----------|---------|
-| 같은 캐릭터 다른 포즈 | --cref + --sref (Shift+클릭) | `--cw 100 --sw 100 --s 100~150` |
-| 특정 포즈로 정확히 변경 | 포즈 사진(Image Prompt) + --cref | `--cw 80` |
-| 같은 캐릭터 다른 의상 | --cref (--cw 0) + --sref | `--cw 0 --sw 100` |
-| 같은 캐릭터 다른 화풍 | --cref (--sref 없이) | `--cw 100` |
-| 캐릭터 시트 (여러 뷰) | --cref + 텍스트로 뷰 지정 | `--cw 100 --ar 16:9` |
-| V7 최고 품질 | --oref + --sref | `--ow 200~300` |
+| 용도 | 웹 UI 섹션 | 파라미터 |
+|------|-----------|---------|
+| 같은 캐릭터 다른 포즈 | Omni Reference + Style References | `--ow 200 --sw 100 --s 100~150` |
+| 특정 포즈로 정확히 변경 | Image Prompts + Omni Reference | `--iw 2 --ow 200` |
+| 같은 캐릭터 다른 의상 | Omni Reference (낮은 ow) + Style References | `--ow 50~100 --sw 100` |
+| 같은 캐릭터 다른 화풍 | Omni Reference (--sref 없이) | `--ow 200` |
+| 캐릭터 시트 (여러 뷰) | Omni Reference + 텍스트로 뷰 지정 | `--ow 200 --ar 16:9` |
+| 이미지를 영상으로 | Start Frame | `--motion low/high` |
+| 분위기/색감만 참조 | Image Prompts | `--iw 1~2` |
+| 화풍만 참조 (주제 다름) | Style References | `--sw 200~500` |
+| Niji 7 캐릭터 | Style References + 상세 텍스트 | `--sw 200 --niji 7` |
