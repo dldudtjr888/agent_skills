@@ -1,0 +1,6 @@
+{
+  "name": "godot-gamedev",
+  "version": "1.0.0",
+  "description": "Godot 4.x 게임 개발 어시스턴트 — 변경 API 조회, .tscn/.tres 형식 가이드, 아키텍처 패턴",
+  "skills": "./skills/"
+}
