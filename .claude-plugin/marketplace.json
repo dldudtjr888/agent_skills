@@ -73,6 +73,14 @@
       "category": "design",
       "tags": ["game-design", "midjourney", "prompt", "blueprint", "creative"],
       "strict": false
+    },
+    {
+      "name": "godot-gamedev",
+      "description": "Godot 4.x 게임 개발: GDScript 컨벤션, .tscn 형식, 아키텍처 패턴, 변경 API 추적",
+      "source": "./plugins/godot-gamedev",
+      "category": "gamedev",
+      "tags": ["godot", "game", "gamedev", "gdscript", "tscn"],
+      "strict": false
     }
   ]
 }
