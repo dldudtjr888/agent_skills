@@ -23,6 +23,14 @@ triggers:
     - "(thiserror|anyhow).*(사용|패턴)"
 ---
 
+## Core Rules
+
+1. `.unwrap()` 금지 — `?` + `.context()` 사용
+2. `panic!()` 금지 — 에러 타입으로 반환
+3. 라이브러리: `thiserror` (#[error], #[from]) — matchable enum
+4. 앱: `anyhow::Result` + `.context()` 매 호출마다
+5. axum 연동: `IntoResponse` 구현으로 HTTP 상태 매핑
+
 # Rust Error Handling
 
 Rust 에러 처리 패턴.

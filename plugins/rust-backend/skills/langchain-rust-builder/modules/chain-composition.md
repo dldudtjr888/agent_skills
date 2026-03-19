@@ -114,7 +114,7 @@ use langchain_rust::chain::TransformChain;
 
 pub fn create_transform_chain() -> TransformChain {
     TransformChain::new(|input: HashMap<String, String>| {
-        let text = input.get("text").unwrap();
+        let text = input.get("text").expect("missing 'text' key");
 
         // 전처리: 공백 정리, 소문자 변환
         let cleaned = text

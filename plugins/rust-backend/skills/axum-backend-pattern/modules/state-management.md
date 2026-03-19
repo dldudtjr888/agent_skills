@@ -33,8 +33,8 @@ impl AppState {
         ));
 
         // 캐시 서비스
-        let cache: Arc<dyn CacheService> = if config.redis_url.is_some() {
-            Arc::new(RedisCache::new(&config.redis_url.unwrap()).await?)
+        let cache: Arc<dyn CacheService> = if let Some(ref url) = config.redis_url {
+            Arc::new(RedisCache::new(url).await?)
         } else {
             Arc::new(InMemoryCache::new())
         };

@@ -153,7 +153,7 @@ async fn router_node(state: AgentState) -> AgentState {
         state.input
     );
 
-    let response = llm.invoke(&prompt).await.unwrap();
+    let response = llm.invoke(&prompt).await?;
 
     AgentState {
         next_node: Some(response.trim().to_string()),

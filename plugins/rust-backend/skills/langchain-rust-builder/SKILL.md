@@ -21,6 +21,14 @@ triggers:
     - "(langchain).*(rust|러스트)"
 ---
 
+## Core Rules
+
+1. Python langchain 문법 금지 — Rust 네이티브 `langchain_rust` API 사용
+2. `.unwrap()` 금지 — `?` 사용
+3. `OpenAI::default().with_model().with_api_key()` 패턴
+4. `PromptTemplate::new()` 로 템플릿 생성
+5. `SequentialChain` + `with_output_key()` 로 체인 연결
+
 # LangChain Rust Builder
 
 langchain-rust를 사용한 LLM 체인 및 에이전트 개발 가이드.

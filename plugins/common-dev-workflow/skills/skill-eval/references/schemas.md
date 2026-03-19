@@ -8,6 +8,7 @@
 {
   "skill_name": "rust-error-handling",
   "skill_path": "plugins/rust-backend/skills/rust-error-handling",
+  "exclude_patterns": ["#\\[cfg\\(test\\)\\]", "mod tests"],
   "assertions": [
     {
       "text": "No .unwrap() in production code",
@@ -51,6 +52,32 @@
 
 > assertion에 라이브러리명/API명이 들어가면 안 된다 (Positive grep 금지 원칙).
 > 위 예시에서 `.unwrap()`, `panic!()`, `.context()` 는 라이브러리명이 아니라 코드 패턴이므로 OK.
+
+### exclude_patterns 필드 (선택)
+
+테스트 코드 등 특정 블록을 채점에서 제외한다. `grep_negative` assertion이 테스트 코드의 `.unwrap()` 등을 잡는 false positive를 방지:
+
+```json
+"exclude_patterns": ["#\\[cfg\\(test\\)\\]", "mod tests"]
+```
+
+매칭된 라인 이후 `{}` 블록 깊이를 추적하여 해당 블록 전체를 채점 대상에서 제외한다.
+
+### 코멘트 자동 제거 (grade.py 내장)
+
+grade.py는 채점 전에 **코멘트 라인을 자동 제거**한다. 설정 불필요.
+
+Core Rules를 SKILL.md에 추가하면 에이전트가 규칙을 주석으로 복사함:
+```rust
+// .unwrap() 금지 — ? + .context() 사용
+// Server::bind 대신 axum::serve 사용
+```
+이 주석이 `grep_negative`에 잡혀 false positive가 발생하므로, 다음을 자동 제거:
+- `//`, `///`, `//!` 로 시작하는 라인
+- `/* ... */` 블록 코멘트
+- 숫자 목록 (`1. `, `2. ` 등) — 에이전트가 Core Rules를 번호 목록으로 쓰는 경우
+
+> iteration-2 실험에서 코멘트 제거 전 8건의 false positive 발생, 실제 코드 위반 0건. 이 기능으로 전부 해소됨.
 
 ### assertion 필드
 

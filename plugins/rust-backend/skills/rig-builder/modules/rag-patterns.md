@@ -107,7 +107,7 @@ async fn load_documents_from_dir(
         let path = entry?.path();
         if path.extension().map_or(false, |ext| ext == "md") {
             let content = fs::read_to_string(&path)?;
-            let filename = path.file_name().unwrap().to_string_lossy();
+            let filename = path.file_name().map(|f| f.to_string_lossy()).unwrap_or_default();
 
             builder = builder.document_with_metadata(
                 &content,
@@ -235,7 +235,7 @@ async fn hybrid_search(
         .collect();
 
     // 재정렬
-    scored_results.sort_by(|a, b| b.0.partial_cmp(&a.0).unwrap());
+    scored_results.sort_by(|a, b| b.0.partial_cmp(&a.0).unwrap_or(std::cmp::Ordering::Equal));
 
     Ok(scored_results.into_iter().take(k).map(|(_, r)| r).collect())
 }

@@ -198,8 +198,8 @@ impl BaseMemory for RedisMemory {
     ) -> Result<(), Error> {
         let mut conn = self.client.get_async_connection().await?;
 
-        let human = inputs.get("input").unwrap();
-        let ai = outputs.get("output").unwrap();
+        let human = inputs.get("input").ok_or(Error::MissingKey("input"))?;
+        let ai = outputs.get("output").ok_or(Error::MissingKey("output"))?;
 
         redis::cmd("RPUSH")
             .arg(&self.session_id)

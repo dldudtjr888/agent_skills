@@ -24,6 +24,14 @@ triggers:
     - "(serde|tracing|tower).*(사용법|패턴)"
 ---
 
+## Core Rules
+
+1. `.unwrap()` 금지 — `?` 사용
+2. `println!`/`eprintln!` 대신 `tracing` 구조화 로깅 사용
+3. `#[instrument]` 로 함수 트레이싱
+4. `serde` 필드 속성: `#[serde(default)]`, `#[serde(skip_serializing_if)]` 적극 활용
+5. HTTP 클라이언트: `reqwest::Client` 재사용 (매 요청 새 Client 생성 금지)
+
 # Rust Crate Ecosystem
 
 필수 Rust 크레이트 가이드.

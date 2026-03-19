@@ -25,6 +25,15 @@ triggers:
     - "(rust|러스트).*(테스트|벤치마크)"
 ---
 
+## Core Rules
+
+1. `#[cfg(test)]` 모듈 구조 필수 — 테스트와 프로덕션 코드 분리
+2. 비동기 테스트: `#[tokio::test]` 사용
+3. 모킹: `mockall` 크레이트 + `#[automock]` 또는 `mock!` 매크로
+4. 속성 기반 테스트: `proptest!` 매크로로 불변 조건 검증
+5. HTTP 통합 테스트: `wiremock` 사용 (수동 HTTP mock 구현 금지)
+6. DB 통합 테스트: 트랜잭션 롤백 또는 `testcontainers` 사용
+
 # Rust Testing Guide
 
 Rust 테스트 작성 가이드.

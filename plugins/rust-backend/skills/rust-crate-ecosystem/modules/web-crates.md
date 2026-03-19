@@ -111,7 +111,7 @@ pub fn create_http_client() -> Client {
         .pool_idle_timeout(Duration::from_secs(60))
         .user_agent("my-app/1.0")
         .build()
-        .unwrap()
+        .expect("failed to build HTTP client")
 }
 
 pub async fn fetch_json<T: serde::de::DeserializeOwned>(
@@ -176,7 +176,7 @@ pub async fn run_server(addr: std::net::SocketAddr) {
     Server::bind(&addr)
         .serve(make_svc)
         .await
-        .unwrap();
+        .expect("failed to start hyper server");
 }
 ```
 
@@ -197,7 +197,7 @@ impl ApiClient {
             .pool_max_idle_per_host(20)
             .pool_idle_timeout(Duration::from_secs(90))
             .build()
-            .unwrap();
+            .expect("failed to build HTTP client");
 
         Self {
             client,

@@ -171,7 +171,7 @@ impl VectorMemory {
             })
             .collect();
 
-        scored.sort_by(|a, b| b.0.partial_cmp(&a.0).unwrap());
+        scored.sort_by(|a, b| b.0.partial_cmp(&a.0).unwrap_or(std::cmp::Ordering::Equal));
 
         scored.into_iter()
             .take(top_k)
@@ -222,9 +222,9 @@ impl EmbeddingService {
         let result: serde_json::Value = response.json().await?;
         let embedding = result["data"][0]["embedding"]
             .as_array()
-            .unwrap()
+            .context("missing embedding array")?
             .iter()
-            .map(|v| v.as_f64().unwrap() as f32)
+            .map(|v| v.as_f64().unwrap_or(0.0) as f32)
             .collect();
 
         Ok(embedding)

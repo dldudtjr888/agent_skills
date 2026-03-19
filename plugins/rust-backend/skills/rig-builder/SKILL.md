@@ -27,6 +27,14 @@ triggers:
     - "(rig|러스트).*(에이전트|llm)"
 ---
 
+## Core Rules
+
+1. `.unwrap()` 금지 — `?` + error propagation 사용
+2. `Client::from_env()` 로 API 키 관리 (하드코딩 금지)
+3. `.preamble()` 으로 시스템 프롬프트 설정
+4. `Tool` trait 구현 시 `ToolDescription` + JSON Schema 필수
+5. RAG: `EmbeddingsBuilder` → `InMemoryVectorStore` → `dynamic_context()` 패턴
+
 # Rig Builder
 
 Rig을 사용한 Rust LLM 에이전트 개발 가이드.

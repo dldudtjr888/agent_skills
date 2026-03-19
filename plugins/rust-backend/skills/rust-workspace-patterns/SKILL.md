@@ -24,6 +24,15 @@ triggers:
     - "(멀티|multi).*(크레이트|crate)"
 ---
 
+## Core Rules
+
+1. `.unwrap()` 금지 — `?` 사용
+2. `[workspace.dependencies]` 로 버전 통합 필수
+3. `workspace = true` 로 의존성 상속 (중복 버전 금지)
+4. `pub(crate)` 기본 — 외부 API만 `pub`
+5. 레이어 분리: domain → api → server (역방향 의존 금지)
+6. `resolver = "2"` 필수
+
 # Rust Workspace Patterns
 
 Rust 워크스페이스와 모듈 구조 패턴.

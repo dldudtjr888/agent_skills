@@ -27,6 +27,15 @@ triggers:
     - "(sqlx|diesel|seaorm).*(패턴|쿼리)"
 ---
 
+## Core Rules
+
+1. **SQL 문자열 보간 절대 금지** — `format!("SELECT ... {}", var)` 사용 시 SQL injection 위험
+2. `query_as!()` / `query!()` 매크로 또는 `.bind()` 파라미터 바인딩 필수
+3. `.unwrap()` 금지 — DB 에러는 `?` 로 전파
+4. 커넥션 풀은 `PgPoolOptions` 으로 설정 (max/min/timeout 명시)
+5. 트랜잭션: `pool.begin()` → 작업 → `tx.commit()` (drop 시 자동 rollback)
+6. Repository 패턴: `async_trait` 기반 trait 추상화로 테스트 용이성 확보
+
 # Rust Database Patterns
 
 Rust 데이터베이스 접근 패턴 (SQLx, Diesel, SeaORM).

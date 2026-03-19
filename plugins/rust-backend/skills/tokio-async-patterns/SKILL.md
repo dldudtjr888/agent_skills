@@ -27,6 +27,16 @@ triggers:
     - "(tokio|async).*(패턴|channel|spawn)"
 ---
 
+## Core Rules
+
+1. `std::sync::Mutex` 금지 — async 코드에서 `tokio::sync::Mutex` 사용
+2. `std::thread::sleep` 금지 — `tokio::time::sleep` 사용
+3. `.unwrap()` 금지 — `?` + error propagation 사용
+4. `JoinSet` 으로 병렬 작업 관리
+5. `tokio::select!` 로 경합 분기 (biased 모드 우선)
+6. `CancellationToken` + `child_token()` 으로 graceful shutdown
+7. CPU 바운드 작업은 `spawn_blocking` 사용
+
 # Tokio Async Patterns
 
 Tokio 런타임을 사용한 비동기 프로그래밍 패턴.
@@ -61,7 +71,7 @@ async fn fetch_all(urls: Vec<String>) -> Vec<Result<String, Error>> {
 
     let mut results = Vec::new();
     while let Some(result) = set.join_next().await {
-        results.push(result.unwrap());
+        if let Ok(result) = result { results.push(result); }
     }
     results
 }
@@ -84,7 +94,7 @@ let received = rx.recv().await;
 
 // oneshot: 일회성
 let (tx, rx) = oneshot::channel();
-tx.send(value).unwrap();
+let _ = tx.send(value);
 let received = rx.await?;
 
 // broadcast: 다대다

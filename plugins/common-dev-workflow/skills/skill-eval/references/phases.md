@@ -84,6 +84,25 @@ python <skill-eval-path>/scripts/grade.py <workspace-path>/iteration-1
 
 ## Phase 4 상세: 최적화 규칙
 
+### 스킬 예시 코드 점검 (최적화 전 필수)
+
+대상 스킬의 모듈/레퍼런스 예시 코드가 assertion 패턴을 위반하는지 확인하라:
+
+```bash
+# 예: .unwrap() 금지 assertion이 있을 때
+grep -rn "\.unwrap()" plugins/my-skill/modules/ plugins/my-skill/references/
+```
+
+**위반이 발견되면 SKILL.md 최적화보다 먼저 예시 코드를 수정하라.** 이유:
+- with-skill 에이전트는 모듈 예시를 읽고 복사함
+- 예시에 anti-pattern이 있으면 with-skill이 baseline보다 낮은 점수를 받음 (역효과)
+- rust-backend 12개 스킬 실험에서 2개 스킬이 이 원인으로 역효과 발생 (axum: -7.7%, workspace: -7.4%)
+
+수정 기준:
+- **production 예시**: `.unwrap()` → `?` + `.context()` 또는 `.expect("이유")`
+- **test 예시** (`#[cfg(test)]`, `mod tests` 내): `.unwrap()` 허용
+- **"BAD" 예시**: anti-pattern을 보여주는 목적이면 허용, 반드시 주석으로 명시
+
 ### Core Rules 작성 가이드
 
 SKILL.md 최상단에 10줄 이내로 추가. **금지 사항 위주**:

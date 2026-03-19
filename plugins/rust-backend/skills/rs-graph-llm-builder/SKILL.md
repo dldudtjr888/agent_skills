@@ -22,6 +22,15 @@ triggers:
     - "(rs-graph|langgraph).*(rust|러스트)"
 ---
 
+## Core Rules
+
+1. Python langgraph 문법 금지 — Rust 네이티브 `rs_graph_llm` API 사용
+2. `.unwrap()` 금지 — `?` 사용
+3. `StateGraph::<T>::new()` 로 그래프 생성
+4. `add_node()` + `add_conditional_edge()` 로 워크플로우 구성
+5. State 구조체는 `Clone + Default` derive 필수
+6. 순환 그래프에는 max_iterations 가드 필수
+
 # rs-graph-llm Builder
 
 rs-graph-llm을 사용한 워크플로우 기반 에이전트 개발 가이드.

@@ -237,7 +237,7 @@ Review this code and respond in JSON format:
 ```rust
 fn main() {
     let x = vec![1, 2, 3];
-    println!("{:?}", x.get(10).unwrap());
+    println!("{:?}", x.get(10).unwrap_or(&0));
 }
 ```
 

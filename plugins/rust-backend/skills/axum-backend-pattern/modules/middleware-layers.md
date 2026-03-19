@@ -77,8 +77,8 @@ fn cors_dev() -> CorsLayer {
 fn cors_prod() -> CorsLayer {
     CorsLayer::new()
         .allow_origin([
-            "https://example.com".parse::<HeaderValue>().unwrap(),
-            "https://app.example.com".parse::<HeaderValue>().unwrap(),
+            "https://example.com".parse::<HeaderValue>().expect("valid origin"),
+            "https://app.example.com".parse::<HeaderValue>().expect("valid origin"),
         ])
         .allow_methods([Method::GET, Method::POST, Method::PUT, Method::DELETE])
         .allow_headers(Any)
@@ -169,7 +169,7 @@ fn rate_limit_layer() -> GovernorLayer<'static, (), impl tower_governor::key_ext
         .per_second(10)  // 초당 10개 요청
         .burst_size(20)  // 버스트 허용량
         .finish()
-        .unwrap();
+        .expect("valid governor config");
 
     GovernorLayer::new(&config)
 }
@@ -183,7 +183,7 @@ fn rate_limit_by_ip() -> GovernorLayer<'static, (), SmartIpKeyExtractor> {
         .burst_size(20)
         .key_extractor(SmartIpKeyExtractor)
         .finish()
-        .unwrap();
+        .expect("valid governor config");
 
     GovernorLayer::new(&config)
 }
@@ -203,7 +203,7 @@ struct MakeRequestUuid;
 impl MakeRequestId for MakeRequestUuid {
     fn make_request_id<B>(&mut self, _request: &Request<B>) -> Option<RequestId> {
         let id = Uuid::new_v4().to_string();
-        Some(RequestId::new(id.parse().unwrap()))
+        Some(RequestId::new(id.parse().expect("valid UUID header value")))
     }
 }
 

@@ -109,9 +109,9 @@ pub fn setup_metrics() -> PrometheusHandle {
             Matcher::Full("http_request_duration_seconds".to_string()),
             &[0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0, 2.5, 5.0, 10.0],
         )
-        .unwrap()
+        .expect("failed to set metric buckets")
         .install_recorder()
-        .unwrap()
+        .expect("failed to install metrics recorder")
 }
 
 pub fn metrics_router(handle: PrometheusHandle) -> Router {
@@ -171,7 +171,7 @@ pub async fn request_id_middleware(mut request: Request, next: Next) -> Response
 
     request.headers_mut().insert(
         "x-request-id",
-        request_id.parse().unwrap(),
+        request_id.parse().expect("valid header value for request ID"),
     );
 
     next.run(request).await

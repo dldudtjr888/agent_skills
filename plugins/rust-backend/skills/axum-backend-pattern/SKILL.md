@@ -29,6 +29,16 @@ triggers:
     - "(axum|api).*(라우터|라우트|미들웨어|핸들러)"
 ---
 
+## Core Rules
+
+1. `.unwrap()` 금지 — 프로덕션 코드에서 `?` + `.context()` 사용
+2. `Server::bind` 금지 — `axum::serve(listener, app)` + `TcpListener` 사용 (0.7+)
+3. `.layer(Extension(state))` 대신 `.with_state(state)` 사용
+4. `IntoResponse` 구현한 통합 `AppError` 타입 필수
+5. `State(state): State<AppState>` 추출자 패턴 사용
+6. 핸들러 반환 타입은 `Result<impl IntoResponse, AppError>`
+7. 라우터는 `Router::nest`로 모듈 분리
+
 # Axum Backend Pattern
 
 Axum 웹 프레임워크를 사용한 백엔드 개발 패턴과 베스트 프랙티스.

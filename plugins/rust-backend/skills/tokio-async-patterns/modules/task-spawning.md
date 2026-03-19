@@ -152,7 +152,7 @@ async fn limited_concurrent(urls: Vec<String>, limit: usize) {
     let mut handles = Vec::new();
 
     for url in urls {
-        let permit = semaphore.clone().acquire_owned().await.unwrap();
+        let permit = semaphore.clone().acquire_owned().await.expect("semaphore closed");
         handles.push(tokio::spawn(async move {
             let result = fetch_url(&url).await;
             drop(permit); // 명시적으로 permit 해제

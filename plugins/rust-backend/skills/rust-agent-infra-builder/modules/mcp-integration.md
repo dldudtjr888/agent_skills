@@ -65,8 +65,8 @@ impl McpClient {
             .stderr(std::process::Stdio::inherit())
             .spawn()?;
 
-        let stdin = BufWriter::new(child.stdin.take().unwrap());
-        let stdout = BufReader::new(child.stdout.take().unwrap());
+        let stdin = BufWriter::new(child.stdin.take().context("stdin not captured")?);
+        let stdout = BufReader::new(child.stdout.take().context("stdout not captured")?);
 
         let mut client = Self {
             child,

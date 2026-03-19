@@ -27,6 +27,14 @@ triggers:
     - "(구축|설계).*(에이전트.*인프라|인프라.*에이전트)"
 ---
 
+## Core Rules
+
+1. `.unwrap()` 금지 — `?` 사용
+2. `std::sync::Mutex` 금지 — async 코드에서 `tokio::sync::RwLock` 사용
+3. 대화 메모리: `VecDeque` + 슬라이딩 윈도우 (push_back/pop_front)
+4. 프롬프트 관리: Handlebars 또는 Tera 템플릿 엔진 사용
+5. MCP: JSON-RPC 2.0 프로토콜, initialize 핸드셰이크 필수
+
 # Rust Agent Infrastructure Builder
 
 Rust AI 에이전트 인프라를 종합적으로 구축하는 스킬.

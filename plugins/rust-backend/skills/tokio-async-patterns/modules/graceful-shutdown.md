@@ -49,12 +49,12 @@ impl Server {
     }
 
     async fn run(&self) {
-        let listener = TcpListener::bind("0.0.0.0:8080").await.unwrap();
+        let listener = TcpListener::bind("0.0.0.0:8080").await.expect("failed to bind port 8080");
 
         loop {
             tokio::select! {
                 result = listener.accept() => {
-                    let (socket, _) = result.unwrap();
+                    let (socket, _) = result.expect("failed to accept connection");
                     let token = self.token.child_token();
 
                     tokio::spawn(async move {
@@ -131,12 +131,12 @@ async fn run_server() {
     let app = Router::new()
         .route("/", get(|| async { "Hello" }));
 
-    let listener = TcpListener::bind("0.0.0.0:3000").await.unwrap();
+    let listener = TcpListener::bind("0.0.0.0:3000").await.expect("failed to bind port 3000");
 
     axum::serve(listener, app)
         .with_graceful_shutdown(shutdown_signal())
         .await
-        .unwrap();
+        .expect("server error");
 }
 ```
 
@@ -147,7 +147,7 @@ use std::time::Duration;
 
 async fn graceful_shutdown_with_timeout() {
     let app = create_app();
-    let listener = TcpListener::bind("0.0.0.0:3000").await.unwrap();
+    let listener = TcpListener::bind("0.0.0.0:3000").await.expect("failed to bind port 3000");
 
     // 서버 태스크
     let server = tokio::spawn(
@@ -228,7 +228,7 @@ async fn main() {
         .route("/health", get(|| async { "OK" }))
         .with_state(state);
 
-    let listener = TcpListener::bind("0.0.0.0:3000").await.unwrap();
+    let listener = TcpListener::bind("0.0.0.0:3000").await.expect("failed to bind port 3000");
     tracing::info!("Server starting on :3000");
 
     // 종료 신호 처리
@@ -241,7 +241,7 @@ async fn main() {
     axum::serve(listener, app)
         .with_graceful_shutdown(shutdown_signal)
         .await
-        .unwrap();
+        .expect("server error");
 
     tracing::info!("Server stopped");
 }

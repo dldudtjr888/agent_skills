@@ -202,7 +202,7 @@ impl CircuitBreaker {
         let last = self.last_failure.load(Ordering::SeqCst);
         let elapsed = SystemTime::now()
             .duration_since(UNIX_EPOCH)
-            .unwrap()
+            .expect("system clock before UNIX epoch")
             .as_secs() - last;
 
         if elapsed > self.reset_timeout.as_secs() {
@@ -220,7 +220,7 @@ impl CircuitBreaker {
         self.failure_count.fetch_add(1, Ordering::SeqCst);
         let now = SystemTime::now()
             .duration_since(UNIX_EPOCH)
-            .unwrap()
+            .expect("system clock before UNIX epoch")
             .as_secs();
         self.last_failure.store(now, Ordering::SeqCst);
     }
