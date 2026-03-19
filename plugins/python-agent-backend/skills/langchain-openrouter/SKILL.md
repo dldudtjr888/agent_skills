@@ -1,6 +1,6 @@
 ---
 name: langchain-openrouter
-description: "Use OpenRouter API with LangChain. Covers: ChatOpenAI with OpenRouter, model variants (nitro/floor/free/online/thinking), provider routing, streaming, structured output, tool binding. Always fetch latest docs via URLs provided."
+description: "LangChain + OpenRouter 통합 가이드 (langchain-openai v1.1.6+). 트리거: 'OpenRouter', 'openrouter.ai', 'ChatOpenAI with base_url', 'OPENROUTER_API_KEY', 'sk-or-v1', 'openrouter provider routing', 'model variants nitro/floor/free'. 한국어 트리거: 'OpenRouter로 LangChain 사용', 'OpenRouter 모델 라우팅', '오픈라우터 API 연동'. 주의: ChatOpenRouter 클래스는 존재하지 않음 - ChatOpenAI + base_url 패턴만 유효. baseline Claude가 잘못된 ChatOpenRouter import를 생성하는 경우가 많으므로 반드시 이 스킬 참조. API/모델명이 자주 변경됨."
 ---
 
 # LangChain + OpenRouter

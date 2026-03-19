@@ -1,6 +1,12 @@
 ---
 name: rust-db-patterns
-description: "Rust 데이터베이스 패턴. SQLx, Diesel, SeaORM 사용법과 트랜잭션, 마이그레이션 패턴."
+description: >-
+  Rust 데이터베이스 패턴. sqlx::query_as!/query!() 컴파일타임 쿼리 검증, sqlx::PgPool 커넥션 풀,
+  Diesel ORM schema.rs/models.rs, SeaORM Entity/ActiveModel/Migration, deadpool 커넥션 풀 관리,
+  트랜잭션 격리 수준, sqlx::migrate!() 마이그레이션, Redis(fred/deadpool-redis) 캐시 레이어 패턴.
+  MUST USE: sqlx/diesel/seaorm 사용, DB 쿼리 작성, 마이그레이션 설정, 트랜잭션 관리,
+  커넥션 풀 설정, PostgreSQL/MySQL/SQLite 연동, ORM 모델 설계 시 반드시 사용.
+  러스트 DB 연동, 쿼리 작성, 마이그레이션 생성, 커넥션 풀 설정, ORM 패턴 구현 시 반드시 활성화.
 version: 1.0.0
 category: database
 user-invocable: true

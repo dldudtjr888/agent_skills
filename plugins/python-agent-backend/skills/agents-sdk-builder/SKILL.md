@@ -1,6 +1,6 @@
 ---
 name: agents-sdk-builder
-description: "Use when user explicitly mentions 'OpenAI Agents SDK', 'openai-agents', or asks to build multi-agent systems with OpenAI's agent framework. NOT for general chatbot requests (could be LangChain, CrewAI, etc). This skill provides architecture decisions and patterns; always pair with Context7 for current API syntax."
+description: "OpenAI Agents SDK (openai-agents v0.7+) 멀티에이전트 빌더. 트리거: 'from agents import Agent', 'from agents import Runner', 'pip install openai-agents', 'OpenAI Agents SDK', 'openai-agents', Agent/Runner/Handoff/GuardrailFunctionOutput 사용, 'function_tool 데코레이터', 'run_streamed', 'RunContextWrapper'. 한국어 트리거: 'OpenAI 에이전트 SDK로 만들기', '멀티에이전트 핸드오프', '에이전트 가드레일 구현', 'OpenAI 에이전트 세션 관리'. OpenAI Agents SDK API가 매우 빠르게 변경됨 - 반드시 이 스킬 참조 후 Context7으로 최신 구문 확인. NOT for general chatbot (could be LangChain/CrewAI/PydanticAI)."
 ---
 
 # Agents SDK Builder - Complete Guide

@@ -1,6 +1,6 @@
 ---
 name: unity-planning
-description: "Unity 게임 기획 워크플로우. 사용 시점: (1) 새 Unity 게임 프로젝트 시작 시, (2) 게임 아이디어를 기획 문서로 정리할 때, (3) '기획해줘' 또는 'GDD 만들어줘' 요청 시, (4) planning 폴더에 문서 생성이 필요할 때"
+description: "Unity 게임 기획 7단계 워크플로우 — 아이디어 수집 → Reference 분석 → 내용 정리 → 부족 부분 질문 → planning/ 폴더에 17개 주제별 문서 생성(concept, core-loop, mechanics, levels, metrics, tech-stack, folder-structure 등) → CLAUDE.md 업데이트 → Self Reflection. Use when starting a new Unity game project, creating GDD (Game Design Document), organizing game ideas into structured planning docs, or setting up a Unity project planning folder. '게임 기획해줘', 'GDD 만들어줘', 'Unity 프로젝트 시작', '게임 아이디어 정리', '기획 문서 작성', 'planning 문서', '게임 컨셉 정리', 'create game design document' 요청 시 반드시 트리거."
 ---
 
 # Unity Planning

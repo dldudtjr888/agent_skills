@@ -1,6 +1,12 @@
 ---
 name: langchain-rust-builder
-description: "LangChain Rust 빌더. 체인, 메모리, 에이전트 패턴을 Rust에서 구현."
+description: >-
+  langchain-rust 크레이트 기반 LLM 체인/에이전트 빌더. SequentialChain, LLMChain, RouterChain,
+  ConversationBufferMemory, VectorStoreMemory, ReActAgent, PlanAndExecuteAgent 패턴 구현.
+  llm_chain!() 매크로, PromptTemplate, OutputParser, Tool trait 구현법 포함.
+  MUST USE: langchain-rust 크레이트 사용, Rust에서 LLM 체인 파이프라인 구축, 대화형 메모리 통합,
+  ReAct/Plan-and-Execute 에이전트 설계 시 반드시 사용.
+  러스트 LLM 체인 만들기, langchain 패턴 구현, 에이전트 도구 연결, 메모리 통합 시 반드시 활성화.
 version: 1.0.0
 category: ai-agent
 user-invocable: true

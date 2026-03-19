@@ -1,6 +1,6 @@
 ---
 name: task-planner
-description: "사용자와 대화를 통해 요구사항을 구체화하고, 프로젝트를 분석하여 명확한 구현 계획 문서를 작성. 사용 시점: (1) '계획 세워줘' 요청 시, (2) 기능 추가/수정 전 설계 필요 시, (3) 리팩토링/버그 수정 방향 논의 시. 단순 작업, 태스크 분해(task-decomposer), 태스크 실행(task-executor)에는 사용하지 않음."
+description: "모호한 요청을 Clarify→Analyze→Plan 3단계 대화로 구체화하여 구현 계획 문서를 작성하는 스킬 — Serena/Grep/WebSearch로 코드베이스 분석, 변경 대상 파일/심볼 식별, 의존성 매핑, 리스크 평가 포함. task-decomposer의 입력을 생성. Use when planning new features, designing refactoring strategies, scoping bugfix approaches, creating implementation plans, or analyzing project impact before coding. '계획 세워줘', '설계해줘', '구현 방향 잡아줘', '이거 어떻게 만들지', '기능 추가 전에 분석해줘', '리팩토링 계획', 'plan this feature', 'design the implementation' 요청 시 반드시 트리거."
 ---
 
 # Task Planner

@@ -1,8 +1,7 @@
 ---
 name: falkordb-graphrag
 description: |
-  FalkorDB 그래프 데이터베이스 및 GraphRAG 패턴. 지식 그래프 구축,
-  OpenCypher 쿼리, 벡터/풀텍스트 인덱싱, GraphRAG-SDK 활용.
+  FalkorDB 그래프 데이터베이스 + GraphRAG 종합 가이드 — 지식 그래프(Knowledge Graph) 모델링, OpenCypher 쿼리 패턴, 벡터/풀텍스트/레인지 인덱싱, GraphRAG-SDK 자동 KG 구축, 온톨로지 설계, 다중 홉 추론. Traditional RAG 대비 5x 쿼리 속도, 90% 환각 감소, 40% 인프라 비용 절감. Python falkordb 클라이언트, Docker 배포 포함. Use when building knowledge graphs, implementing GraphRAG pipelines, writing OpenCypher queries, designing graph-based RAG systems, modeling entity relationships, or needing explainable AI with path tracing. 'FalkorDB', 'GraphRAG', '지식 그래프', 'knowledge graph', 'Cypher 쿼리', '그래프 DB', '그래프 데이터베이스', '관계 기반 RAG', 'entity relationship', '다중 홉 추론', 'multi-hop reasoning' 요청 시 반드시 트리거.
 version: 1.0.0
 category: graph-database
 user-invocable: true

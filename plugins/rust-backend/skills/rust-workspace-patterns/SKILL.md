@@ -1,6 +1,13 @@
 ---
 name: rust-workspace-patterns
-description: "Rust 워크스페이스 패턴. 모듈 구조, 가시성, 멀티크레이트 프로젝트."
+description: >-
+  Rust Cargo 워크스페이스 패턴. [workspace.dependencies]로 버전 통합, workspace.package 상속,
+  pub(crate)/pub(super) 가시성 제어, feature flags 조합, #[cfg(feature)] 조건부 컴파일,
+  멀티크레이트(domain/api/infra) 레이어 분리, 공유 타입 크레이트, trait 추상화 레이어,
+  cargo-hakari 빌드 최적화, Cargo.lock 관리, path/git/registry 의존성 전략.
+  MUST USE: Cargo workspace 구성, 멀티크레이트 프로젝트 설계, feature flag 설정,
+  모듈 가시성 결정, 크레이트 간 의존성 관리, 모노레포 Rust 구조 설계 시 반드시 사용.
+  러스트 워크스페이스 구성, 멀티크레이트 분리, feature 플래그, 모듈 구조 설계 시 반드시 활성화.
 version: 1.0.0
 category: patterns
 user-invocable: true

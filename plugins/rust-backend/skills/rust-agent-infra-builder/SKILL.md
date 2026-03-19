@@ -1,6 +1,12 @@
 ---
 name: rust-agent-infra-builder
-description: "Rust AI 에이전트 인프라 빌더. 메모리 스토어, 프롬프트 관리, MCP 통합을 종합적으로 가이드."
+description: >-
+  Rust AI 에이전트 인프라 빌더. moka 캐시, redis/redb 메모리 스토어, tera/minijinja 프롬프트 템플릿,
+  MCP (Model Context Protocol) 서버/클라이언트 구현, rmcp 크레이트, tool registry,
+  context window 관리, 세션 퍼시스턴스 패턴을 종합적으로 다룹니다.
+  MUST USE: AI 에이전트 인프라 구축, moka 캐시 설정, MCP 서버 구현, 프롬프트 매니저 설계,
+  에이전트 메모리 저장소, 컨텍스트 관리 시스템 구축 시 반드시 사용.
+  러스트 에이전트 인프라, MCP 통합, 메모리 스토어 구현, 프롬프트 관리 시 반드시 활성화.
 version: 1.0.0
 category: infrastructure
 user-invocable: true

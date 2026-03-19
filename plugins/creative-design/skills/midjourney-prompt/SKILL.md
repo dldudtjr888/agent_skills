@@ -1,6 +1,6 @@
 ---
 name: midjourney-prompt
-description: "미드저니(Midjourney) 프롬프트 생성 스킬. 사용자가 한국어로 이미지 설명을 요청하면 미드저니 V7에 최적화된 영어 프롬프트를 생성합니다. '/midjourney', '미드저니 프롬프트', '미드저니로 만들어줘', 'MJ 프롬프트', '이미지 프롬프트 만들어줘' 등의 요청 시 트리거됩니다. 게임 캐릭터 디자인, 컨셉아트, 환경 디자인, UI/아이콘 등 게임 개발 관련 이미지 생성에도 특화되어 있습니다."
+description: "Midjourney V7 웹 UI 전용 프롬프트 생성 — 캐릭터/환경/아이템/UI/포토리얼/일러스트/3D/애니메이션(Niji 7) 8개 카테고리, --ar/--stylize/--style/--chaos/--weird 파라미터 자동 추천, --oref/--sref 이미지 레퍼런스, Editor 모드(Inpaint/Retexture), Personalize/Moodboard/Style Creator 스타일 제어, 한국어→영어 키워드 매핑. Use when generating Midjourney prompts, creating concept art, designing game characters/environments/items, making AI illustrations, building mood boards, converting Korean descriptions to MJ prompts, or using Editor mode for inpainting/retexturing. '/midjourney', '미드저니 프롬프트', '미드저니로 만들어줘', 'MJ 프롬프트', '이미지 프롬프트', '컨셉아트 프롬프트', '캐릭터 디자인 프롬프트', '에딧 프롬프트', '인페인팅', '리텍스처', '무드보드', '스타일 크리에이터' 요청 시 반드시 트리거."
 metadata:
   author: youngseoklee
   version: "1.2.0"

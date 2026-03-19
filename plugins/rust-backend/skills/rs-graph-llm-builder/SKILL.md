@@ -1,6 +1,12 @@
 ---
 name: rs-graph-llm-builder
-description: "rs-graph-llm 워크플로우 빌더. LangGraph 스타일의 StateGraph 패턴을 Rust에서 구현."
+description: >-
+  rs-graph-llm 크레이트 기반 워크플로우 에이전트 빌더. LangGraph 스타일 StateGraph, add_node(),
+  add_conditional_edges(), CompiledGraph, State 구조체 설계, 조건부 분기, 순환 그래프,
+  human-in-the-loop 체크포인트 패턴을 Rust에서 네이티브 구현.
+  MUST USE: rs-graph-llm 사용, LangGraph 패턴 Rust 구현, 워크플로우 기반 에이전트, StateGraph 설계,
+  조건부 라우팅, 그래프 기반 LLM 파이프라인 구축 시 반드시 사용.
+  러스트 워크플로우 에이전트, 그래프 기반 LLM, LangGraph Rust 버전 구현 시 반드시 활성화.
 version: 1.0.0
 category: ai-agent
 user-invocable: true

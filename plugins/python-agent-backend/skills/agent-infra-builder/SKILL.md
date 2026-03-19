@@ -1,6 +1,6 @@
 ---
 name: agent-infra-builder
-description: "Python AI 에이전트 인프라 빌더. Guardrails, Handler 패턴, MCP 통합, Memory Store, Prompt 관리, LangGraph 워크플로우를 종합적으로 가이드."
+description: "Python AI 에이전트 인프라 종합 빌더 - Guardrails, SSE Handler, MCP(Model Context Protocol), 3-Tier Memory Store, YAML Prompt 관리, LangGraph StateGraph 워크플로우. 트리거: 'guardrail 구현', 'SSE 스트리밍 핸들러', 'MCP 서버 연동', 'prompt injection 방지', 'PII 마스킹', 'context assembly', '에이전트 인프라 설계', '메모리 스토어 구축'. 에이전트 백엔드 인프라 구축 시 반드시 참조 - 프레임워크 비종속적 공통 패턴 포함. API가 자주 변경됨 - 반드시 이 스킬 참조."
 version: 1.0.0
 category: infrastructure
 user-invocable: true

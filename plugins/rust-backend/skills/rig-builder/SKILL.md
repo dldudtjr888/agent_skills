@@ -1,6 +1,12 @@
 ---
 name: rig-builder
-description: "Rig LLM 에이전트 빌더. Rust에서 LLM 애플리케이션을 구축하기 위한 패턴과 가이드."
+description: >-
+  rig-core 크레이트 기반 LLM 에이전트 빌더. Client::from_env(), agent().preamble().build(),
+  Tool trait, Embed trait, VectorStore (qdrant/lancedb), RAG pipeline, EmbeddingModel,
+  CompletionModel, openai::Client, anthropic::Client 패턴을 다룹니다.
+  MUST USE: rig 크레이트 사용, Rust LLM 에이전트/RAG 앱 구축, 벡터 검색 통합, 임베딩 파이프라인,
+  OpenAI/Anthropic API를 Rust에서 호출, tool-use 에이전트 구현 시 반드시 사용.
+  러스트 AI 에이전트 빌드, rig 프레임워크 사용, RAG 구현, LLM 앱 만들기 시 반드시 활성화.
 version: 1.0.0
 category: ai-agent
 user-invocable: true

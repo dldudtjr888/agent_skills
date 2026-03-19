@@ -1,6 +1,13 @@
 ---
 name: rust-crate-ecosystem
-description: "Rust 주요 크레이트 가이드. serde, tracing, tower, reqwest 등 필수 크레이트."
+description: >-
+  Rust 핵심 크레이트 에코시스템 가이드. serde/serde_json 직렬화, tracing/tracing-subscriber 구조화 로깅,
+  tower/tower-http 미들웨어, reqwest HTTP 클라이언트, moka 캐시, rdkafka Kafka 클라이언트,
+  lapin RabbitMQ AMQP, tonic gRPC, prost protobuf, config-rs 설정 관리, clap CLI 파서,
+  chrono/time 시간 처리, uuid, base64, regex 유틸리티 크레이트 사용법과 조합 패턴.
+  MUST USE: Rust 크레이트 선택, serde 직렬화 패턴, tracing 설정, reqwest 사용, 메시지 큐(rdkafka/lapin)
+  연동, 캐시(moka) 설정, gRPC(tonic) 서비스 구축 시 반드시 사용.
+  러스트 크레이트 추천, 필수 라이브러리 선택, 직렬화/로깅/HTTP/메시지큐 설정 시 반드시 활성화.
 version: 1.0.0
 category: ecosystem
 user-invocable: true

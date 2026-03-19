@@ -1,6 +1,6 @@
 ---
 name: sql-production-analyzer
-description: "SQL DB(PostgreSQL, MySQL, SQLite) 프로덕션 분석. 스키마, N+1, SQL Injection, 코드-스키마 일관성 검사."
+description: "PostgreSQL/MySQL/SQLite 프로덕션 SQL 분석 — Prisma, TypeORM, SQLAlchemy, Django ORM, Sequelize, Drizzle, Knex 지원. SQL Injection 탐지, N+1 쿼리 패턴 감지, SELECT * 경고, OFFSET 페이지네이션 안티패턴, FK 인덱스 누락, 코드-DB 스키마 불일치 검사. Use when auditing SQL queries, checking for N+1 problems, finding SQL injection risks, analyzing ORM schema, reviewing database performance, or validating production readiness. 'SQL 분석', 'N+1 쿼리 찾아줘', 'SQL Injection 검사', '스키마 검토', 'DB 성능', '쿼리 최적화', 'ORM 분석', '프로덕션 DB 점검' 요청 시 반드시 트리거."
 ---
 
 # SQL Production Analyzer

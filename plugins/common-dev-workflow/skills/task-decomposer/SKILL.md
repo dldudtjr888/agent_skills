@@ -1,6 +1,24 @@
 ---
 name: task-decomposer
-description: "자연어 계획을 실행 가능한 구체적 태스크로 분해하는 스킬. 새 기능 개발, 리팩토링, 버그 수정 등 코딩 계획을 체크박스 마크다운으로 변환. 재귀적 분해, 의존성 매핑, 병렬화 웨이브 그룹핑, 진행 상태 추적, 검증 체크리스트 포함. 사용 시점: (1) 계획을 태스크로 분해할 때, (2) 태스크 만들어줘 요청 시, (3) 복잡한 개발 작업을 단계별로 나눌 때"
+description: >-
+  자연어 개발 계획을 실행 가능한 체크박스 마크다운 태스크로 변환 — 재귀적 분해, 의존성 매핑,
+  Wave 병렬화, 스킬 자동 제안, 진행률 추적. task-*.md/tasks.md/TODO.md 파일 트리거.
+  Use when decomposing development plans into executable tasks, creating task-*.md files,
+  breaking features/refactoring/bugfix into atomic steps, building Wave-based parallel
+  execution plans, or generating task checklists with dependency graphs.
+  '태스크 분해해줘', '태스크 만들어줘', '구현 계획 세워줘', '작업 목록 만들어줘',
+  '이 계획을 태스크로 나눠줘', 'break down tasks', 'create task list',
+  'decompose this plan' 요청 시 반드시 트리거. Triggers on task-*.md files.
+version: 1.1.0
+metadata:
+  author: youngseoklee
+  version: "1.1.0"
+  date: "March 2026"
+  filePattern:
+    - "task-*.md"
+    - "tasks.md"
+    - "tasks-*.md"
+    - "TODO.md"
 ---
 
 # Task Decomposer

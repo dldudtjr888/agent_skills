@@ -1,6 +1,12 @@
 ---
 name: rust-error-handling
-description: "Rust 에러 처리 심화. thiserror, anyhow, 커스텀 에러, 에러 전파 패턴."
+description: >-
+  Rust 에러 처리 심화. thiserror::Error derive로 라이브러리 에러 타입 설계, anyhow::Result + .context()로
+  애플리케이션 에러 전파, #[from] 자동 변환, Display/Error trait 구현, 에러 체인 추적,
+  axum IntoResponse 에러 매핑, ? 연산자 활용, Box<dyn Error> vs enum 에러, miette 진단 에러.
+  MUST USE: thiserror/anyhow 사용, 커스텀 에러 타입 설계, Result<T, E> 에러 전파, ? 연산자 패턴,
+  에러 변환 From impl, axum 에러 응답, 에러 로깅 연동 시 반드시 사용.
+  러스트 에러 처리, 에러 타입 설계, anyhow vs thiserror 선택, 에러 전파 패턴 시 반드시 활성화.
 version: 1.0.0
 category: patterns
 user-invocable: true

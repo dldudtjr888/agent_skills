@@ -1,8 +1,7 @@
 ---
 name: langgraph-builder
 description: >
-  Build LLM agents with LangGraph. Use for: ReAct agents, multi-agent (supervisor/swarm),
-  stateful workflows, human-in-the-loop. Always fetch latest docs via URLs provided.
+  LangGraph (langgraph v1.0.5+, langgraph-supervisor v0.0.31, langgraph-swarm v0.1.0) LLM 에이전트 빌더. 트리거: 'from langgraph.graph import StateGraph', 'from langchain.agents import create_agent', 'pip install langgraph', 'StateGraph', 'add_messages', 'Annotated[list, add_messages]', 'InMemorySaver', 'checkpointer', 'interrupt_before', 'langgraph supervisor', 'langgraph swarm', 'create_agent middleware'. 한국어 트리거: 'LangGraph로 에이전트 만들기', 'LangGraph 워크플로우', '상태 그래프 빌드', 'LangGraph 멀티에이전트', 'LangGraph 인간 개입(HITL)', 'LangGraph 체크포인터'. LangGraph v1.0+ API가 이전 버전과 크게 다름 - baseline Claude가 구버전 API를 생성할 수 있으므로 반드시 이 스킬 참조. create_agent, middleware 등 최신 API 포함.
 ---
 
 # LangGraph Builder

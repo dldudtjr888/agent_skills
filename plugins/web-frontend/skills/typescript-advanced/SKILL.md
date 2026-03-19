@@ -1,7 +1,9 @@
 ---
 name: typescript-advanced
-description: 제네릭, 유틸리티 타입, 타입 가드, 브랜드 타입, React 전용 패턴 등 프론트엔드 개발을 위한 고급 TypeScript 패턴.
-version: 1.0.0
+description: >-
+  고급 TypeScript 패턴 종합 — 제네릭(함수/컴포넌트/훅), 유틸리티 타입(DeepPartial, RequireAtLeastOne, ValueOf), 타입 가드(is/asserts), 브랜드 타입(UserId/ItemId 혼동 방지), 조건부 타입(infer, Extract/Exclude), 판별 유니온(Discriminated Union), 템플릿 리터럴 타입, Zod 스키마 통합(z.infer), React 전용 패턴(PolymorphicProps, forwardRef, Children 타입, 이벤트 핸들러), satisfies 연산자, const 단언. Use when writing complex TypeScript types, solving generic constraints, implementing type-safe API wrappers, building type-safe React components, using Zod for runtime validation, applying branded types, or reviewing TypeScript code for type safety.
+  '타입스크립트 고급', 'TypeScript 패턴', '제네릭 설계', '타입 가드', '브랜드 타입', '조건부 타입', 'Zod 타입', 'React TypeScript', 'TS 타입 에러', '타입 안전', 'type-safe', 'infer 사용법', 'satisfies' 요청 시 반드시 트리거. Triggers on *.ts, *.tsx, tsconfig.json, *.d.ts files.
+version: 1.1.0
 category: language
 user-invocable: true
 triggers:
@@ -9,6 +11,19 @@ triggers:
   intentPatterns:
     - "(타입|제네릭|TypeScript).*(패턴|고급|심화)"
     - "(type|generic|typescript).*(pattern|advanced|complex)"
+  file_patterns: ["*.ts", "*.tsx", "tsconfig.json", "*.d.ts"]
+metadata:
+  author: youngseoklee
+  version: "1.1.0"
+  date: "March 2026"
+  filePattern:
+    - "*.ts"
+    - "*.tsx"
+    - "tsconfig.json"
+    - "*.d.ts"
+  bashPattern:
+    - "tsc"
+    - "tsx"
 ---
 
 # 고급 TypeScript 패턴

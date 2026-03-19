@@ -1,6 +1,6 @@
 ---
 name: google-adk-builder
-description: "Google ADK(Agent Development Kit) 기반 AI 에이전트/멀티에이전트 시스템 구축 스킬. 프로젝트 셋업, 에이전트 정의, 도구 통합, 상태 관리, 멀티에이전트 오케스트레이션, 테스트, 배포를 가이드한다."
+description: "Google ADK (Agent Development Kit, google-adk v1.23.0+) AI 에이전트/멀티에이전트 빌더. 트리거: 'from google.adk.agents import Agent', 'from google.adk.agents import SequentialAgent', 'pip install google-adk', 'adk web', 'adk run', 'adk eval', 'LlmAgent', 'ParallelAgent', 'LoopAgent', 'MCPToolset', 'InMemoryRunner', 'ToolContext', 'google.adk', 'Vertex AI Agent Engine'. 한국어 트리거: 'Google ADK로 에이전트 만들기', '구글 에이전트 개발', 'ADK 멀티에이전트 오케스트레이션', 'Gemini 에이전트 프레임워크', 'ADK 배포/테스트'. Google ADK는 2025년 출시된 신규 프레임워크로 baseline Claude가 정확히 모름 - API가 자주 변경됨 - 반드시 이 스킬 참조."
 version: 1.0.0
 category: framework
 user-invocable: true

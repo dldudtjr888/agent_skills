@@ -1,16 +1,21 @@
 ---
 name: deep-agents-builder
 description: |
-  This skill should be used when the user asks to build agents with LangChain Deep Agents,
-  create planning agents, implement subagent delegation, or configure agent middleware.
-  Examples:
-  - "Deep Agents로 에이전트 만들기"
-  - "langchain agent builder"
-  - "서브에이전트 설계"
-  - "에이전트 미들웨어 구성"
-  - "deepagents CLI 사용법"
-  - "에이전트 영속 메모리 설정"
-version: 3.0.0
+  LangChain Deep Agents (deepagents v0.3.8+) 멀티스텝 에이전트 빌더. 트리거: 'from deepagents import create_deep_agent', 'pip install deepagents', 'deepagents CLI', 'TodoListMiddleware', 'FilesystemMiddleware', 'SubAgentMiddleware', 'SummarizationMiddleware', 'HumanInTheLoopMiddleware', 'CompositeBackend', 'StoreBackend'. 한국어 트리거: 'Deep Agents로 에이전트 만들기', '서브에이전트 위임 패턴', '에이전트 미들웨어 구성', 'deepagents CLI 사용법', '영속 메모리 설정', 'HITL(Human-in-the-Loop) 구현'. Deep Agents는 LangChain의 최신 에이전트 프레임워크로 API가 자주 변경됨 - 반드시 이 스킬 참조. baseline Claude가 모르는 니치 프레임워크임.
+version: 3.1.0
+metadata:
+  author: youngseoklee
+  version: "3.1.0"
+  date: "March 2026"
+  filePattern:
+    - "*.py"
+    - "pyproject.toml"
+    - "requirements*.txt"
+  bashPattern:
+    - "python"
+    - "pip"
+    - "uv"
+    - "deepagents"
 ---
 
 # Deep Agents 에이전트 빌더 가이드

@@ -1,8 +1,7 @@
 ---
 name: semantic-search
 description: |
-  시맨틱 검색 패턴. 임베딩 모델 선택, 하이브리드 검색,
-  필터링 전략, 유사도 메트릭 최적화.
+  시맨틱 검색 시스템 종합 가이드 — 임베딩 모델 선택(text-embedding-3-small/large, multilingual-e5-large, bge-large-en, all-MiniLM-L6-v2), 하이브리드 검색(BM25+Vector, RRF 융합), Pre/Post 필터링 전략, Cosine/Euclidean/Dot Product 유사도 메트릭 최적화, 벡터 양자화(int8), HNSW 튜닝, 배치 검색, 캐싱. Use when implementing semantic search, choosing embedding models, building hybrid search (BM25+vector), optimizing similarity metrics, configuring vector search filters, or comparing embedding model performance. '시맨틱 검색', 'semantic search', '임베딩 모델 선택', '하이브리드 검색', 'hybrid search', 'BM25', '유사도 검색', 'vector search', '임베딩', 'embedding', '검색 시스템 구축', '의미 검색' 요청 시 반드시 트리거.
 version: 1.0.0
 category: search
 user-invocable: true

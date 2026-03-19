@@ -1,12 +1,9 @@
 ---
 name: godot-dev
 description: >
-  Godot 4.x 개발 어시스턴트. GDScript(.gd), 씬(.tscn), 리소스(.tres), project.godot
-  파일을 읽거나 편집할 때 자동 활성화. 변경된 API만 선별적으로 공식 문서에서 WebFetch로
-  확인하고, 정확한 씬/리소스 파일 형식으로 생성하며, Godot 아키텍처 패턴을 따르도록 가이드.
-  'godot', 'gdscript', '씬 파일', '노드 구조', 'GDScript', '.tscn 편집' 등
-  Godot 관련 작업 시 반드시 사용. Godot 프로젝트 폴더에서 작업하거나, 사용자가
-  Godot 게임 개발을 언급할 때도 트리거.
+  Godot 4.x(4.3~4.6) 개발 어시스턴트 — .tscn/.tres 파일을 4.6 표준 형식으로 정확히 생성(load_steps 생략, uid 생략, [connection] 시그널), GDScript 타입 힌트/컨벤션 가이드, 4.3+ breaking API(TileMapLayer, Jolt Physics, 타입 딕셔너리, @export_tool_button, 가변 인자, 추상 클래스) 자동 감지 후 WebFetch 확인, Autoload 싱글턴/시그널 버스/상태 머신/씬 합성/Resource 패턴 아키텍처 가이드, .gdshader 셰이더 지원.
+  Use when writing GDScript, creating/editing .tscn scenes, working with .tres resources, configuring project.godot, building Godot game architecture, or debugging Godot 4.x API changes.
+  'Godot', 'GDScript', '.tscn 편집', '.tres 생성', '씬 파일', '노드 구조', 'Godot 게임', 'project.godot', 'TileMapLayer', 'Godot 4', '고도 엔진', 'gdshader' 요청 시 반드시 트리거. *.gd, *.tscn, *.tres, *.gdshader, project.godot 파일 작업 시 자동 활성화.
 metadata:
   author: youngseoklee
   version: "1.0.0"

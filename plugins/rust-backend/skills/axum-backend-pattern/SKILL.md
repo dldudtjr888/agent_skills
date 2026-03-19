@@ -1,6 +1,13 @@
 ---
 name: axum-backend-pattern
-description: "Axum 백엔드 패턴 가이드. 라우터 설계, 미들웨어, State 관리, 에러 핸들링, 테스트 패턴을 다룹니다."
+description: >-
+  Axum + Tower + Hyper 기반 백엔드 패턴. Router::nest, Router::merge, State<Arc<AppState>>,
+  FromRequest/FromRequestParts 커스텀 추출자, tower::ServiceBuilder 미들웨어 체인,
+  IntoResponse 에러 변환, axum::extract::Extension vs State 선택, tower-http::cors/trace/compression,
+  axum-extra의 TypedHeader/CookieJar 활용법을 다룹니다.
+  MUST USE: axum 서버 구축, API 라우팅, 미들웨어 레이어 추가, 핸들러 작성, into_response 구현,
+  tower 서비스 레이어 설계, axum extractor 구현 시 반드시 사용.
+  러스트 백엔드 만들기, API 서버 설계, axum 미들웨어 추가, 핸들러 테스트 작성 시 반드시 활성화할 것.
 version: 1.0.0
 category: backend
 user-invocable: true

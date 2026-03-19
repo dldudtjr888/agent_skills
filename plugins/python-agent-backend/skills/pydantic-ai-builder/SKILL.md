@@ -1,6 +1,6 @@
 ---
 name: pydantic-ai-builder
-description: PydanticAI 프레임워크로 타입 안전한 AI 에이전트를 빌드하는 가이드. Agent, Tool, Deps, Output 패턴과 멀티에이전트 오케스트레이션 템플릿.
+description: "PydanticAI (pydantic-ai v0.1+) 타입 안전 AI 에이전트 빌더. 트리거: 'from pydantic_ai import Agent', 'from pydantic_ai import RunContext', 'pip install pydantic-ai', '@agent.tool', '@agent.tool_plain', 'agent.run_sync', 'agent.run_stream', 'ToolOutput', 'TestModel', 'FallbackModel', 'UsageLimits', 'deps_type', 'output_type'. 한국어 트리거: 'PydanticAI로 에이전트 만들기', 'Pydantic AI 에이전트', '타입 안전 에이전트', 'PydanticAI 의존성 주입', 'PydanticAI 멀티에이전트'. PydanticAI는 Pydantic 팀의 신규 프레임워크로 baseline Claude가 정확한 API를 모름 - 반드시 이 스킬 참조. API가 자주 변경됨 - instructions vs system_prompt 차이 등 주의."
 version: 1.0.0
 category: framework
 user-invocable: true

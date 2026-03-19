@@ -1,7 +1,7 @@
 ---
 name: code-refactoring-analysis
 version: "1.1.0"
-description: Multi-dimensional static code analysis for Python and JavaScript/TypeScript projects (React, Next.js, Vue, Svelte). Use when users request "analyze code", "code quality", "technical debt", "code smells", "security scan", or "performance analysis".
+description: "Python/JavaScript/TypeScript(React, Next.js, Vue, Svelte) 프로젝트의 5차원 정적 코드 분석 — radon, bandit, pylint, eslint, madge, jscpd 활용. Maintainability(35%), Security(25%), Performance(20%), Scalability(10%), Reusability(10%) 점수 산출. Use when analyzing code quality, detecting technical debt, finding code smells, running security scans, measuring cyclomatic complexity, identifying refactoring opportunities, or auditing performance hotspots. '코드 분석해줘', '코드 품질 검사', '기술 부채 점검', '코드 스멜 찾아줘', '보안 스캔', '성능 분석', '리팩토링 포인트', 'code health check', 'static analysis' 요청 시 반드시 트리거."
 
 triggers:
   keywords: ["analyze code", "code quality", "technical debt", "code smells", "security scan", "performance analysis", "refactoring opportunities", "check code health"]

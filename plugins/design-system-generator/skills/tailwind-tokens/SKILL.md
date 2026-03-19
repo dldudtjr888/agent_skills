@@ -1,7 +1,11 @@
 ---
 name: tailwind-tokens
-description: 디자인 토큰을 Tailwind CSS v4 @theme 형식으로 변환. CSS 변수, Style Dictionary 호환.
-version: 1.0.0
+description: >-
+  디자인 토큰을 Tailwind CSS v3(tailwind.config.ts + globals.css)/v4(@theme 디렉티브 + app.css) 형식으로 자동 생성 — HEX→OKLCh 50-950 컬러 스케일, CSS 변수 기반 시맨틱 토큰(background/foreground/primary), 다크모드 자동 생성, shadcn/ui 호환 구조, Style Dictionary 호환.
+  Use when setting up Tailwind design tokens, generating color scales from hex codes, configuring @theme directives (v4), creating CSS variable systems, building design systems, or converting Figma tokens to Tailwind config.
+  'Tailwind 토큰 만들어줘', '컬러 스케일 생성', '@theme 설정', '디자인 토큰 변환', '디자인 시스템 구축', 'Tailwind 설정', 'globals.css 생성', 'tailwind config', 'CSS 변수 설정', '다크모드 토큰' 요청 시 반드시 트리거.
+  Triggers on tailwind.config.*, globals.css, app.css, theme.css, tokens.json.
+version: 1.1.0
 category: design
 user-invocable: true
 triggers:
@@ -10,6 +14,18 @@ triggers:
     - "(tailwind|테일윈드).*(토큰|token|설정|config)"
     - "(디자인|design).*(토큰|token).*(변환|convert|export)"
     - "@theme.*(생성|만들|설정)"
+  file_patterns: ["tailwind.config.*", "globals.css", "theme.css"]
+metadata:
+  author: youngseoklee
+  version: "1.1.0"
+  date: "March 2026"
+  filePattern:
+    - "tailwind.config.*"
+    - "globals.css"
+    - "theme.css"
+    - "tokens.json"
+  bashPattern:
+    - "tailwindcss"
 ---
 
 # Tailwind Tokens Generator

@@ -1,6 +1,6 @@
 ---
 name: state-management
-description: Zustand, Jotai, TanStack Query, React Context를 활용한 React 상태 관리 패턴. 각 솔루션의 사용 시점과 모범 사례를 다룹니다.
+description: "React 상태 관리 종합 패턴 — Zustand(전역 클라이언트 상태, devtools, persist 미들웨어), Jotai(원자적 상태, atomWithStorage, 파생 atom), TanStack Query(서버 상태, 캐싱, 낙관적 업데이트, 쿼리 키 팩토리), React Context(테마/인증), nuqs(URL 상태), React Hook Form + Zod(폼). 안티패턴 가이드 포함. Use when choosing state management solutions, implementing Zustand stores, setting up TanStack Query, designing Jotai atoms, configuring React Context, managing URL state with nuqs, or deciding between server state vs client state. '상태 관리', 'Zustand', 'Jotai', 'TanStack Query', 'React Query', 'Context', '전역 상태', 'server state', '스토어 설계', 'state management', '낙관적 업데이트', 'optimistic update' 요청 시 반드시 트리거."
 version: 1.0.0
 category: patterns
 user-invocable: true

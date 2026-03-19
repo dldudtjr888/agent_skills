@@ -1,6 +1,6 @@
 ---
 name: unity-prototype
-description: "Unity 게임 프로토타입 워크플로우. 사용 시점: (1) planning 완료 후 프로토타입 시작 시, (2) Unity MCP로 실제 구현 진행 시, (3) '프로토타입 만들어줘' 요청 시, (4) 그레이박스 레벨/플레이어 컨트롤러 구현 시"
+description: "Unity MCP 기반 게임 프로토타입 구현 워크플로우 — tasks/ 태스크 문서 확인 → planning/ 기획 문서 확인 → manage_scene/read_console로 현재 상태 파악 → 범위 결정(프로젝트 설정/플레이어 컨트롤러/그레이박스 레벨/핵심 메카닉) → Wave별 모듈 구현. create_script, manage_gameobject, manage_scene, manage_material, manage_editor MCP 도구 활용. Use when implementing Unity prototypes after planning, building greybox levels, creating player controllers, implementing core mechanics with Unity MCP, or executing task-based Unity development. '프로토타입 만들어줘', 'Unity 구현 시작', '그레이박스 레벨', '플레이어 컨트롤러', 'Unity MCP 빌드', 'start prototype', 'implement the game' 요청 시 반드시 트리거."
 ---
 
 # Unity Prototype

@@ -1,6 +1,6 @@
 ---
 name: task-executor
-description: "task-decomposer가 생성한 태스크 마크다운을 실행하는 스킬. Wave별 병렬 실행, 스킬 활용, 의존성 존중, 진행 상태 실시간 업데이트. 사용 시점: (1) 태스크 파일 실행 요청 시, (2) '태스크 실행해줘' 요청 시, (3) Wave 단위 자동 실행이 필요할 때"
+description: "task-decomposer가 생성한 task-*.md 마크다운을 Wave별 병렬 실행하는 스킬 — 서브에이전트 자동 매핑, 스킬 동적 탐색/호출, 의존성(blocked by) 존중, 체크박스 실시간 업데이트, Resume(중단 재개), Dry-run 미리보기, 실행 리포트 생성. Use when executing task markdown files, running Wave-based parallel tasks, resuming interrupted task execution, or previewing task execution plans. '태스크 실행해줘', '이어서 실행해줘', '태스크 파일 실행', '미리보기 해줘', 'execute tasks', 'run task file', 'resume tasks' 요청 시 반드시 트리거."
 ---
 
 # Task Executor

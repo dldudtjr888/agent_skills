@@ -1,9 +1,13 @@
 ---
 name: database-design
 description: |
-  데이터베이스 설계 가이드. 스키마 설계, 정규화, 인덱싱 전략, 마이그레이션 패턴.
-  언어/ORM 무관한 개념 중심 + Python/Rust 치트시트 포함.
-version: 1.0.0
+  데이터베이스 설계 전문 가이드 — 스키마 설계, 정규화/역정규화, 인덱싱 전략, 무중단 마이그레이션.
+  Python(SQLAlchemy/Alembic) + Rust(Diesel/SQLx/SeaORM) 치트시트 포함. Rust의 컴파일타임 쿼리 검증(SQLx)이 핵심 차별점.
+  MUST USE when: (1) 새 테이블/스키마 설계 시, (2) 인덱스 추가/최적화 판단 시,
+  (3) 정규화 수준(1NF~3NF) 또는 역정규화 결정 시, (4) 무중단 DB 마이그레이션 계획 시,
+  (5) 데이터 타입 선택이 애매할 때 (int vs bigint, varchar vs text, timestamp vs timestamptz),
+  (6) ERD 설계 또는 외래키/제약조건 구성 시. 안티패턴 레퍼런스가 있다 — 흔한 실수를 먼저 확인하라.
+version: 1.1.0
 category: database
 user-invocable: true
 triggers:
@@ -81,6 +85,13 @@ triggers:
    ↓
 5. 마이그레이션 계획
 ```
+
+## When NOT to Use
+
+- **ORM 프레임워크 사용법 심화** → `python-agent-backend-pattern` 또는 Rust ORM 가이드 참조
+- **NoSQL(MongoDB, DynamoDB) 설계** → NoSQL 전용 가이드 참조
+- **쿼리 튜닝/EXPLAIN 분석** → DBA 전문 자료 참조
+- **캐시 레이어 설계** → `caching-strategies` 스킬 사용
 
 ## 관련 에이전트
 

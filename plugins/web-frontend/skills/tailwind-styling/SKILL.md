@@ -1,6 +1,6 @@
 ---
 name: tailwind-patterns
-description: Tailwind CSS 패턴, 구성 전략, 커스텀 설정, 확장 가능한 스타일링 모범 사례.
+description: "Tailwind CSS 스타일링 종합 패턴 — cn()(clsx+tailwind-merge) 클래스 병합, CVA(class-variance-authority) 컴포넌트 변형, shadcn/ui CSS 변수 구조, 반응형 모바일 우선 디자인, 컨테이너 쿼리(@container), 다크 모드(next-themes), tailwind.config.ts 시맨틱 색상/borderRadius/keyframes 설정, tailwindcss-animate/@tailwindcss/typography 플러그인. Use when styling React/Next.js with Tailwind CSS, creating component variants with CVA, setting up cn() utility, configuring Tailwind design tokens, implementing dark mode, building responsive layouts, or organizing Tailwind class names. 'Tailwind', 'CSS 스타일링', 'cn() 설정', 'CVA 변형', '다크 모드', '반응형 디자인', 'Tailwind 설정', 'tailwind.config', 'className 관리', 'shadcn 스타일', 'Tailwind 패턴' 요청 시 반드시 트리거."
 version: 1.0.0
 category: styling
 user-invocable: true

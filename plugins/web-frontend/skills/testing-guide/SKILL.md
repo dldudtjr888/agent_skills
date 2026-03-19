@@ -1,6 +1,6 @@
 ---
 name: testing-guide
-description: React/Next.js 프론트엔드 테스트 패턴. Provider 테스트, 접근성 쿼리, React Query 테스트 등 React 특화 패턴.
+description: "React/Next.js 프론트엔드 테스트 종합 패턴 — Provider Wrapper(QueryClient+ThemeProvider+SessionProvider), TanStack Query 훅 테스트(renderHook, waitFor), Next.js App Router 모킹(useRouter, usePathname, useSearchParams), Server Component 테스트, Zustand Store 테스트, React Hook Form + Zod 폼 검증 테스트, jest-axe 접근성 테스트, Testing Library 쿼리 우선순위(Role→Label→Placeholder→Text). Use when testing React components, testing TanStack Query hooks, mocking Next.js router, testing Server Components, testing Zustand stores, testing forms with Zod validation, or running accessibility audits. 'React 테스트', '컴포넌트 테스트', 'Provider 테스트', 'React Query 테스트', 'Next.js 테스트', 'Zustand 테스트', '접근성 테스트', 'testing library', '프론트엔드 테스트', 'component testing', 'hook test' 요청 시 반드시 트리거."
 version: 1.0.0
 category: testing
 user-invocable: true

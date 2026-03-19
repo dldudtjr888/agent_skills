@@ -1,8 +1,7 @@
 ---
 name: tdd-fundamentals
 description: |
-  테스트 주도 개발(TDD) 핵심 개념. Red-Green-Refactor 사이클, 테스트 피라미드, AAA 패턴, 커버리지 가이드라인.
-  언어 무관 원칙. Python/TypeScript 치트시트 포함.
+  테스트 주도 개발(TDD) 종합 가이드 — Red-Green-Refactor 사이클, 테스트 피라미드(Unit 70%/Integration 20%/E2E 10%), AAA/Given-When-Then 패턴, 모킹 원칙, 커버리지 가이드라인. Python(pytest, conftest, Fixtures, FastAPI 테스트), TypeScript(Vitest, Jest, Testing Library, MSW, Playwright), Rust(cargo test, Mockall, Proptest) 언어별 치트시트 포함. Use when writing tests, setting up TDD workflow, choosing test strategies, configuring pytest/Vitest/Jest, implementing mocks, measuring code coverage, or learning test patterns. 'TDD', '테스트 작성법', '테스트 주도 개발', 'Red-Green-Refactor', '테스트 피라미드', '커버리지', 'pytest 설정', 'Vitest 설정', '모킹 패턴', 'test patterns' 요청 시 반드시 트리거.
 version: 1.0.0
 category: testing
 user-invocable: true

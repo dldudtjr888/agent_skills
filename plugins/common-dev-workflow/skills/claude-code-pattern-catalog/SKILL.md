@@ -1,6 +1,6 @@
 ---
 name: claude-code-pattern-catalog
-description: "9개 레포에서 추출한 Claude Code 스킬/에이전트/커맨드/훅 패턴 카탈로그. 스킬/에이전트/커맨드/훅을 만들거나 패턴을 참조할 때 사용. Use when creating skills, agents, commands, hooks, or looking for Claude Code extension patterns."
+description: "9개 레포에서 추출한 Claude Code 스킬/에이전트/커맨드/훅 패턴 카탈로그 (130+ skills, 85+ agents, 80+ commands, 55+ hooks). SKILL.md 작성, .claude/ 설정, settings.json 훅, slash command 생성, 에이전트 오케스트레이션, CLAUDE.md 규칙, skill-rules.json, MCP 설정 시 반드시 사용. Use when creating SKILL.md, writing agents (.md), configuring hooks (settings.json), building slash commands, setting up MCP servers, writing CLAUDE.md rules, or referencing Claude Code extension patterns. 'Claude Code 스킬 만들어줘', 'SKILL.md 작성', '에이전트 만들기', '훅 설정', '커맨드 추가', 'Claude Code 확장', 'MCP 설정', 'settings.json' 요청 시 반드시 트리거."
 ---
 
 # Claude Code Skill/Agent/Command/Hook Pattern Catalog

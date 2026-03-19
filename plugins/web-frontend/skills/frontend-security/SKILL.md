@@ -1,6 +1,6 @@
 ---
 name: frontend-security
-description: React/Next.js 애플리케이션의 프론트엔드 보안 패턴 및 모범 사례. XSS 방지, CSRF 보호, 안전한 인증, CSP, 일반 취약점을 다룹니다.
+description: "React/Next.js 프론트엔드 보안 종합 가이드 — XSS 방지(DOMPurify, dangerouslySetInnerHTML 살균), CSRF 보호(SameSite 쿠키, CSRF 토큰), JWT 인증(httpOnly 쿠키, jose 라이브러리), bcrypt/Argon2 비밀번호 해싱, CSP(Content Security Policy, Nonce), Zod 입력 검증, 보안 헤더(HSTS, X-Frame-Options), OWASP 체크리스트. Use when securing React/Next.js apps, preventing XSS attacks, implementing CSRF protection, setting up JWT authentication, configuring CSP headers, validating user input with Zod, or auditing frontend security. '보안 검토', 'XSS 방지', 'CSRF 보호', '인증 구현', 'CSP 설정', '보안 헤더', '입력 검증', '취약점 점검', 'security audit', 'frontend security', 'JWT 설정', '비밀번호 해싱' 요청 시 반드시 트리거."
 version: 1.0.0
 category: security
 user-invocable: true

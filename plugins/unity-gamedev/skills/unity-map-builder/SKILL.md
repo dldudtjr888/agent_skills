@@ -1,6 +1,19 @@
 ---
 name: unity-map-builder
-description: "Unity ProBuilder 기반 맵/레벨 자동 생성 워크플로우. 사용 시점: (1) '맵 만들어줘' 또는 '레벨 만들어줘' 요청 시, (2) '그레이박스 맵 만들어줘' 요청 시, (3) planning/07-levels.md 기반 맵 구현 시, (4) 이미지 기반 맵 설계 요청 시, (5) 설계도 기반 정밀 맵 구현이 필요할 때"
+description: >-
+  Unity ProBuilder 기반 맵/레벨 자동 생성 5단계 워크플로우 — Input Collection → MD 작성(ASCII 배치도) → Image 생성(DALL-E/Midjourney 프롬프트) → JSON 스펙(map_spec.json) → MCP ProBuilder 빌드(probuilder-create-shape, probuilder-extrude, probuilder-delete-faces). 방별 순서: 바닥→외벽→개구부→천장. 구조적/기하학적/시각적 검증 포함.
+  Use when building Unity maps/levels, creating greybox prototypes with ProBuilder, generating level layouts from images, implementing planning/07-levels.md designs, or constructing 3D environments in Unity.
+  '맵 만들어줘', '레벨 만들어줘', '그레이박스 맵', 'Unity 맵', 'ProBuilder 맵', '레벨 디자인 구현', '맵 설계도 구현', 'build a map', 'create level', 'greybox level' 요청 시 반드시 트리거. *.unity, *.prefab, *.cs 파일 작업 시 자동 활성화.
+version: 1.1.0
+metadata:
+  author: youngseoklee
+  version: "1.1.0"
+  date: "March 2026"
+  filePattern:
+    - "*.cs"
+    - "*.unity"
+    - "*.prefab"
+    - "*.asset"
 ---
 
 # Unity Map Builder

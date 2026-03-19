@@ -1,6 +1,6 @@
 ---
 name: game-blueprint
-description: "게임 기획 대화형 워크플로우. 대화를 통해 Phase 0~3 산출물(컨셉, 시나리오, 화면 설계, 에셋)을 생성. 엔진 무관(Unity/JS/Godot). '/game-blueprint', '게임 기획', '게임 만들자', '시나리오 설계', '게임 디자인' 시 트리거."
+description: "게임 기획 대화형 워크플로우 — Phase 0(컨셉/게임 루프) → Phase 1(시나리오/NPC/엔딩) → Phase 2(화면 설계/ASCII 와이어프레임/맵 레이아웃) → Phase 3(에셋 매니페스트). 엔진 무관(Unity/Godot/Phaser/PixiJS/Canvas). game-design.md, scenario.md, screens.md, asset-manifest.md 산출. Use when starting a new game project, designing game concepts, writing scenarios, creating screen wireframes, planning asset pipelines, or structuring game narratives. '/game-blueprint', '게임 기획', '게임 만들자', '시나리오 설계', '게임 디자인', '화면 설계', '에셋 매니페스트', '게임 컨셉', 'GDD', 'game design document', '게임 시나리오', '게임 화면', '레벨 디자인 기획' 요청 시 반드시 트리거."
 version: "1.0.0"
 author: youngseoklee
 ---

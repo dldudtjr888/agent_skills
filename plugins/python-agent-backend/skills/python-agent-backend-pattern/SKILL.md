@@ -1,6 +1,6 @@
 ---
 name: python-agent-backend-pattern
-description: Python 에이전트 백엔드 아키텍처 패턴, API 설계, DB 최적화, 인증/인가 베스트 프랙티스. FastAPI, SQLAlchemy, Pydantic, Depends 기반 코드 템플릿 모음.
+description: "Python 에이전트 백엔드 아키텍처 패턴 (FastAPI 0.115+, SQLAlchemy 2.0+, Pydantic v2). 트리거: 'FastAPI router', 'APIRouter', 'Depends 체이닝', 'AsyncSession', 'Repository 패턴', 'selectinload', 'joinedload', 'N+1 쿼리', 'lifespan context manager', 'BaseHTTPMiddleware', 'Pydantic ConfigDict', 'from_attributes'. 한국어 트리거: 'FastAPI 백엔드 설계', 'API 설계 패턴', 'DB 쿼리 최적화', '인증/인가 구현', 'Depends 의존성 주입', 'Repository 패턴 구현', '트랜잭션 관리'. FastAPI + SQLAlchemy + Pydantic v2 최신 패턴 포함 - deprecated된 on_event 대신 lifespan 등 최신 API 반영. 에이전트 백엔드 구축 시 반드시 참조."
 ---
 
 # FastAPI Backend Patterns

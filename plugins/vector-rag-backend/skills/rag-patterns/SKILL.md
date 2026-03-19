@@ -1,9 +1,8 @@
 ---
 name: rag-patterns
 description: |
-  RAG (Retrieval-Augmented Generation) 시스템 설계 패턴.
-  청킹 전략, 검색 최적화, 리랭킹, 컨텍스트 엔지니어링 종합 가이드.
-version: 1.0.0
+  RAG (Retrieval-Augmented Generation) 시스템 설계 패턴 종합 가이드 — 시맨틱/적응형/계층적 청킹(+37% 정확도), 쿼리 변환(HyDE, Multi-Query), 하이브리드 검색(BM25+Vector, RRF), Cross-encoder/Cohere 리랭킹(+10-15% 정확도), 컨텍스트 엔지니어링(Forward/Reverse/Sides repacking), 프로덕션 패턴(Circuit Breaker, 재시도), 비용 계산기, 벤치마크 스크립트, LangChain/LlamaIndex 파이프라인 템플릿. Use when building RAG pipelines, choosing chunking strategies, implementing reranking with cross-encoders, optimizing retrieval quality, reducing hallucination, evaluating RAG with RAGAS metrics, or troubleshooting RAG performance. 'RAG', '검색 증강 생성', 'RAG 파이프라인', '청킹 전략', '리랭킹', 'chunking', 'reranking', '검색 최적화', '컨텍스트 엔지니어링', 'retrieval optimization', 'RAG 성능', 'RAG 비용', '환각 줄이기' 요청 시 반드시 트리거. Triggers on retriever*.py, rag_*.py, embeddings.* files.
+version: 1.1.0
 category: rag
 user-invocable: true
 triggers:
@@ -23,6 +22,19 @@ triggers:
     - "(구축|설계|구현|최적화).*(rag|검색.*증강)"
     - "(build|create|implement|optimize).*(rag|retrieval)"
     - "(청킹|리랭킹|검색).*(전략|최적화|개선)"
+  file_patterns: ["*.py", "embeddings.*", "retriever*.py"]
+metadata:
+  author: youngseoklee
+  version: "1.1.0"
+  date: "March 2026"
+  filePattern:
+    - "*.py"
+    - "embeddings.*"
+    - "retriever*.py"
+    - "rag_*.py"
+  bashPattern:
+    - "python"
+    - "pip"
 ---
 
 # RAG Patterns

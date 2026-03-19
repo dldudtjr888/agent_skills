@@ -1,6 +1,13 @@
 ---
 name: rust-testing-guide
-description: "Rust 테스트 가이드. cargo test, mockall, proptest, criterion 벤치마크."
+description: >-
+  Rust 테스트 가이드. cargo test/nextest 실행, #[cfg(test)] mod tests, mockall::automock/mock!()
+  목 생성, proptest/quickcheck 속성 기반 테스트, criterion/divan 벤치마크, wiremock HTTP 목,
+  testcontainers-rs Docker 통합 테스트, tokio::test 비동기 테스트, assert_matches!, insta 스냅샷 테스트,
+  cargo-llvm-cov 커버리지 측정, tracing-test 로그 검증 패턴.
+  MUST USE: Rust 테스트 작성, mock 객체 생성, 통합 테스트 설정, 벤치마크 수행, 속성 기반 테스트,
+  테스트 커버리지 측정, 비동기 코드 테스트 시 반드시 사용.
+  러스트 테스트 작성, mockall 사용, 벤치마크 설정, 통합 테스트, 커버리지 측정 시 반드시 활성화.
 version: 1.0.0
 category: testing
 user-invocable: true

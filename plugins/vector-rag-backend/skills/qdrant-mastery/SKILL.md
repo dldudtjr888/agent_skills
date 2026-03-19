@@ -1,8 +1,7 @@
 ---
 name: qdrant-mastery
 description: |
-  Qdrant 벡터 데이터베이스 마스터리. 컬렉션 설계, HNSW 인덱싱, 양자화,
-  쿼리 최적화, 메모리 관리 전문 가이드.
+  Qdrant 벡터 데이터베이스 종합 마스터리 — 컬렉션 설계(샤딩, 거리 메트릭 Cosine/Euclidean/Dot Product), HNSW 인덱싱(m, ef_construct, hnsw_ef 파라미터 튜닝), Scalar/Binary/Product 양자화, 검색/필터링/배치/리스코어링 쿼리 패턴, 멀티테넌트 구조, Prometheus/Grafana 모니터링, qdrant-client Python 코드 예제. 1M+ 벡터 대규모 운영 가이드. Use when designing Qdrant collections, tuning HNSW parameters, applying quantization, optimizing vector search queries, building RAG vector stores, configuring multi-tenant vector databases, or monitoring Qdrant performance. 'Qdrant', '벡터 DB', '벡터 데이터베이스', 'vector database', 'HNSW 튜닝', '양자화', 'quantization', '컬렉션 설계', '벡터 검색 최적화', '임베딩 저장소', 'vector search' 요청 시 반드시 트리거.
 version: 1.0.0
 category: vector-database
 user-invocable: true

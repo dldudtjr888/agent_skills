@@ -1,6 +1,6 @@
 ---
 name: unity-task-decomposer
-description: "Unity 프로젝트 기획 문서를 MCP 기반 실행 가능한 태스크 목록으로 분해. 사용 시점: (1) planning 폴더의 기획 문서를 구현 태스크로 변환할 때, (2) 태스크 분해해줘 또는 구현 계획 세워줘 요청 시, (3) 대규모 Unity 기능을 단계별로 나눌 때"
+description: "Unity planning/ 기획 문서를 MCP 도구별 실행 가능한 태스크로 분해 — Phase 분리(20개 태스크 이하), Wave 병렬화, MCP 도구 매핑(create_script, manage_gameobject, manage_asset, manage_scene, manage_editor, read_console), tasks/ 폴더에 phase별 마크다운 생성. Use when converting Unity planning docs to implementation tasks, decomposing Unity features into MCP-executable steps, creating Wave-based task files for Unity development, or generating tasks/phase1-setup.md style task documents. 'Unity 태스크 분해', '구현 계획 세워줘', 'planning을 태스크로', 'Unity 구현 단계 나눠줘', 'MCP 태스크 생성', 'decompose Unity tasks', 'create Unity implementation plan' 요청 시 반드시 트리거."
 ---
 
 # Unity Task Decomposer

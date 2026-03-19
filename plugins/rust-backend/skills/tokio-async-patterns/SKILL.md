@@ -1,6 +1,13 @@
 ---
 name: tokio-async-patterns
-description: "Tokio 비동기 런타임 패턴. JoinSet, channels, select!, graceful shutdown 등을 다룹니다."
+description: >-
+  Tokio 비동기 런타임 패턴. tokio::spawn/JoinSet 동시 작업 관리, tokio::select! 경합 분기,
+  mpsc/broadcast/watch/oneshot 채널 패턴, tokio::sync::Mutex/RwLock/Semaphore 동시성 제어,
+  graceful shutdown(CancellationToken, signal::ctrl_c()), tokio::time::timeout/interval,
+  #[tokio::main] vs Runtime::new() 설정, tokio-util CancellationToken, tower::timeout 통합.
+  MUST USE: tokio 런타임 설정, async/await 코드 작성, 채널 기반 통신, select! 패턴,
+  동시 작업 관리(JoinSet), graceful shutdown 구현, 비동기 뮤텍스 선택 시 반드시 사용.
+  러스트 비동기 프로그래밍, tokio 채널, 동시성 제어, graceful shutdown, 타임아웃 처리 시 반드시 활성화.
 version: 1.0.0
 category: async
 user-invocable: true
